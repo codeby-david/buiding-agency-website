@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // For navigation icons
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const videos = [
   {
@@ -27,14 +28,33 @@ const videos = [
 
 const HomePage = () => {
   const [current, setCurrent] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [charIndex, setCharIndex] = useState(0);
 
-  // Auto play every 4 seconds
+  // auto-slide videos
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % videos.length);
-    }, 4000);
+    }, 10000);
     return () => clearInterval(timer);
   }, []);
+
+  // reset typing when slide changes
+  useEffect(() => {
+    setDisplayText("");
+    setCharIndex(0);
+  }, [current]);
+
+  // typing animation
+  useEffect(() => {
+    if (charIndex < videos[current].text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayText((prev) => prev + videos[current].text.charAt(charIndex));
+        setCharIndex((prev) => prev + 1);
+      }, 40);
+      return () => clearTimeout(timeout);
+    }
+  }, [charIndex, current]);
 
   const prevSlide = () => {
     setCurrent((prev) => (prev - 1 + videos.length) % videos.length);
@@ -46,23 +66,29 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      <video
-        key={videos[current].src}
-        className="background-video"
-        src={videos[current].src}
-        autoPlay
-        muted
-        loop
-      />
+      {/* Background Videos */}
+      {videos.map((video, index) => (
+        <video
+          key={index}
+          className={`background-video ${index === current ? "active" : ""}`}
+          src={video.src}
+          autoPlay
+          muted
+          loop
+        />
+      ))}
 
-      {/* Dark overlay */}
+      {/* Overlay */}
       <div className="overlay"></div>
 
       {/* Slide Content */}
       <div className="content">
         <h1>{videos[current].heading}</h1>
-        <p>{videos[current].text}</p>
-        <button className="cta-btn">Book a Consultation</button>
+        <p className="typing-text">{displayText}</p>
+        <p className="sub-text">Quality • Innovation • Trust</p>
+        <Link to="/booking">
+          <button className="cta-btn">Book a Consultation</button>
+        </Link>
       </div>
 
       {/* Navigation Arrows */}
@@ -71,7 +97,7 @@ const HomePage = () => {
         <button onClick={nextSlide}><ChevronRight size={35} /></button>
       </div>
 
-      {/* Slide indicators */}
+      {/* Slide Indicators */}
       <div className="dots">
         {videos.map((_, index) => (
           <span
