@@ -1,38 +1,61 @@
-/* General layout */
-.homepage {
-  position: relative;
-  width: 100%;
+/* Make sure the viewport has no gaps and a safe fallback color */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+
+}
+
+/* ===== FIXED FULLSCREEN BACKGROUND LAYER ===== */
+.bg-video-wrap {
+  position: fixed;
+  /* lock to viewport */
+  inset: 0;
+  /* top:0 right:0 bottom:0 left:0 */
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
+  z-index: 0;
+  /* behind everything else */
+  pointer-events: none;
+
+  /* never block clicks on your buttons/links */
 }
 
-/* Background videos with fade */
-.background-video {
+.bg-video {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
+  inset: 0;
   width: 100%;
+  height: 100%;
   object-fit: cover;
+  /* fill whole screen without distortion */
   filter: brightness(60%);
-  z-index: -2;
   opacity: 0;
   transition: opacity 1s ease-in-out;
+  /* smooth fade between slides */
 }
 
-.background-video.active {
+.bg-video.is-active {
   opacity: 1;
 }
 
-/* Dark overlay */
-.overlay {
+/* subtle dark scrim for readability */
+.bg-scrim {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: -1;
+}
+
+/* ===== FOREGROUND CONTENT (your existing styles kept) ===== */
+.homepage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  /* ensure at least full viewport height */
+  overflow: hidden;
+  z-index: 1;
+  /* above video layer */
 }
 
 /* Centered content */
@@ -55,20 +78,10 @@
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-/* Typing text */
-.typing-text {
-  border-right: 3px solid #fff;
-  white-space: nowrap;
-  overflow: hidden;
+/* Paragraph */
+.content p {
   font-size: 1.3rem;
   margin-bottom: 15px;
-  animation: blink 0.7s infinite;
-}
-
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
 }
 
 /* Sub text */
@@ -107,6 +120,8 @@
   justify-content: space-between;
   padding: 0 25px;
   transform: translateY(-50%);
+  z-index: 2;
+  /* above background */
 }
 
 .controls button {
@@ -115,6 +130,7 @@
   color: #fff;
   padding: 10px;
   border-radius: 50%;
+  margin-right: 30px;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -131,6 +147,8 @@
   transform: translateX(-50%);
   display: flex;
   gap: 8px;
+  z-index: 2;
+  /* above background */
 }
 
 .dot {
@@ -144,4 +162,52 @@
 
 .dot.active {
   background: #ff7f50;
+}
+
+/* Optional: make text sizes adapt on smaller screens */
+@media (max-width: 768px) {
+  .content h1 {
+    font-size: 2.2rem;
+  }
+
+  .content p {
+    font-size: 1.05rem;
+  }
+}
+
+/* Typing effect for heading */
+.typing-text {
+  display: inline-block;
+  border-right: 3px solid #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 3s steps(30, end), blink 0.7s step-end infinite;
+}
+
+/* Typing effect for sub-text */
+.typing-sub {
+  display: inline-block;
+  border-right: 2px solid #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 4s steps(40, end), blink 0.7s step-end infinite;
+  animation-delay: 0.5s;
+  /* small delay so it types after heading */
+}
+
+/* Keyframes */
+@keyframes typing {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
 }

@@ -15,39 +15,48 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--secondary);
-  padding: 15px 40px;
+  padding: 35px 40px;
   position: sticky;
   top: 0;
   z-index: 100;
-  margin: 0;
-  /* ✅ Ensure no margin */
+
+  margin: 2px 10px 0px 10px;
+  border-radius: 15px;
 }
 
+/* Logo */
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary);
 }
 
+/* Links */
 .nav-links {
   display: flex;
   list-style: none;
   gap: 25px;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
   text-decoration: none;
   color: var(--text-light);
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  /* ✅ makes it look clickable */
 }
 
 .nav-links a:hover {
   color: var(--accent);
+  transform: scale(1.05);
+  /* ✅ subtle zoom effect */
 }
 
 /* Booking button */
@@ -56,9 +65,12 @@
   padding: 8px 16px;
   border-radius: 8px;
   font-weight: bold;
+  color: var(--text-light) !important;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
   background-color: var(--accent);
   color: var(--secondary) !important;
+  transform: scale(1.1);
 }
