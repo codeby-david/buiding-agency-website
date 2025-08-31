@@ -1,0 +1,64 @@
+:root {
+  --primary: #FF6B00;
+  /* Orange */
+  --secondary: #1B263B;
+  /* Dark Blue */
+  --accent: #FFD700;
+  /* Yellow */
+  --bg-light: #F5F5F5;
+  --text-dark: #333333;
+  --text-light: #FFFFFF;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--secondary);
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin: 0;
+  /* ✅ Ensure no margin */
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+/* Booking button */
+.btn-primary {
+  background-color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent);
+  color: var(--secondary) !important;
+}
