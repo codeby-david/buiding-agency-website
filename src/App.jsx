@@ -12,6 +12,7 @@ function App() {
     <Router>
       <Navbar />
 
+
       <div style={{ padding: "20px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -23,6 +24,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+
   );
 }
 

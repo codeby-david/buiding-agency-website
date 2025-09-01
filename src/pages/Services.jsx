@@ -1,95 +1,130 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Services.css";
 
-import designImg from "../images/design.jpg";
-import constructionImg from "../images/construction.jpg";
-import renovationImg from "../images/renovation.jpg";
-import interiorImg from "../images/interior.jpg";
-import landscapingImg from "../images/landscaping.jpg";
-import consultationImg from "../images/consultation.jpg";
+const carouselImages = [
+  "/images/project1.jpg",
+  "/images/project2.jpg",
+  "/images/project3.jpg",
+];
 
-import project1 from "../images/project1.jpg";
-import project2 from "../images/project2.jpg";
-import project3 from "../images/project3.jpg";
+const services = [
+  {
+    title: "House Design & Architecture",
+    description: "We create modern and sustainable house designs tailored to your needs.",
+    image: "/images/service1.jpg",
+  },
+  {
+    title: "Construction & Building",
+    description: "From foundation to finishing, we deliver quality construction services.",
+    image: "/images/service2.jpg",
+  },
+  {
+    title: "Renovation & Remodeling",
+    description: "Transform your old house into a modern, comfortable living space.",
+    image: "/images/service3.jpg",
+  },
+  {
+    title: "Interior Design",
+    description: "Beautiful interior designs that combine elegance with functionality.",
+    image: "/images/service4.jpg",
+  },
+  {
+    title: "Landscaping",
+    description: "Enhance your outdoors with professional landscaping and gardening.",
+    image: "/images/service5.jpg",
+  },
+  {
+    title: "Consultation & Project Management",
+    description: "Expert guidance and management to ensure your project succeeds.",
+    image: "/images/service6.jpg",
+  },
+];
 
-export default function ServicesPage() {
-  const services = [
-    { title: "House Design & Architecture", description: "We create modern and functional house designs tailored to your needs.", image: designImg },
-    { title: "Construction & Building", description: "Professional building services ensuring quality and durability.", image: constructionImg },
-    { title: "Renovation & Remodeling", description: "Transform your existing house with our expert renovation team.", image: renovationImg },
-    { title: "Interior Design", description: "Stylish and functional interior design for every room.", image: interiorImg },
-    { title: "Landscaping", description: "Beautiful outdoor spaces to complement your new home.", image: landscapingImg },
-    { title: "Consultation & Project Management", description: "Expert guidance from planning to project completion.", image: consultationImg },
-  ];
+export default function Services() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [modalImage, setModalImage] = useState(null);
+  const elementsRef = useRef([]);
 
-  const featuredProjects = [project1, project2, project3];
-  const [current, setCurrent] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalImage, setModalImage] = useState("");
-
-  const length = featuredProjects.length;
-
-  const nextSlide = () => setCurrent(current === length - 1 ? 0 : current + 1);
-  const prevSlide = () => setCurrent(current === 0 ? length - 1 : current - 1);
-
-  // Auto slide every 5s
+  // Auto slide for carousel
   useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
-    return () => clearInterval(timer);
-  }, [current]);
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
-  // Fade-in animation on scroll
+  // Scroll animations
   useEffect(() => {
-    const cards = document.querySelectorAll(".service-card");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("show");
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
-    cards.forEach((card) => observer.observe(card));
+
+    elementsRef.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      elementsRef.current.forEach((el) => {
+        if (el) observer.unobserve(el);
+      });
+    };
   }, []);
 
   return (
     <div className="services-page">
       {/* Carousel */}
+      <h2 className="carousel-title">Featured Projects</h2>
       <div className="carousel">
-        <button className="prev" onClick={prevSlide}>&#10094;</button>
-        <button className="next" onClick={nextSlide}>&#10095;</button>
-        {featuredProjects.map((img, index) => (
-          <div key={index} className={index === current ? "carousel-item active" : "carousel-item"}>
-            {index === current && (
-              <img
-                src={img}
-                alt={`Project ${index + 1}`}
-                loading="lazy"
-                onClick={() => { setModalOpen(true); setModalImage(img); }}
-              />
-            )}
-          </div>
-        ))}
+        <img
+          src={carouselImages[currentIndex]}
+          alt="Featured Project"
+          className="carousel-image"
+          loading="lazy"
+          onClick={() => setModalImage(carouselImages[currentIndex])}
+        />
+        <button
+          className="carousel-btn left"
+          onClick={() =>
+            setCurrentIndex(
+              (currentIndex - 1 + carouselImages.length) % carouselImages.length
+            )
+          }
+        >
+          ❮
+        </button>
+        <button
+          className="carousel-btn right"
+          onClick={() =>
+            setCurrentIndex((currentIndex + 1) % carouselImages.length)
+          }
+        >
+          ❯
+        </button>
       </div>
 
-      {/* Modal for carousel */}
-      {modalOpen && (
-        <div className="modal" onClick={() => setModalOpen(false)}>
-          <img src={modalImage} alt="Large Project" />
-        </div>
-      )}
-
-      {/* Hero Section */}
-      <div className="hero">
-        <h1>Our Services</h1>
-        <p>Building your dream home with quality, safety, and care.</p>
-      </div>
-
-      {/* Services Cards */}
-      <div className="services-container">
+      {/* Services Section */}
+      <h2 className="services-title">Our Services</h2>
+      <div className="services-grid">
         {services.map((service, index) => (
-          <div className="service-card" key={index}>
-            <img src={service.image} alt={service.title} loading="lazy" />
+          <div
+            key={index}
+            className="service-card fade-in-up"
+            ref={(el) => (elementsRef.current[index] = el)}
+          >
+            <img
+              src={service.image}
+              alt={service.title}
+              className="service-image"
+              loading="lazy"
+              onClick={() => setModalImage(service.image)}
+            />
             <h3>{service.title}</h3>
             <p>{service.description}</p>
           </div>
@@ -97,18 +132,21 @@ export default function ServicesPage() {
       </div>
 
       {/* Call to Action */}
-      <div className="cta">
-        <h2>Ready to start your project?</h2>
-        <button onClick={() => document.getElementById("contact").scrollIntoView({ behavior: "smooth" })}>
-          Contact Us
-        </button>
+      <div
+        className="cta-section fade-in-up"
+        ref={(el) => elementsRef.current.push(el)}
+      >
+        <h2>Let’s Build Your Dream Home</h2>
+        <p>Contact us today and start your journey to a better home.</p>
+        <a href="/contact" className="cta-btn">Get in Touch</a>
       </div>
 
-      {/* Contact Section Placeholder */}
-      <div id="contact" style={{ padding: "60px 20px", textAlign: "center" }}>
-        <h2>Contact Form</h2>
-        {/* Add your contact form here */}
-      </div>
+      {/* Modal */}
+      {modalImage && (
+        <div className="modal" onClick={() => setModalImage(null)}>
+          <img src={modalImage} alt="Large view" className="modal-content" />
+        </div>
+      )}
     </div>
   );
 }
