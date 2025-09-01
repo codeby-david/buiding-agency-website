@@ -4,17 +4,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import {
-  FaTools,
-  FaLaptopCode,
-  FaBuilding,
-  FaUsers,
-  FaHardHat,
-  FaDraftingCompass,
   FaCheckCircle,
-  FaTimesCircle,
   FaStar
 } from 'react-icons/fa';
 import { motion } from "framer-motion";
+
+// Import house images (you'll need to add these to your project)
+import StarterHomeImg from "/images/starter-home.jpg";
+import FamilyHomeImg from "/images/family-home.jpg";
+import CustomHomeImg from "/images/custom-home.jpg";
+import LuxuryHomeImg from "/images/luxury-home.jpg";
+import MultiGenHomeImg from "/images/multigen-home.jpg";
+import EnergyHomeImg from "/images/energy-home.jpg";
 
 const videos = [
   {
@@ -119,7 +120,7 @@ const HomePage = () => {
         >
           <h2>Building the Future, With Integrity and Discipline</h2>
           <p>
-            At ConstructTech Solutions, we believe in building homes that stand the test of time.
+            At BuildCo Solutions, we believe in building homes that stand the test of time.
             With over 15 years of industry experience, we've successfully delivered 500+ projects
             that combine structural excellence with timeless design. Our team of skilled craftsmen,
             architects, and project managers work together to create durable, efficient, and
@@ -157,14 +158,17 @@ const HomePage = () => {
           <p className="section-subtitle">Honest pricing for quality homes built with integrity and discipline</p>
           <div className="pricing-grid">
             <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="house-image">
+                <img src={StarterHomeImg} alt="Starter Home" />
+              </div>
               <div className="price-header">
                 <h3>Starter Home</h3>
                 <p>Perfect for first-time homeowners</p>
               </div>
               <div className="price-amount">
-                <span className="currency">$</span>
-                <span className="amount">150</span>
-                <span className="period">/sq.ft.</span>
+                <span className="currency">Ksh</span>
+                <span className="amount">2.3M</span>
+                <span className="period">starting from</span>
               </div>
               <ul>
                 <li><FaCheckCircle className="check-icon" /> Basic finishes & standard materials</li>
@@ -177,14 +181,17 @@ const HomePage = () => {
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="house-image">
+                <img src={FamilyHomeImg} alt="Family Home" />
+              </div>
               <div className="price-header">
                 <h3>Family Home</h3>
                 <p>Spacious design for growing families</p>
               </div>
               <div className="price-amount">
-                <span className="currency">$</span>
-                <span className="amount">185</span>
-                <span className="period">/sq.ft.</span>
+                <span className="currency">Ksh</span>
+                <span className="amount">4.2M</span>
+                <span className="period">starting from</span>
               </div>
               <ul>
                 <li><FaCheckCircle className="check-icon" /> Mid-grade finishes</li>
@@ -198,14 +205,17 @@ const HomePage = () => {
 
             <motion.div whileHover={{ scale: 1.05 }} className="price-card featured">
               <div className="popular-badge">MOST POPULAR</div>
+              <div className="house-image">
+                <img src={CustomHomeImg} alt="Custom Home" />
+              </div>
               <div className="price-header">
                 <h3>Custom Home</h3>
                 <p>Tailored to your specific needs</p>
               </div>
               <div className="price-amount">
-                <span className="currency">$</span>
-                <span className="amount">225</span>
-                <span className="period">/sq.ft.</span>
+                <span className="currency">Ksh</span>
+                <span className="amount">8.5M</span>
+                <span className="period">starting from</span>
               </div>
               <ul>
                 <li><FaCheckCircle className="check-icon" /> Premium finishes throughout</li>
@@ -218,14 +228,17 @@ const HomePage = () => {
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="house-image">
+                <img src={LuxuryHomeImg} alt="Luxury Home" />
+              </div>
               <div className="price-header">
                 <h3>Luxury Home</h3>
                 <p>Exceptional quality with premium details</p>
               </div>
               <div className="price-amount">
-                <span className="currency">$</span>
-                <span className="amount">285</span>
-                <span className="period">/sq.ft.</span>
+                <span className="currency">Ksh</span>
+                <span className="amount">15M</span>
+                <span className="period">starting from</span>
               </div>
               <ul>
                 <li><FaCheckCircle className="check-icon" /> High-end finishes & custom details</li>
@@ -238,14 +251,17 @@ const HomePage = () => {
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="house-image">
+                <img src={MultiGenHomeImg} alt="Multi-Generational Home" />
+              </div>
               <div className="price-header">
                 <h3>Multi-Generational</h3>
                 <p>Designed for extended family living</p>
               </div>
               <div className="price-amount">
-                <span className="currency">$</span>
-                <span className="amount">245</span>
-                <span className="period">/sq.ft.</span>
+                <span className="currency">Ksh</span>
+                <span className="amount">18M</span>
+                <span className="period">starting from</span>
               </div>
               <ul>
                 <li><FaCheckCircle className="check-icon" /> Separate living quarters</li>
@@ -258,14 +274,17 @@ const HomePage = () => {
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="house-image">
+                <img src={EnergyHomeImg} alt="Energy Plus Home" />
+              </div>
               <div className="price-header">
                 <h3>Energy Plus Home</h3>
                 <p>Ultra-efficient sustainable building</p>
               </div>
               <div className="price-amount">
-                <span className="currency">$</span>
-                <span className="amount">275</span>
-                <span className="period">/sq.ft.</span>
+                <span className="currency">Ksh</span>
+                <span className="amount">20M</span>
+                <span className="period">starting from</span>
               </div>
               <ul>
                 <li><FaCheckCircle className="check-icon" /> Net-zero energy ready</li>
@@ -298,7 +317,7 @@ const HomePage = () => {
                 <FaStar />
                 <FaStar />
               </div>
-              <p>“ConstructTech Solutions delivered our family home ahead of schedule and within budget. Their attention to detail and quality craftsmanship is evident in every corner of our new home.”</p>
+              <p>“BuildCo Solutions delivered our family home ahead of schedule and within budget. Their attention to detail and quality craftsmanship is evident in every corner of our new home.”</p>
               <div className="client-info">
                 <div className="avatar"></div>
                 <div className="client-details">
