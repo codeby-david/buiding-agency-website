@@ -34,7 +34,7 @@ const HomePage = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % videos.length);
-    }, 10000);
+    }, 20000);
     return () => clearInterval(timer);
   }, []);
 
@@ -63,6 +63,16 @@ const HomePage = () => {
           />
         ))}
         <div className="bg-scrim" />
+        {/* Dots */}
+        <div className="dots">
+          {videos.map((_, index) => (
+            <span
+              key={index}
+              className={`dot ${index === current ? "active" : ""}`}
+              onClick={() => setCurrent(index)}
+            ></span>
+          ))}
+        </div>
       </div>
 
       {/* Foreground content */}
@@ -83,16 +93,7 @@ const HomePage = () => {
           <button onClick={nextSlide}><ChevronRight size={35} /></button>
         </div>
 
-        {/* Dots */}
-        <div className="dots">
-          {videos.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${index === current ? "active" : ""}`}
-              onClick={() => setCurrent(index)}
-            ></span>
-          ))}
-        </div>
+
       </div>
     </>
   );

@@ -59,6 +59,12 @@
   /* ✅ subtle zoom effect */
 }
 
+.nav-links a:active {
+  color: var(--accent);
+  transform: scale(1.05);
+  /* ✅ subtle zoom effect */
+}
+
 /* Booking button */
 .btn-primary {
   background-color: var(--primary);

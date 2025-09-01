@@ -19,7 +19,8 @@ body,
   z-index: 0;
   /* behind everything else */
   pointer-events: none;
-
+  margin-bottom: 150px;
+  scroll-behavior: none;
   /* never block clicks on your buttons/links */
 }
 
@@ -95,18 +96,19 @@ body,
 /* Button */
 .cta-btn {
   padding: 12px 28px;
-  background: #ff7f50;
+
   border: none;
   border-radius: 25px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   color: #fff;
+  background: #ff5722;
   transition: all 0.3s ease;
 }
 
 .cta-btn:hover {
-  background: #ff5722;
+  background: #ff7f50;
   transform: scale(1.05);
 }
 
