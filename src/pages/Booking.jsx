@@ -1,3 +1,12 @@
-export default function Booking() {
-  return <h1>📅 Book a Consultation</h1>;
+import React from 'react'
+import Navbar from '../components/Navbar'
+
+const Booking = () => {
+  return (
+    <>
+      <Navbar />
+    </>
+  )
 }
+
+export default Booking

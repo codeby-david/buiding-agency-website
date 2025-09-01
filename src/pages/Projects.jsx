@@ -1,3 +1,12 @@
-export default function Projects() {
-  return <h1>📂 Projects (Completed & Ongoing)</h1>;
+import React from 'react'
+import Navbar from '../components/Navbar'
+
+const Projects = () => {
+  return (
+    <>
+      <Navbar />
+    </>
+  )
 }
+
+export default Projects

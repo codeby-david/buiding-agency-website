@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import Navbar from "../components/Navbar";
 
 const videos = [
   {
@@ -48,21 +48,52 @@ const HomePage = () => {
 
   return (
     <>
-      {/* Background video layer */}
-      <div className="bg-video-wrap">
+      {/* Background video + content section */}
+      <div className="hero-section">
+        <Navbar />
+        <div className="bg-video-wrap">
+          {videos.map((video, index) => (
+            <video
+              key={index}
+              className={`bg-video ${index === current ? "is-active" : ""}`}
+              src={video.src}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          ))}
+          <div className="bg-scrim" />
+        </div>
 
-        {videos.map((video, index) => (
-          <video
-            key={index}
-            className={`bg-video ${index === current ? "is-active" : ""}`}
-            src={video.src}
-            autoPlay
-            muted
-            loop
-            playsInline
-          />
-        ))}
-        <div className="bg-scrim" />
+        {/* Foreground content */}
+        <div className="homepage">
+          <div key={current} className="content">
+            <h1 className="typing-text">{videos[current].heading}</h1>
+            <p className="typing-sub">{videos[current].text}</p>
+            <p className="sub-text">Quality • Innovation • Trust</p>
+            <Link to="/booking">
+              <button className="cta-btn">Book a Consultation</button>
+            </Link>
+          </div>
+
+          <div className="controls">
+            <button onClick={prevSlide}><ChevronLeft size={35} /></button>
+            <button onClick={nextSlide}><ChevronRight size={35} /></button>
+          </div>
+
+          {/* Dots */}
+          {/* Dots */}
+          <div className="dots">
+            {videos.map((_, index) => (
+              <span
+                key={index}
+                className={`dot ${index === current ? "active" : ""}`}
+                onClick={() => setCurrent(index)}
+              ></span>
+            ))}
+          </div>
+        </div>
         {/* Dots */}
         <div className="dots">
           {videos.map((_, index) => (
@@ -73,28 +104,28 @@ const HomePage = () => {
             ></span>
           ))}
         </div>
+        {/* <div className="dots">
+            {videos.map((_, index) => (
+              <span
+                key={index}
+                className={`dot ${index === current ? "active" : ""}`}
+                onClick={() => setCurrent(index)}
+              ></span>
+            ))}
+          </div> */}
       </div>
 
-      {/* Foreground content */}
-      <div className="homepage">
-        <div key={current} className="content">
-          {/* 👇 Add typing effect classes */}
-          <h1 className="typing-text">{videos[current].heading}</h1>
-          <p className="typing-sub">{videos[current].text}</p>
-          <p className="sub-text">Quality • Innovation • Trust</p>
-          <Link to="/booking">
-            <button className="cta-btn">Book a Consultation</button>
-          </Link>
-        </div>
 
-        {/* Controls */}
-        <div className="controls">
-          <button onClick={prevSlide}><ChevronLeft size={35} /></button>
-          <button onClick={nextSlide}><ChevronRight size={35} /></button>
-        </div>
-
-
-      </div>
+      {/* Separate section with random text */}
+      < div className="random-section" >
+        <h1>HELKLO THWBVAJ</h1>
+        <p>
+          b jbjfbhnijnrnianirgnoonijwrnjabhgbrjebnj sdhbjhbjbhivfi jhajh vn jn ra jk jkjk
+          <var>
+            hbjbhfjibjinffjk jk j jbbjdjhbjibhjinfkj nj kf nzn hj bfvibhjhbrfvbijjzvds m nkh ifhijb
+          </var>
+        </p>
+      </div >
     </>
   );
 };

@@ -10,7 +10,8 @@ import Login from "./pages/Login";
 function App() {
   return (
     <Router>
-      <Navbar />
+
+
 
 
       <div style={{ padding: "20px" }}>

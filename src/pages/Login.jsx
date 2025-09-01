@@ -1,3 +1,12 @@
-export default function Login() {
-  return <h1>🔑 Login / Register</h1>;
+import React from 'react'
+import Navbar from '../components/Navbar'
+
+const Login = () => {
+  return (
+    <>
+      <Navbar />
+    </>
+  )
 }
+
+export default Login
