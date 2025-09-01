@@ -235,3 +235,402 @@ body,
   text-align: center;
   background: #f5f5f5;
 }
+
+/* ===== GLOBAL STYLES ===== */
+/* :root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #f59e0b;
+  --dark: #1f2937;
+  --light: #f9fafb;
+  --gray: #6b7280;
+  --light-gray: #e5e7eb;
+  --success: #10b981;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--dark);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--gray);
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-section {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-section h2 {
+  margin-bottom: 2rem;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  color: var(--gray);
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 4rem;
+  gap: 2rem;
+}
+
+.stat {
+  text-align: center;
+  flex: 1;
+  min-width: 180px;
+}
+
+.stat h3 {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.stat p {
+  font-size: 1rem;
+  color: var(--gray);
+  margin-bottom: 0;
+}
+
+/* ===== SERVICES SECTION ===== */
+.services-section {
+  padding: 6rem 2rem;
+  background-color: #f8fafc;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.service-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.service-card .icon {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.service-card p {
+  color: var(--gray);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.service-card ul {
+  text-align: left;
+  color: var(--gray);
+  list-style-type: none;
+  width: 100%;
+}
+
+.service-card li {
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.service-card li:before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+/* ===== PRICING SECTION ===== */
+.pricing-section {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.price-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.price-card.featured {
+  border: 2px solid var(--primary);
+  transform: scale(1.03);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--secondary);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.price-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.price-header h3 {
+  font-size: 1.8rem;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+}
+
+.price-header p {
+  color: var(--gray);
+}
+
+.price-amount {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.currency {
+  font-size: 1.5rem;
+  vertical-align: top;
+  color: var(--gray);
+}
+
+.amount {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.period {
+  color: var(--gray);
+  font-size: 1rem;
+}
+
+.price-card ul {
+  list-style: none;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.price-card li {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.check-icon {
+  color: var(--success);
+  margin-right: 0.5rem;
+}
+
+.cross-icon {
+  color: #ef4444;
+  margin-right: 0.5rem;
+}
+
+.price-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.price-btn:hover {
+  background: var(--primary-dark);
+}
+
+.featured-btn {
+  background: var(--secondary);
+}
+
+.featured-btn:hover {
+  background: #e98c0c;
+}
+
+/* ===== TESTIMONIALS SECTION ===== */
+.testimonials-section {
+  padding: 6rem 2rem;
+  background-color: #f8fafc;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.rating {
+  display: flex;
+  margin-bottom: 1.5rem;
+  color: var(--secondary);
+}
+
+.testimonial-card p {
+  font-style: italic;
+  color: var(--gray);
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.client-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--light-gray);
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.client-details h4 {
+  color: var(--dark);
+  margin-bottom: 0.2rem;
+}
+
+.client-details p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+  font-style: normal;
+  color: var(--gray);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  .about-section,
+  .services-section,
+  .pricing-section,
+  .testimonials-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .stats-container {
+    gap: 1.5rem;
+  }
+
+  .stat {
+    min-width: 140px;
+  }
+
+  .stat h3 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .about-section,
+  .services-section,
+  .pricing-section,
+  .testimonials-section {
+    padding: 3rem 1rem;
+  }
+
+  .stats-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}

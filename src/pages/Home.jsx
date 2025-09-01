@@ -3,6 +3,18 @@ import "./Home.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import {
+  FaTools,
+  FaLaptopCode,
+  FaBuilding,
+  FaUsers,
+  FaHardHat,
+  FaDraftingCompass,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaStar
+} from 'react-icons/fa';
+import { motion } from "framer-motion";
 
 const videos = [
   {
@@ -48,7 +60,7 @@ const HomePage = () => {
 
   return (
     <>
-      {/* Background video + content section */}
+      {/* Hero section with video background */}
       <div className="hero-section">
         <Navbar />
         <div className="bg-video-wrap">
@@ -83,7 +95,6 @@ const HomePage = () => {
           </div>
 
           {/* Dots */}
-          {/* Dots */}
           <div className="dots">
             {videos.map((_, index) => (
               <span
@@ -94,38 +105,245 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-        {/* Dots */}
-        <div className="dots">
-          {videos.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${index === current ? "active" : ""}`}
-              onClick={() => setCurrent(index)}
-            ></span>
-          ))}
-        </div>
-        {/* <div className="dots">
-            {videos.map((_, index) => (
-              <span
-                key={index}
-                className={`dot ${index === current ? "active" : ""}`}
-                onClick={() => setCurrent(index)}
-              ></span>
-            ))}
-          </div> */}
       </div>
 
+      {/* Rest of the page content */}
+      <div className="page-content">
+        {/* ---------------- ABOUT SECTION ---------------- */}
+        <motion.section
+          className="about-section"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <h2>Building the Future, With Integrity and Discipline</h2>
+          <p>
+            At ConstructTech Solutions, we believe in building homes that stand the test of time.
+            With over 15 years of industry experience, we've successfully delivered 500+ projects
+            that combine structural excellence with timeless design. Our team of skilled craftsmen,
+            architects, and project managers work together to create durable, efficient, and
+            beautiful homes for families across the region.
+          </p>
+          <div className="stats-container">
+            <div className="stat">
+              <h3>500+</h3>
+              <p>Homes Built</p>
+            </div>
+            <div className="stat">
+              <h3>15+</h3>
+              <p>Years Experience</p>
+            </div>
+            <div className="stat">
+              <h3>98%</h3>
+              <p>Client Satisfaction</p>
+            </div>
+            <div className="stat">
+              <h3>120+</h3>
+              <p>Skilled Craftsmen</p>
+            </div>
+          </div>
+        </motion.section>
 
-      {/* Separate section with random text */}
-      < div className="random-section" >
-        <h1>HELKLO THWBVAJ</h1>
-        <p>
-          b jbjfbhnijnrnianirgnoonijwrnjabhgbrjebnj sdhbjhbjbhivfi jhajh vn jn ra jk jkjk
-          <var>
-            hbjbhfjibjinffjk jk j jbbjdjhbjibhjinfkj nj kf nzn hj bfvibhjhbrfvbijjzvds m nkh ifhijb
-          </var>
-        </p>
-      </div >
+        {/* ---------------- PRICING SECTION (House Construction) ---------------- */}
+        <motion.section
+          className="pricing-section"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <h2>Transparent Construction Pricing</h2>
+          <p className="section-subtitle">Honest pricing for quality homes built with integrity and discipline</p>
+          <div className="pricing-grid">
+            <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="price-header">
+                <h3>Starter Home</h3>
+                <p>Perfect for first-time homeowners</p>
+              </div>
+              <div className="price-amount">
+                <span className="currency">$</span>
+                <span className="amount">150</span>
+                <span className="period">/sq.ft.</span>
+              </div>
+              <ul>
+                <li><FaCheckCircle className="check-icon" /> Basic finishes & standard materials</li>
+                <li><FaCheckCircle className="check-icon" /> 2-3 bedroom layout</li>
+                <li><FaCheckCircle className="check-icon" /> Standard foundation</li>
+                <li><FaCheckCircle className="check-icon" /> Energy-efficient windows</li>
+                <li><FaCheckCircle className="check-icon" /> 1-year construction warranty</li>
+              </ul>
+              <button className="price-btn">Get Quote</button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="price-header">
+                <h3>Family Home</h3>
+                <p>Spacious design for growing families</p>
+              </div>
+              <div className="price-amount">
+                <span className="currency">$</span>
+                <span className="amount">185</span>
+                <span className="period">/sq.ft.</span>
+              </div>
+              <ul>
+                <li><FaCheckCircle className="check-icon" /> Mid-grade finishes</li>
+                <li><FaCheckCircle className="check-icon" /> 3-4 bedrooms + family room</li>
+                <li><FaCheckCircle className="check-icon" /> Enhanced insulation</li>
+                <li><FaCheckCircle className="check-icon" /> Quality cabinetry</li>
+                <li><FaCheckCircle className="check-icon" /> 2-year construction warranty</li>
+              </ul>
+              <button className="price-btn">Get Quote</button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} className="price-card featured">
+              <div className="popular-badge">MOST POPULAR</div>
+              <div className="price-header">
+                <h3>Custom Home</h3>
+                <p>Tailored to your specific needs</p>
+              </div>
+              <div className="price-amount">
+                <span className="currency">$</span>
+                <span className="amount">225</span>
+                <span className="period">/sq.ft.</span>
+              </div>
+              <ul>
+                <li><FaCheckCircle className="check-icon" /> Premium finishes throughout</li>
+                <li><FaCheckCircle className="check-icon" /> Custom floor plan design</li>
+                <li><FaCheckCircle className="check-icon" /> High-efficiency HVAC system</li>
+                <li><FaCheckCircle className="check-icon" /> Professional landscaping package</li>
+                <li><FaCheckCircle className="check-icon" /> 5-year construction warranty</li>
+              </ul>
+              <button className="price-btn featured-btn">Get Quote</button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="price-header">
+                <h3>Luxury Home</h3>
+                <p>Exceptional quality with premium details</p>
+              </div>
+              <div className="price-amount">
+                <span className="currency">$</span>
+                <span className="amount">285</span>
+                <span className="period">/sq.ft.</span>
+              </div>
+              <ul>
+                <li><FaCheckCircle className="check-icon" /> High-end finishes & custom details</li>
+                <li><FaCheckCircle className="check-icon" /> Architectural design services</li>
+                <li><FaCheckCircle className="check-icon" /> Smart home technology integration</li>
+                <li><FaCheckCircle className="check-icon" /> Premium hardwood flooring</li>
+                <li><FaCheckCircle className="check-icon" /> 10-year structural warranty</li>
+              </ul>
+              <button className="price-btn">Get Quote</button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="price-header">
+                <h3>Multi-Generational</h3>
+                <p>Designed for extended family living</p>
+              </div>
+              <div className="price-amount">
+                <span className="currency">$</span>
+                <span className="amount">245</span>
+                <span className="period">/sq.ft.</span>
+              </div>
+              <ul>
+                <li><FaCheckCircle className="check-icon" /> Separate living quarters</li>
+                <li><FaCheckCircle className="check-icon" /> Dual master suites</li>
+                <li><FaCheckCircle className="check-icon" /> Soundproofing between units</li>
+                <li><FaCheckCircle className="check-icon" /> Separate utility connections</li>
+                <li><FaCheckCircle className="check-icon" /> 7-year construction warranty</li>
+              </ul>
+              <button className="price-btn">Get Quote</button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} className="price-card">
+              <div className="price-header">
+                <h3>Energy Plus Home</h3>
+                <p>Ultra-efficient sustainable building</p>
+              </div>
+              <div className="price-amount">
+                <span className="currency">$</span>
+                <span className="amount">275</span>
+                <span className="period">/sq.ft.</span>
+              </div>
+              <ul>
+                <li><FaCheckCircle className="check-icon" /> Net-zero energy ready</li>
+                <li><FaCheckCircle className="check-icon" /> Solar panel preparation</li>
+                <li><FaCheckCircle className="check-icon" /> Superior insulation & air sealing</li>
+                <li><FaCheckCircle className="check-icon" /> Energy recovery ventilation</li>
+                <li><FaCheckCircle className="check-icon" /> 10-year warranty + energy performance guarantee</li>
+              </ul>
+              <button className="price-btn">Get Quote</button>
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* ---------------- TESTIMONIALS SECTION ---------------- */}
+        <motion.section
+          className="testimonials-section"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <h2>Trusted by Families Across the Region</h2>
+          <p className="section-subtitle">Hear what our clients have to say about their dream homes</p>
+          <div className="testimonials-grid">
+            <motion.div whileHover={{ scale: 1.05 }} className="testimonial-card">
+              <div className="rating">
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+              </div>
+              <p>“ConstructTech Solutions delivered our family home ahead of schedule and within budget. Their attention to detail and quality craftsmanship is evident in every corner of our new home.”</p>
+              <div className="client-info">
+                <div className="avatar"></div>
+                <div className="client-details">
+                  <h4>John Matthews</h4>
+                  <p>Homeowner, Maple Street Residence</p>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} className="testimonial-card">
+              <div className="rating">
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+              </div>
+              <p>“We were impressed with the disciplined approach and integrity of the construction team. They kept us informed throughout the process and delivered exactly what was promised.”</p>
+              <div className="client-info">
+                <div className="avatar"></div>
+                <div className="client-details">
+                  <h4>Sarah Kensington</h4>
+                  <p>Homeowner, Oakwood Estate</p>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} className="testimonial-card">
+              <div className="rating">
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+              </div>
+              <p>“The custom design process was seamless, and the result is a home that perfectly fits our lifestyle. The quality of construction is exceptional - we couldn't be happier.”</p>
+              <div className="client-info">
+                <div className="avatar"></div>
+                <div className="client-details">
+                  <h4>Alex Thompson</h4>
+                  <p>Homeowner, Hillside Retreat</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.section>
+      </div>
     </>
   );
 };
