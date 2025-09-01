@@ -44,6 +44,7 @@ const services = [
 
 export default function Services() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [nextIndex, setNextIndex] = useState(1);
   const [modalImage, setModalImage] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const elementsRef = useRef([]);
@@ -88,13 +89,18 @@ export default function Services() {
   const handleNext = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
+
+    // Calculate next index
+    const newNextIndex = (currentIndex + 1) % carouselImages.length;
+    setNextIndex(newNextIndex);
 
     // Clear any existing timer
     if (transitionTimer.current) clearTimeout(transitionTimer.current);
 
     // Set timer to reset transitioning state after animation completes
     transitionTimer.current = setTimeout(() => {
+      setCurrentIndex(newNextIndex);
+      setNextIndex((newNextIndex + 1) % carouselImages.length);
       setIsTransitioning(false);
     }, 1000); // Match this with CSS transition duration
   };
@@ -102,27 +108,20 @@ export default function Services() {
   const handlePrev = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
+
+    // Calculate previous index
+    const newCurrentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+    const newNextIndex = currentIndex;
+
+    setNextIndex(newNextIndex);
 
     // Clear any existing timer
     if (transitionTimer.current) clearTimeout(transitionTimer.current);
 
     // Set timer to reset transitioning state after animation completes
     transitionTimer.current = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 1000); // Match this with CSS transition duration
-  };
-
-  const goToSlide = (index) => {
-    if (isTransitioning || index === currentIndex) return;
-    setIsTransitioning(true);
-    setCurrentIndex(index);
-
-    // Clear any existing timer
-    if (transitionTimer.current) clearTimeout(transitionTimer.current);
-
-    // Set timer to reset transitioning state after animation completes
-    transitionTimer.current = setTimeout(() => {
+      setCurrentIndex(newCurrentIndex);
+      setNextIndex(newNextIndex);
       setIsTransitioning(false);
     }, 1000); // Match this with CSS transition duration
   };
@@ -136,20 +135,31 @@ export default function Services() {
           <Navbar transparent={true} />
 
           <div className="carousel">
-            {carouselImages.map((image, index) => (
-              <div
-                key={index}
-                className={`carousel-slide ${index === currentIndex ? 'active' : ''} ${index === (currentIndex - 1 + carouselImages.length) % carouselImages.length ? 'prev' : ''}`}
-              >
-                <img
-                  src={image}
-                  alt={`Featured Project ${index + 1}`}
-                  className="carousel-image"
-                  loading="lazy"
-                />
-                <div className="slide-overlay"></div>
-              </div>
-            ))}
+            {/* Current active slide */}
+            <div
+              className="carousel-slide active"
+            >
+              <img
+                src={carouselImages[currentIndex]}
+                alt={`Featured Project ${currentIndex + 1}`}
+                className="carousel-image"
+                loading="lazy"
+              />
+              <div className="slide-overlay"></div>
+            </div>
+
+            {/* Next slide (for blur effect) */}
+            <div
+              className="carousel-slide next"
+            >
+              <img
+                src={carouselImages[nextIndex]}
+                alt={`Featured Project ${nextIndex + 1}`}
+                className="carousel-image"
+                loading="lazy"
+              />
+              <div className="slide-overlay"></div>
+            </div>
 
             <div className="carousel-content">
               <h2>Building Dreams Into Reality</h2>
@@ -168,16 +178,6 @@ export default function Services() {
             >
               <ChevronRight size={32} />
             </button>
-
-            {/* <div className="carousel-indicators">
-              {carouselImages.map((_, index) => (
-                <button
-                  key={index}
-                  className={`indicator ${index === currentIndex ? 'active' : ''}`}
-                  onClick={() => goToSlide(index)}
-                ></button>
-              ))}
-            </div> */}
           </div>
         </div>
 
