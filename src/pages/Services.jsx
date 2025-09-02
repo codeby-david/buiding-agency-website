@@ -1,65 +1,51 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, ZoomIn, ArrowRight } from "lucide-react";
 import Navbar from "../components/Navbar";
 import "./Services.css";
 
 const carouselImages = [
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG91c2UlMjBkZXNpZ258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1200&q=80",
-  "../images/project1.jpg",
-  "../images/project2.jpg",
+  "./images/luxury-home.jpg",
+  "./images/energy-home.jpg",
+  "./images/family-home.jpg",
 ];
 
 const services = [
   {
     title: "House Design & Architecture",
     description: "We create modern and sustainable house designs tailored to your needs.",
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGFyY2hpdGVjdHVyZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    longDescription: "Our architectural services include conceptual design, detailed planning, 3D visualization, and permit acquisition. We focus on sustainable materials and energy-efficient designs that reduce environmental impact while creating beautiful living spaces.",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    features: ["Custom Home Design", "3D Visualization", "Sustainable Solutions", "Permit Assistance"]
   },
   {
     title: "Construction & Building",
-    description: "From foundation to finishing, we deliver quality construction services.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNvbnN0cnVjdGlvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    description: "From foundation to finishing, we deliver quality construction services with precision and expertise.",
+    longDescription: "Our construction team manages every aspect of your project with meticulous attention to detail. We use high-quality materials and proven techniques to ensure structural integrity and longevity. Regular progress updates and strict timeline management keep your project on track.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    features: ["Quality Materials", "Timeline Management", "Skilled Craftsmanship", "Project Supervision"]
   },
   {
     title: "Renovation & Remodeling",
-    description: "Transform your old house into a modern, comfortable living space.",
-    image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHJlbm92YXRpb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    title: "Interior Design",
-    description: "Beautiful interior designs that combine elegance with functionality.",
-    image: "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW50ZXJpb3IlMjBkZXNpZ258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    title: "Landscaping",
-    description: "Enhance your outdoors with professional landscaping and gardening.",
-    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFuZHNjYXBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    title: "Consultation & Project Management",
-    description: "Expert guidance and management to ensure your project succeeds.",
-    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvamVjdCUyMG1hbmFnZW1lbnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=80",
+    description: "Transform your old house into a modern, comfortable living space with our expert renovation services.",
+    longDescription: "We specialize in transforming outdated spaces into modern masterpieces. Our renovation process includes careful planning to minimize disruption, structural assessments, and creative solutions to maximize your space's potential while maintaining its character.",
+    image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    features: ["Space Optimization", "Structural Updates", "Modernization", "Minimal Disruption"]
   },
 ];
 
 export default function Services() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [nextIndex, setNextIndex] = useState(1);
+  const [direction, setDirection] = useState(null);
   const [modalImage, setModalImage] = useState(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [expandedService, setExpandedService] = useState(null);
   const elementsRef = useRef([]);
-  const transitionTimer = useRef(null);
 
-  // Auto slide for carousel every 10 seconds
+  // Carousel auto-slide
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
-    }, 10000); // Changed to 10 seconds
-
-    return () => {
-      clearInterval(interval);
-      if (transitionTimer.current) clearTimeout(transitionTimer.current);
-    };
+    }, 8000);
+    return () => clearInterval(interval);
   }, [currentIndex]);
 
   // Scroll animations
@@ -67,176 +53,137 @@ export default function Services() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-          }
+          if (entry.isIntersecting) entry.target.classList.add("in-view");
         });
       },
       { threshold: 0.1 }
     );
-
-    elementsRef.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => {
-      elementsRef.current.forEach((el) => {
-        if (el) observer.unobserve(el);
-      });
-    };
+    elementsRef.current.forEach(el => el && observer.observe(el));
+    return () => elementsRef.current.forEach(el => el && observer.unobserve(el));
   }, []);
 
   const handleNext = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-
-    // Calculate next index
-    const newNextIndex = (currentIndex + 1) % carouselImages.length;
-    setNextIndex(newNextIndex);
-
-    // Clear any existing timer
-    if (transitionTimer.current) clearTimeout(transitionTimer.current);
-
-    // Set timer to reset transitioning state after animation completes
-    transitionTimer.current = setTimeout(() => {
-      setCurrentIndex(newNextIndex);
-      setNextIndex((newNextIndex + 1) % carouselImages.length);
-      setIsTransitioning(false);
-    }, 1000); // Match this with CSS transition duration
+    setDirection('next');
+    setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
   };
 
   const handlePrev = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
+    setDirection('prev');
+    setCurrentIndex((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
+  };
 
-    // Calculate previous index
-    const newCurrentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
-    const newNextIndex = currentIndex;
-
-    setNextIndex(newNextIndex);
-
-    // Clear any existing timer
-    if (transitionTimer.current) clearTimeout(transitionTimer.current);
-
-    // Set timer to reset transitioning state after animation completes
-    transitionTimer.current = setTimeout(() => {
-      setCurrentIndex(newCurrentIndex);
-      setNextIndex(newNextIndex);
-      setIsTransitioning(false);
-    }, 1000); // Match this with CSS transition duration
+  const toggleServiceExpansion = (index) => {
+    setExpandedService(expandedService === index ? null : index);
   };
 
   return (
-    <>
-      <div className="services-page">
-        {/* Carousel with full-screen effect */}
-        <div className="carousel-container">
-          <div className="carousel-overlay"></div>
-          <Navbar transparent={true} />
-
-          <div className="carousel">
-            {/* Current active slide */}
+    <div className="services-page">
+      {/* Carousel */}
+      <div className="carousel-container">
+        <div className="carousel-overlay"></div>
+        <Navbar transparent={true} />
+        <div className="carousel">
+          {carouselImages.map((img, i) => (
             <div
-              className="carousel-slide active"
+              key={i}
+              className={`carousel-slide ${i === currentIndex ? 'active' : ''}`}
             >
-              <img
-                src={carouselImages[currentIndex]}
-                alt={`Featured Project ${currentIndex + 1}`}
-                className="carousel-image"
-                loading="lazy"
-              />
+              <img src={img} alt={`Slide ${i}`} className="carousel-image" />
               <div className="slide-overlay"></div>
             </div>
+          ))}
 
-            {/* Next slide (for blur effect) */}
-            <div
-              className="carousel-slide next"
-            >
-              <img
-                src={carouselImages[nextIndex]}
-                alt={`Featured Project ${nextIndex + 1}`}
-                className="carousel-image"
-                loading="lazy"
-              />
-              <div className="slide-overlay"></div>
-            </div>
-
-            <div className="carousel-content">
-              <h2>Building Dreams Into Reality</h2>
-              <p>Expert construction and design services for your perfect home</p>
-            </div>
-
-            <button
-              className="carousel-btn left"
-              onClick={handlePrev}
-            >
-              <ChevronLeft size={32} />
-            </button>
-            <button
-              className="carousel-btn right"
-              onClick={handleNext}
-            >
-              <ChevronRight size={32} />
-            </button>
+          <div className="carousel-content">
+            <h2>Building Dreams Into Reality</h2>
+            <p>Expert construction and design services for your perfect home</p>
+            <a href="#services" className="carousel-cta-btn">
+              Explore Our Services <ArrowRight size={20} />
+            </a>
           </div>
-        </div>
 
-        {/* Services Section */}
-        <div className="page-content">
-          <h2 className="services-title">Our Services</h2>
-          <div className="services-grid">
-            {services.map((service, index) => (
+          <button className="carousel-btn left" onClick={handlePrev}><ChevronLeft size={32} /></button>
+          <button className="carousel-btn right" onClick={handleNext}><ChevronRight size={32} /></button>
+
+          <div className="carousel-indicators">
+            {carouselImages.map((_, i) => (
               <div
-                key={index}
-                className="service-card fade-in-up"
-                ref={(el) => (elementsRef.current[index] = el)}
-              >
-                <div className="service-image-container">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="service-image"
-                    loading="lazy"
-                    onClick={() => setModalImage(service.image)}
-                  />
-                  <div className="service-overlay">
-                    <button
-                      className="view-details-btn"
-                      onClick={() => setModalImage(service.image)}
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
-                <div className="service-info">
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                </div>
-              </div>
+                key={i}
+                className={`indicator ${i === currentIndex ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(i)}
+              ></div>
             ))}
           </div>
-
-          {/* Call to Action */}
-          <div
-            className="cta-section fade-in-up"
-            ref={(el) => elementsRef.current.push(el)}
-          >
-            <h2>Let's Build Your Dream Home</h2>
-            <p>Contact us today and start your journey to a better home.</p>
-            <a href="/contact" className="cta-btn">Get in Touch</a>
-          </div>
         </div>
 
-        {/* Modal */}
-        {modalImage && (
-          <div className="modal" onClick={() => setModalImage(null)}>
-            <button className="modal-close" onClick={() => setModalImage(null)}>
-              <X size={32} />
-            </button>
-            <img src={modalImage} alt="Large view" className="modal-content" />
-          </div>
-        )}
       </div>
-    </>
+
+      {/* Services Section */}
+      <div className="page-content" id="services">
+        <div className="section-header">
+          <h2 className="services-title">Our Services</h2>
+          <p className="services-subtitle">Comprehensive solutions from concept to completion</p>
+        </div>
+
+        <div className="services-grid">
+          {services.map((service, i) => (
+            <div
+              key={i}
+              className={`service-card ${expandedService === i ? 'expanded' : ''}`}
+              ref={el => elementsRef.current[i] = el}
+            >
+              <div className="service-image-container">
+                <img src={service.image} alt={service.title} className="service-image" onClick={() => setModalImage(service.image)} />
+                <div className="service-overlay">
+                  <button className="view-details-btn" onClick={() => setModalImage(service.image)}>
+                    <ZoomIn size={20} /> Enlarge
+                  </button>
+                </div>
+              </div>
+              <div className="service-info">
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+
+                {expandedService === i && (
+                  <div className="expanded-content">
+                    <p>{service.longDescription}</p>
+                    <div className="service-features">
+                      <h4>What We Offer:</h4>
+                      <ul>
+                        {service.features.map((f, idx) => (
+                          <li key={idx}>{f}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Buttons always rendered here */}
+                <div className="service-actions">
+                  {expandedService === i && (
+                    <a href="/contact" className="service-cta-btn">Request This Service</a>
+                  )}
+                  <button
+                    className="expand-service-btn"
+                    onClick={() => toggleServiceExpansion(i)}
+                  >
+                    {expandedService === i ? 'Show Less' : 'Learn More'}
+                  </button>
+                </div>
+
+
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Modal */}
+      {modalImage && (
+        <div className="modal" onClick={() => setModalImage(null)}>
+          <button className="modal-close" onClick={() => setModalImage(null)}><X size={32} /></button>
+          <img src={modalImage} alt="Large view" className="modal-content" />
+        </div>
+      )}
+    </div>
   );
 }
