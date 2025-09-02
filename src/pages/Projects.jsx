@@ -8,7 +8,10 @@ import {
   DollarSign,
   Clock,
   Hammer,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.css";
 
 // ---- Helpers ----
@@ -247,51 +250,79 @@ export default function Projects() {
   const [expandedOngoingId, setExpandedOngoingId] = useState(null);
   const [modalImage, setModalImage] = useState(null);
   const cardsRef = useRef([]);
+  const [visibleCards, setVisibleCards] = useState(new Set());
 
-  // Animate-in on scroll (unobserve after first reveal)
+  // Animate-in on scroll (fixed version)
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries, obs) => {
+      (entries) => {
         entries.forEach((entry) => {
+          const id = entry.target.dataset.id;
           if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            obs.unobserve(entry.target);
+            setVisibleCards(prev => new Set(prev).add(id));
           }
         });
       },
       { threshold: 0.12 }
     );
-    cardsRef.current.forEach((el) => el && observer.observe(el));
+
+    // Observe all cards
+    cardsRef.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
     return () => observer.disconnect();
   }, []);
 
-  const toggleExpand = (id) =>
+  const toggleExpand = (id) => {
     setExpandedId((prev) => (prev === id ? null : id));
+  };
 
-  const toggleOngoingExpand = (id) =>
+  const toggleOngoingExpand = (id) => {
     setExpandedOngoingId((prev) => (prev === id ? null : id));
+  };
 
   return (
     <div className="projects-page">
       <Navbar />
 
       {/* Hero */}
-      <header className="projects-hero">
+      <motion.header
+        className="projects-hero"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
         <h1>Our Projects</h1>
         <p>From vision to reality — explore our completed work and ongoing builds</p>
-      </header>
+      </motion.header>
 
       {/* Completed Projects */}
       <section className="projects-section">
-        <h2 className="section-title">Completed Projects</h2>
+        <motion.h2
+          className="section-title"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          Completed Projects
+        </motion.h2>
         <div className="projects-grid">
           {completedProjects.map((p, i) => {
             const isOpen = expandedId === p.id;
+            const isVisible = visibleCards.has(p.id);
+
             return (
-              <article
+              <motion.article
                 key={p.id}
-                className={`project-card ${isOpen ? "expanded" : ""}`}
+                className={`project-card ${isOpen ? "expanded" : ""} ${isVisible ? "in-view" : ""}`}
+                data-id={p.id}
                 ref={(el) => (cardsRef.current[i] = el)}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                whileHover={{ y: -5 }}
               >
                 <div className="project-image-container">
                   <img
@@ -303,53 +334,62 @@ export default function Projects() {
                     onClick={() => setModalImage(p.image)}
                   />
                   <div className="project-overlay">
-                    <button
+                    <motion.button
                       type="button"
                       className="view-details-btn"
                       onClick={(e) => {
                         e.stopPropagation();
                         setModalImage(p.image);
                       }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <ZoomIn size={18} /> Enlarge
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
 
                 <div className="project-info">
                   <div className="info-head">
                     <h3>{p.title}</h3>
-                    <button
+                    <motion.button
                       type="button"
                       className="toggle-btn"
                       aria-expanded={isOpen}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleExpand(p.id);
-                      }}
+                      onClick={() => toggleExpand(p.id)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       {isOpen ? "Show Less" : "Learn More"}
-                    </button>
+                      {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </motion.button>
                   </div>
 
                   <p>{p.description}</p>
 
-                  <div
-                    className={`expanded-details ${isOpen ? "show" : ""}`}
-                    aria-hidden={!isOpen}
-                  >
-                    <p>
-                      <MapPin size={16} /> <strong>Location:</strong> {p.location}
-                    </p>
-                    <p>
-                      <Calendar size={16} /> <strong>Completed:</strong> {p.completed}
-                    </p>
-                    <p>
-                      <DollarSign size={16} /> <strong>Cost:</strong> {p.cost}
-                    </p>
-                  </div>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        className="expanded-details"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <p>
+                          <MapPin size={16} /> <strong>Location:</strong> {p.location}
+                        </p>
+                        <p>
+                          <Calendar size={16} /> <strong>Completed:</strong> {p.completed}
+                        </p>
+                        <p>
+                          <DollarSign size={16} /> <strong>Cost:</strong> {p.cost}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
         </div>
@@ -357,16 +397,31 @@ export default function Projects() {
 
       {/* Ongoing Projects */}
       <section className="projects-section">
-        <h2 className="section-title">Ongoing Projects</h2>
+        <motion.h2
+          className="section-title"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          Ongoing Projects
+        </motion.h2>
         <div className="projects-grid ongoing-grid">
           {ongoingProjects.map((p, idx) => {
             const isOpen = expandedOngoingId === p.id;
             const baseIndex = completedProjects.length + idx;
+            const isVisible = visibleCards.has(p.id);
+
             return (
-              <article
+              <motion.article
                 key={p.id}
-                className={`project-card ongoing ${isOpen ? "expanded" : ""}`}
+                className={`project-card ongoing ${isOpen ? "expanded" : ""} ${isVisible ? "in-view" : ""}`}
+                data-id={p.id}
                 ref={(el) => (cardsRef.current[baseIndex] = el)}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                whileHover={{ y: -5 }}
               >
                 <div className="project-image-container">
                   <img
@@ -387,69 +442,93 @@ export default function Projects() {
                 <div className="project-info">
                   <div className="info-head">
                     <h3>{p.title}</h3>
-                    <button
+                    <motion.button
                       type="button"
                       className="toggle-btn"
                       aria-expanded={isOpen}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleOngoingExpand(p.id);
-                      }}
+                      onClick={() => toggleOngoingExpand(p.id)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       {isOpen ? "Show Less" : "Details"}
-                    </button>
+                      {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </motion.button>
                   </div>
 
                   <p>{p.description}</p>
 
                   {/* Progress bar */}
                   <div className="progress">
-                    <span
+                    <motion.span
                       className="progress-fill"
-                      style={{ width: `${p.progress}%` }}
-                      aria-valuenow={p.progress}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${p.progress}%` }}
+                      transition={{ duration: 1, delay: 0.3 }}
                     />
                   </div>
 
-                  <div
-                    className={`expanded-details ${isOpen ? "show" : ""}`}
-                    aria-hidden={!isOpen}
-                  >
-                    <p>
-                      <MapPin size={16} /> <strong>Location:</strong> {p.location}
-                    </p>
-                    <p>
-                      <Calendar size={16} /> <strong>Started:</strong> {p.started}
-                    </p>
-                    <p>
-                      <Clock size={16} /> <strong>ETA:</strong> {p.eta}
-                    </p>
-                    <p>
-                      <strong>Supervisor:</strong> {p.supervisor}
-                    </p>
-                  </div>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        className="expanded-details"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <p>
+                          <MapPin size={16} /> <strong>Location:</strong> {p.location}
+                        </p>
+                        <p>
+                          <Calendar size={16} /> <strong>Started:</strong> {p.started}
+                        </p>
+                        <p>
+                          <Clock size={16} /> <strong>ETA:</strong> {p.eta}
+                        </p>
+                        <p>
+                          <strong>Supervisor:</strong> {p.supervisor}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
         </div>
       </section>
 
       {/* Modal */}
-      {modalImage && (
-        <div className="modal" onClick={() => setModalImage(null)}>
-          <button
-            type="button"
-            className="modal-close"
+      <AnimatePresence>
+        {modalImage && (
+          <motion.div
+            className="modal"
             onClick={() => setModalImage(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <X size={32} />
-          </button>
-          <img src={modalImage} alt="Large view" className="modal-content" />
-        </div>
-      )}
+            <motion.button
+              type="button"
+              className="modal-close"
+              onClick={() => setModalImage(null)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <X size={32} />
+            </motion.button>
+            <motion.img
+              src={modalImage}
+              alt="Large view"
+              className="modal-content"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
