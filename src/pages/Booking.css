@@ -1,0 +1,199 @@
+/* Projects page styles (stable grid + reflow fix) */
+
+:root {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.projects-page {
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #fafafa;
+  color: #222;
+}
+
+/* Hero */
+.projects-hero {
+  text-align: center;
+  padding: 110px 20px 70px;
+  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65)),
+    url("https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1500&q=80") center/cover no-repeat;
+  color: #fff;
+}
+
+/* Sections */
+.projects-section {
+  padding: 60px 20px;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* Grid: use auto-fit to reflow cards. 
+   grid-auto-rows + height:100% on cards will ensure same-row cards stretch to match expanded height,
+   and min-height:0 prevents content from causing overflow issues. */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 28px;
+  align-items: stretch;
+  /* stretch items vertically */
+  grid-auto-rows: 1fr;
+  /* make implicit rows fractional so cards can fill row height */
+}
+
+/* Card */
+.project-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+  transform: none;
+  opacity: 1;
+  transition: box-shadow .28s ease, border-color .28s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* fill the grid-auto-rows height */
+  min-height: 0;
+  /* allow children to shrink properly */
+}
+
+/* in-view class applied by observer; keep just for subtle visual effect - no translate to avoid layout clipping */
+
+/* when expanded add subtle elevation */
+.project-card.expanded {
+  border-color: #ffe2d8;
+  box-shadow: 0 16px 40px rgba(255, 87, 34, 0.12);
+}
+
+/* image area */
+.project-image-container {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* info area */
+.project-info {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 auto;
+  /* allow this section to grow */
+  min-height: 0;
+  /* crucial to prevent content forcing overflow and causing grid layout issues */
+}
+
+/* header row inside card */
+.info-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.toggle-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 999px;
+  background: #ff5722;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* expanded details use max-height transition (CSS-only) */
+.expanded-details {
+  margin-top: 14px;
+  border-top: 1px dashed #eee;
+  padding-top: 14px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .45s ease, opacity .45s ease;
+}
+
+.expanded-details.show {
+  max-height: 800px;
+  opacity: 1;
+}
+
+/* progress and badges */
+.progress {
+  margin-top: 12px;
+  height: 8px;
+  background: #eee;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff7f50, #ff5722);
+  width: 0;
+  transition: width .8s ease;
+}
+
+/* modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 60;
+}
+
+.modal-content {
+  max-width: 88%;
+  max-height: 88%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.modal-close {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* responsive tweaks */
+@media (max-width: 900px) {
+  .project-image-container {
+    height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .project-image-container {
+    height: 160px;
+  }
+
+  .projects-section {
+    padding: 30px 12px;
+  }
+}
