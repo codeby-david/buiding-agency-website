@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
-import { ZoomIn, X } from "lucide-react";
+import {
+  ZoomIn,
+  X,
+  MapPin,
+  Calendar,
+  DollarSign,
+  Clock,
+  Hammer,
+} from "lucide-react";
 import "./Projects.css";
 
 // ---- Helpers ----
@@ -128,19 +136,115 @@ const completedProjects = [
 ];
 
 const ongoingProjects = [
-  // Reliable construction/ongoing images
-  "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1485550409059-9afb054cada4?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1200&q=80",
+  {
+    id: "riverside-condos",
+    title: "Riverside Condos",
+    image:
+      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=80",
+    location: "Portland, OR",
+    started: "Feb 2025",
+    eta: "Nov 2025",
+    supervisor: "A. Kim",
+    progress: 65,
+    description:
+      "Mid-rise waterfront living with retail on ground floor and green roofs.",
+  },
+  {
+    id: "tech-campus",
+    title: "Tech Innovation Campus",
+    image:
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+    location: "San Jose, CA",
+    started: "Jan 2025",
+    eta: "Mar 2026",
+    supervisor: "R. Patel",
+    progress: 40,
+    description:
+      "R&D labs and collaboration hubs across three energy-efficient blocks.",
+  },
+  {
+    id: "stadium-upgrade",
+    title: "City Stadium Upgrade",
+    image:
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
+    location: "Dallas, TX",
+    started: "Oct 2024",
+    eta: "Oct 2025",
+    supervisor: "M. Lopez",
+    progress: 80,
+    description:
+      "New seating, lighting, and hospitality suites with improved accessibility.",
+  },
+  {
+    id: "harbor-bridge",
+    title: "Harbor Bridge Expansion",
+    image:
+      "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?auto=format&fit=crop&w=1200&q=80",
+    location: "Baltimore, MD",
+    started: "Aug 2024",
+    eta: "Jan 2026",
+    supervisor: "G. Wang",
+    progress: 54,
+    description:
+      "Additional lanes and pedestrian pathways to reduce congestion.",
+  },
+  {
+    id: "smart-homes",
+    title: "Smart Homes Community",
+    image:
+      "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=1200&q=80",
+    location: "Raleigh, NC",
+    started: "May 2025",
+    eta: "Jun 2026",
+    supervisor: "J. Carter",
+    progress: 28,
+    description:
+      "100-unit community with solar, battery storage, and smart controls.",
+  },
+  {
+    id: "metro-line",
+    title: "Metro Line Extension",
+    image:
+      "https://images.unsplash.com/photo-1485550409059-9afb054cada4?auto=format&fit=crop&w=1200&q=80",
+    location: "Phoenix, AZ",
+    started: "Dec 2024",
+    eta: "Apr 2026",
+    supervisor: "D. Singh",
+    progress: 46,
+    description:
+      "New stations and 12 km of track to connect growing suburbs.",
+  },
+  {
+    id: "city-hospital",
+    title: "City Hospital Wing",
+    image:
+      "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80",
+    location: "Boston, MA",
+    started: "Sep 2024",
+    eta: "Dec 2025",
+    supervisor: "K. Novak",
+    progress: 72,
+    description:
+      "ICU expansion, neonatal care, and improved emergency intake routes.",
+  },
+  {
+    id: "industrial-park",
+    title: "Eco Industrial Park",
+    image:
+      "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1200&q=80",
+    location: "Toledo, OH",
+    started: "Mar 2025",
+    eta: "Feb 2026",
+    supervisor: "S. Ahmed",
+    progress: 33,
+    description:
+      "Light manufacturing with shared solar and heat recovery systems.",
+  },
 ];
 
 export default function Projects() {
   const [expandedId, setExpandedId] = useState(null);
+  const [expandedOngoingId, setExpandedOngoingId] = useState(null);
   const [modalImage, setModalImage] = useState(null);
   const cardsRef = useRef([]);
 
@@ -151,7 +255,7 @@ export default function Projects() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("in-view");
-            obs.unobserve(entry.target); // prevent re-triggers
+            obs.unobserve(entry.target);
           }
         });
       },
@@ -161,9 +265,11 @@ export default function Projects() {
     return () => observer.disconnect();
   }, []);
 
-  const toggleExpand = (id) => {
+  const toggleExpand = (id) =>
     setExpandedId((prev) => (prev === id ? null : id));
-  };
+
+  const toggleOngoingExpand = (id) =>
+    setExpandedOngoingId((prev) => (prev === id ? null : id));
 
   return (
     <div className="projects-page">
@@ -179,66 +285,73 @@ export default function Projects() {
       <section className="projects-section">
         <h2 className="section-title">Completed Projects</h2>
         <div className="projects-grid">
-          {completedProjects.map((p, i) => (
-            <article
-              key={p.id}
-              className={`project-card ${expandedId === p.id ? "expanded" : ""}`}
-              ref={(el) => (cardsRef.current[i] = el)}
-            >
-              <div className="project-image-container">
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  className="project-image"
-                  loading="lazy"
-                  onError={onImgError}
-                  onClick={() => setModalImage(p.image)}
-                />
-                <div className="project-overlay">
-                  <button
-                    type="button"
-                    className="view-details-btn"
+          {completedProjects.map((p, i) => {
+            const isOpen = expandedId === p.id;
+            return (
+              <article
+                key={p.id}
+                className={`project-card ${isOpen ? "expanded" : ""}`}
+                ref={(el) => (cardsRef.current[i] = el)}
+              >
+                <div className="project-image-container">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    className="project-image"
+                    loading="lazy"
+                    onError={onImgError}
                     onClick={() => setModalImage(p.image)}
+                  />
+                  <div className="project-overlay">
+                    <button
+                      type="button"
+                      className="view-details-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setModalImage(p.image);
+                      }}
+                    >
+                      <ZoomIn size={18} /> Enlarge
+                    </button>
+                  </div>
+                </div>
+
+                <div className="project-info">
+                  <div className="info-head">
+                    <h3>{p.title}</h3>
+                    <button
+                      type="button"
+                      className="toggle-btn"
+                      aria-expanded={isOpen}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleExpand(p.id);
+                      }}
+                    >
+                      {isOpen ? "Show Less" : "Learn More"}
+                    </button>
+                  </div>
+
+                  <p>{p.description}</p>
+
+                  <div
+                    className={`expanded-details ${isOpen ? "show" : ""}`}
+                    aria-hidden={!isOpen}
                   >
-                    <ZoomIn size={18} /> Enlarge
-                  </button>
+                    <p>
+                      <MapPin size={16} /> <strong>Location:</strong> {p.location}
+                    </p>
+                    <p>
+                      <Calendar size={16} /> <strong>Completed:</strong> {p.completed}
+                    </p>
+                    <p>
+                      <DollarSign size={16} /> <strong>Cost:</strong> {p.cost}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="project-info">
-                <h3>{p.title}</h3>
-                <p>{p.description}</p>
-
-                <div
-                  className={`expanded-details ${expandedId === p.id ? "show" : ""
-                    }`}
-                  aria-hidden={expandedId !== p.id}
-                >
-                  <p>
-                    <strong>Location:</strong> {p.location}
-                  </p>
-                  <p>
-                    <strong>Completed:</strong> {p.completed}
-                  </p>
-                  <p>
-                    <strong>Cost:</strong> {p.cost}
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  className="learn-more-btn"
-                  aria-expanded={expandedId === p.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleExpand(p.id);
-                  }}
-                >
-                  {expandedId === p.id ? "Show Less" : "Learn More"}
-                </button>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -246,25 +359,81 @@ export default function Projects() {
       <section className="projects-section">
         <h2 className="section-title">Ongoing Projects</h2>
         <div className="projects-grid ongoing-grid">
-          {ongoingProjects.map((img, idx) => (
-            <article
-              key={`ongoing-${idx}`}
-              className="project-card ongoing"
-              ref={(el) =>
-                (cardsRef.current[completedProjects.length + idx] = el)
-              }
-            >
-              <div className="project-image-container">
-                <img
-                  src={img}
-                  alt={`Ongoing Project ${idx + 1}`}
-                  className="project-image"
-                  loading="lazy"
-                  onError={onImgError}
-                />
-              </div>
-            </article>
-          ))}
+          {ongoingProjects.map((p, idx) => {
+            const isOpen = expandedOngoingId === p.id;
+            const baseIndex = completedProjects.length + idx;
+            return (
+              <article
+                key={p.id}
+                className={`project-card ongoing ${isOpen ? "expanded" : ""}`}
+                ref={(el) => (cardsRef.current[baseIndex] = el)}
+              >
+                <div className="project-image-container">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    className="project-image"
+                    loading="lazy"
+                    onError={onImgError}
+                    onClick={() => setModalImage(p.image)}
+                  />
+                  <div className="project-badges">
+                    <span className="badge progress-badge">
+                      <Hammer size={14} /> {p.progress}% In Progress
+                    </span>
+                  </div>
+                </div>
+
+                <div className="project-info">
+                  <div className="info-head">
+                    <h3>{p.title}</h3>
+                    <button
+                      type="button"
+                      className="toggle-btn"
+                      aria-expanded={isOpen}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleOngoingExpand(p.id);
+                      }}
+                    >
+                      {isOpen ? "Show Less" : "Details"}
+                    </button>
+                  </div>
+
+                  <p>{p.description}</p>
+
+                  {/* Progress bar */}
+                  <div className="progress">
+                    <span
+                      className="progress-fill"
+                      style={{ width: `${p.progress}%` }}
+                      aria-valuenow={p.progress}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                    />
+                  </div>
+
+                  <div
+                    className={`expanded-details ${isOpen ? "show" : ""}`}
+                    aria-hidden={!isOpen}
+                  >
+                    <p>
+                      <MapPin size={16} /> <strong>Location:</strong> {p.location}
+                    </p>
+                    <p>
+                      <Calendar size={16} /> <strong>Started:</strong> {p.started}
+                    </p>
+                    <p>
+                      <Clock size={16} /> <strong>ETA:</strong> {p.eta}
+                    </p>
+                    <p>
+                      <strong>Supervisor:</strong> {p.supervisor}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 

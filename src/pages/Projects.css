@@ -53,7 +53,11 @@
   overflow: hidden;
   transform: translateY(26px);
   opacity: 0;
-  transition: transform .6s ease, opacity .6s ease, box-shadow .3s ease, border-color .3s ease;
+  transition:
+    transform .6s ease,
+    opacity .6s ease,
+    box-shadow .3s ease,
+    border-color .3s ease;
   border: 1px solid transparent;
 }
 
@@ -88,7 +92,7 @@
   transform: scale(1.05);
 }
 
-/* Overlay button */
+/* Overlay / Badges */
 .project-overlay {
   position: absolute;
   right: 12px;
@@ -114,21 +118,70 @@
   transform: translateY(-2px);
 }
 
+.project-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.progress-badge {
+  background: rgba(255, 87, 34, 0.9);
+  color: #fff;
+}
+
 /* Body */
 .project-info {
   padding: 18px 18px 22px;
 }
 
+.info-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .project-info h3 {
   font-size: 1.25rem;
-  margin: 0 0 8px;
+  margin: 0;
   font-weight: 700;
 }
 
 .project-info p {
-  margin: 0;
+  margin: 10px 0 0;
   color: #555;
   line-height: 1.55;
+}
+
+/* Toggle button (stays visible) */
+.toggle-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 999px;
+  background: #ff5722;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+  flex: 0 0 auto;
+}
+
+.toggle-btn:hover {
+  background: #ff7f50;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(255, 87, 34, 0.25);
 }
 
 /* Expand animation */
@@ -143,29 +196,28 @@
 }
 
 .expanded-details.show {
-  max-height: 280px;
-  /* big enough for content */
+  max-height: 300px;
+  /* ample for details */
   opacity: 1;
 }
 
-.learn-more-btn {
-  margin-top: 14px;
-  padding: 10px 16px;
-  border: none;
+/* Progress bar (ongoing) */
+.progress {
+  position: relative;
+  margin-top: 12px;
+  height: 8px;
+  background: #eee;
   border-radius: 999px;
-  background: #ff5722;
-  color: #fff;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+  overflow: hidden;
 }
 
-.learn-more-btn:hover {
-  background: #ff7f50;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 22px rgba(255, 87, 34, 0.25);
+.progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff7f50, #ff5722);
+  width: 0;
+  transition: width .8s ease;
 }
 
 /* Ongoing */
