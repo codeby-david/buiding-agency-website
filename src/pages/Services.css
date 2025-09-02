@@ -251,9 +251,20 @@
 /* ===== Services Section ===== */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* was 380px */
   gap: 40px;
   padding: 40px 0 80px;
+}
+
+.stat-item {
+  padding: 20px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
 .service-card {
@@ -727,4 +738,60 @@
     padding: 12px 20px;
     font-size: 0.9rem;
   }
+}
+
+/* ===== Steps Section ===== */
+.steps-section {
+  background: #fff;
+  padding: 80px 20px;
+  border-radius: 20px;
+  margin: 60px auto;
+  max-width: 1400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.steps-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 50px;
+  color: #222;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.step-card {
+  background: #f9f9f9;
+  padding: 30px 20px;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.step-card:hover {
+  transform: translateY(-8px);
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.step-icon {
+  color: #ff5722;
+  margin-bottom: 15px;
+}
+
+.step-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.step-card p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.4;
 }
