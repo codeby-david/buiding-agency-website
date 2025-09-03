@@ -231,13 +231,17 @@ h2 {
 
 .form-group input,
 .form-group select,
+.form-group input,
+.form-group select,
 .form-group textarea,
 #budget-input {
   width: 100%;
-  padding: 0.85rem 0.85rem 0.85rem 2.5rem;
-  border: 2px solid #1B263B;
+  padding: 1.3rem 1.2rem 1.3rem 2.8rem;
+  /* bigger height and left padding for icon */
+  border: 2px solid #ffb877;
   border-radius: 0.8rem;
-  font-size: 1rem;
+  font-size: 1.18rem;
+  /* bigger text */
   background: #fff8f2;
   transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
   box-sizing: border-box;

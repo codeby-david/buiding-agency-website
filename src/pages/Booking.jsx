@@ -10,6 +10,11 @@ import {
   FaLandmark,
   FaBuilding,
   FaCheckCircle,
+  FaRulerCombined,
+  FaBed,
+  FaBath,
+  FaCalendarAlt,
+  FaFileUpload,
 } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import "./Booking.css";
@@ -23,6 +28,12 @@ export default function BookingForm() {
     address: "",
     details: "",
     budget: "",
+    startDate: "",
+    endDate: "",
+    plotSize: "",
+    bedrooms: "",
+    bathrooms: "",
+    plotDoc: null,
   });
 
   const [houseType, setHouseType] = useState("Cottage");
@@ -55,8 +66,12 @@ export default function BookingForm() {
   ];
 
   const handleChange = (key) => (e) => {
-    setForm((s) => ({ ...s, [key]: e.target.value }));
-    setErrors((prev) => ({ ...prev, [key]: null }));
+    if (key === "plotDoc") {
+      setForm((s) => ({ ...s, plotDoc: e.target.files[0] }));
+    } else {
+      setForm((s) => ({ ...s, [key]: e.target.value }));
+      setErrors((prev) => ({ ...prev, [key]: null }));
+    }
   };
 
   const validate = () => {
@@ -70,6 +85,16 @@ export default function BookingForm() {
     if (!form.address.trim()) err.address = "Address / plot is required";
     if (!form.budget || isNaN(Number(form.budget)) || Number(form.budget) < 50000)
       err.budget = "Enter a valid budget (min $50,000)";
+    if (!form.startDate) err.startDate = "Project start date is required";
+    if (!form.endDate) err.endDate = "Preferred completion date is required";
+    if (form.startDate && form.endDate && form.endDate < form.startDate)
+      err.endDate = "Completion date must be after start date";
+    if (!form.plotSize || isNaN(Number(form.plotSize)) || Number(form.plotSize) <= 0)
+      err.plotSize = "Enter a valid plot size";
+    if (!form.bedrooms || isNaN(Number(form.bedrooms)) || Number(form.bedrooms) < 1)
+      err.bedrooms = "Enter number of bedrooms";
+    if (!form.bathrooms || isNaN(Number(form.bathrooms)) || Number(form.bathrooms) < 1)
+      err.bathrooms = "Enter number of bathrooms";
     return err;
   };
 
@@ -101,6 +126,12 @@ export default function BookingForm() {
         address: "",
         details: "",
         budget: "",
+        startDate: "",
+        endDate: "",
+        plotSize: "",
+        bedrooms: "",
+        bathrooms: "",
+        plotDoc: null,
       });
       setHouseType("Cottage");
       setErrors({});
@@ -257,6 +288,113 @@ export default function BookingForm() {
                   value={form.details}
                   onChange={handleChange("details")}
                 />
+              </div>
+              {/* Project Start Date */}
+              <div className="form-group">
+                <FaCalendarAlt className="icon" />
+                <input
+                  type="date"
+                  placeholder="Project Start Date"
+                  value={form.startDate}
+                  onChange={handleChange("startDate")}
+                  aria-invalid={!!errors.startDate}
+                  aria-describedby={errors.startDate ? "startDate-error" : null}
+                />
+                {errors.startDate && (
+                  <div id="startDate-error" className="field-error">
+                    {errors.startDate}
+                  </div>
+                )}
+              </div>
+              {/* Preferred Completion Date */}
+              <div className="form-group">
+                <FaCalendarAlt className="icon" />
+                <input
+                  type="date"
+                  placeholder="Preferred Completion Date"
+                  value={form.endDate}
+                  onChange={handleChange("endDate")}
+                  aria-invalid={!!errors.endDate}
+                  aria-describedby={errors.endDate ? "endDate-error" : null}
+                />
+                {errors.endDate && (
+                  <div id="endDate-error" className="field-error">
+                    {errors.endDate}
+                  </div>
+                )}
+              </div>
+              {/* Plot Size */}
+              <div className="form-group">
+                <FaRulerCombined className="icon" />
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Plot Size (sq. meters)"
+                  value={form.plotSize}
+                  onChange={handleChange("plotSize")}
+                  aria-invalid={!!errors.plotSize}
+                  aria-describedby={errors.plotSize ? "plotSize-error" : null}
+                />
+                {errors.plotSize && (
+                  <div id="plotSize-error" className="field-error">
+                    {errors.plotSize}
+                  </div>
+                )}
+              </div>
+              {/* Bedrooms */}
+              <div className="form-group">
+                <FaBed className="icon" />
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Number of Bedrooms"
+                  value={form.bedrooms}
+                  onChange={handleChange("bedrooms")}
+                  aria-invalid={!!errors.bedrooms}
+                  aria-describedby={errors.bedrooms ? "bedrooms-error" : null}
+                />
+                {errors.bedrooms && (
+                  <div id="bedrooms-error" className="field-error">
+                    {errors.bedrooms}
+                  </div>
+                )}
+              </div>
+              {/* Bathrooms */}
+              <div className="form-group">
+                <FaBath className="icon" />
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Number of Bathrooms"
+                  value={form.bathrooms}
+                  onChange={handleChange("bathrooms")}
+                  aria-invalid={!!errors.bathrooms}
+                  aria-describedby={errors.bathrooms ? "bathrooms-error" : null}
+                />
+                {errors.bathrooms && (
+                  <div id="bathrooms-error" className="field-error">
+                    {errors.bathrooms}
+                  </div>
+                )}
+              </div>
+              {/* Plot Document Upload */}
+              <div className="form-group full-width">
+                <FaFileUpload className="icon" />
+                <input
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  onChange={handleChange("plotDoc")}
+                  aria-describedby="plotDoc-help"
+                  style={{ paddingLeft: "2.5rem", paddingTop: "0.7rem" }}
+                />
+                <small id="plotDoc-help" style={{ color: "#888", marginLeft: "2.5rem" }}>
+                  (Optional) Upload plot document (PDF, JPG, PNG)
+                </small>
+                {form.plotDoc && (
+                  <div style={{ color: "#ff8000", marginLeft: "2.5rem", fontSize: "0.95rem" }}>
+                    Selected: {form.plotDoc.name}
+                  </div>
+                )}
               </div>
             </div>
             {/* House Type */}
