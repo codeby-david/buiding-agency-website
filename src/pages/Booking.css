@@ -217,20 +217,12 @@ h2 {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
-  color: #1B263B;
+  color: #ff8000;
   font-size: 1.2rem;
-  background: none;
-  width: auto;
-  height: auto;
-  box-shadow: none;
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.form-group input,
-.form-group select,
 .form-group input,
 .form-group select,
 .form-group textarea,
@@ -241,11 +233,13 @@ h2 {
   border: 2px solid #ffb877;
   border-radius: 0.8rem;
   font-size: 1.18rem;
-  /* bigger text */
   background: #fff8f2;
   transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
   box-sizing: border-box;
   color: #222;
+  min-height: 3.2rem;
+  /* force height for all */
+  line-height: 1.5;
 }
 
 .form-group input:focus,
