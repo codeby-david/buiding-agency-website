@@ -227,7 +227,7 @@ export default function BookingForm() {
                 <FaPhone className="icon" />
                 <input
                   type="tel"
-                  placeholder="+1 555 000 0000"
+                  placeholder="+254 7000000000"
                   value={form.phone}
                   onChange={handleChange("phone")}
                   aria-invalid={!!errors.phone}
@@ -251,12 +251,12 @@ export default function BookingForm() {
                 >
                   <option value="">Select your country</option>
                   <option value="Kenya">Kenya</option>
-                  <option value="USA">USA</option>
-                  <option value="UK">UK</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Germany">Germany</option>
-                  <option value="Australia">Australia</option>
-                  <option value="India">India</option>
+                  <option value="USA">Uganda</option>
+                  <option value="UK">Tanzania</option>
+                  <option value="Canada">Ethiopia</option>
+                  <option value="Germany">Sudan</option>
+                  <option value="Australia">Soomalia</option>
+                  <option value="India">Egypt</option>
                 </select>
                 {errors.country && (
                   <div id="country-error" className="field-error">
@@ -269,7 +269,7 @@ export default function BookingForm() {
                 <FaMapMarkerAlt className="icon" />
                 <input
                   type="text"
-                  placeholder="Street / Plot / Landmark"
+                  placeholder="Street / Plot "
                   value={form.address}
                   onChange={handleChange("address")}
                   aria-invalid={!!errors.address}
@@ -284,7 +284,7 @@ export default function BookingForm() {
               {/* Details */}
               <div className="form-group full-width">
                 <textarea
-                  placeholder="Extra details (terrain, road, nearby landmarks...)"
+                  placeholder="Extra details (road, nearby landmarks...)"
                   value={form.details}
                   onChange={handleChange("details")}
                 />
@@ -293,7 +293,7 @@ export default function BookingForm() {
               <div className="form-group">
                 <FaCalendarAlt className="icon" />
                 <input
-                  type="date"
+                  type="number"
                   placeholder="Project Start Date"
                   value={form.startDate}
                   onChange={handleChange("startDate")}
