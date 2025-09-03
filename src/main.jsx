@@ -4,13 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import Navbar from './components/Navbar.jsx'
 import Services from './pages/Services.jsx'
-import { GoogleLogin } from '@react-oauth/google'
+import { GoogleOAuthProvider } from '@react-oauth/google'  // ✅ Correct import
+import { AuthProvider } from './contexts/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
-    <GoogleLogin />
-
-
+    <GoogleOAuthProvider clientId="46671198438-lsqn7d77pmd7i1stgehi9g71qnd8f4e9.apps.googleusercontent.com">
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </GoogleOAuthProvider>
   </StrictMode>,
 )

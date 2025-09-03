@@ -6,6 +6,10 @@ import Projects from "./pages/Projects";
 import About from "./pages/About";
 import Booking from "./pages/Booking";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import Dashboard from "./pages/Dashboard";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </div>
     </Router>

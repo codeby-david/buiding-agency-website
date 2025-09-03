@@ -75,8 +75,9 @@ export default function Register() {
           </div>
 
           {error && <div className="field-error">{error}</div>}
-
-          <button type="submit" className="btn-primary">Register</button>
+          <Link to="/register">
+            <button type="submit" className="btn-primary">Register</button>
+          </Link>
         </form>
 
         <div className="auth-links">
