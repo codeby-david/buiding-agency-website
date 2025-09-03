@@ -150,7 +150,7 @@ export default function BookingForm() {
         loop
         muted
         playsInline
-        className="bg-video"
+        className="bg-video2"
         poster="/images/rainy-house-fallback.jpg"
       >
         <source src="/videos/construction4.mp4" type="video/mp4" />
