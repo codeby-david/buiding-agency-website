@@ -2,9 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import Navbar from './components/Navbar.jsx'
-import Services from './pages/Services.jsx'
-import { GoogleOAuthProvider } from '@react-oauth/google'  // ✅ Correct import
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider } from './contexts/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
