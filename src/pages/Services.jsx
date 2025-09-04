@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import "./Services.css";
+import Footer from "../components/Footer";
 
 const carouselImages = [
   "./images/luxury-home.jpg",
@@ -149,155 +150,158 @@ export default function Services() {
     setExpandedService(expandedService === index ? null : index);
 
   return (
-    <div className="services-page">
-      {/* ===== Carousel ===== */}
-      <div className="carousel-container">
-        <div className="carousel-overlay"></div>
-        <Navbar transparent={true} />
-        <div className="carousel">
-          {carouselImages.map((img, i) => (
-            <div key={i} className={`carousel-slide ${i === currentIndex ? "active" : ""}`}>
-              <img src={img} alt={`Slide ${i}`} className="carousel-image" />
-              <div className="slide-overlay"></div>
-            </div>
-          ))}
+    <>
+      <div className="services-page">
+        {/* ===== Carousel ===== */}
+        <div className="carousel-container">
+          <div className="carousel-overlay"></div>
+          <Navbar transparent={true} />
+          <div className="carousel">
+            {carouselImages.map((img, i) => (
+              <div key={i} className={`carousel-slide ${i === currentIndex ? "active" : ""}`}>
+                <img src={img} alt={`Slide ${i}`} className="carousel-image" />
+                <div className="slide-overlay"></div>
+              </div>
+            ))}
 
-          <div className="carousel-content">
-            <h2>Building Dreams Into Reality</h2>
-            <p>Expert construction and design services for your perfect home</p>
-            <a href="#services" className="carousel-cta-btn">
-              Explore Our Services <ArrowRight size={20} />
-            </a>
+            <div className="carousel-content">
+              <h2>Building Dreams Into Reality</h2>
+              <p>Expert construction and design services for your perfect home</p>
+              <a href="#services" className="carousel-cta-btn">
+                Explore Our Services <ArrowRight size={20} />
+              </a>
+            </div>
+
+            <button
+              className="carousel-btn left"
+              onClick={() =>
+                setCurrentIndex((prev) => (prev - 1 + carouselImages.length) % carouselImages.length)
+              }
+            >
+              <ChevronLeft size={32} />
+            </button>
+            <button
+              className="carousel-btn right"
+              onClick={() => setCurrentIndex((prev) => (prev + 1) % carouselImages.length)}
+            >
+              <ChevronRight size={32} />
+            </button>
+
+            <div className="carousel-indicators">
+              {carouselImages.map((_, i) => (
+                <div
+                  key={i}
+                  className={`indicator ${i === currentIndex ? "active" : ""}`}
+                  onClick={() => setCurrentIndex(i)}
+                ></div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ===== Services ===== */}
+        <div className="page-content" id="services">
+          <div className="section-header">
+            <h2 className="services-title">Our Services</h2>
+            <p className="services-subtitle">Comprehensive solutions from concept to completion</p>
           </div>
 
-          <button
-            className="carousel-btn left"
-            onClick={() =>
-              setCurrentIndex((prev) => (prev - 1 + carouselImages.length) % carouselImages.length)
-            }
-          >
-            <ChevronLeft size={32} />
-          </button>
-          <button
-            className="carousel-btn right"
-            onClick={() => setCurrentIndex((prev) => (prev + 1) % carouselImages.length)}
-          >
-            <ChevronRight size={32} />
-          </button>
-
-          <div className="carousel-indicators">
-            {carouselImages.map((_, i) => (
+          <div className="services-grid">
+            {services.map((service, i) => (
               <div
                 key={i}
-                className={`indicator ${i === currentIndex ? "active" : ""}`}
-                onClick={() => setCurrentIndex(i)}
-              ></div>
+                className={`service-card ${expandedService === i ? "expanded" : ""}`}
+                ref={(el) => (elementsRef.current[i] = el)}
+              >
+                <div className="service-image-container">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="service-image"
+                    onClick={() => setModalImage(service.image)}
+                  />
+                  <div className="service-overlay">
+                    <button className="view-details-btn" onClick={() => setModalImage(service.image)}>
+                      <ZoomIn size={20} /> Enlarge
+                    </button>
+                  </div>
+                </div>
+
+                <div className="service-info">
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+
+                  {expandedService === i && (
+                    <div className="expanded-content">
+                      <p>{service.longDescription}</p>
+                      <div className="service-features">
+                        <h4>What We Offer:</h4>
+                        <ul>
+                          {service.features.map((f, idx) => (
+                            <li key={idx}>{f}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="service-actions">
+                    {expandedService === i && <a href="/contact" className="service-cta-btn">Request This Service</a>}
+                    <button className="expand-service-btn" onClick={() => toggleServiceExpansion(i)}>
+                      {expandedService === i ? "Show Less" : "Learn More"}
+                    </button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* ===== Services ===== */}
-      <div className="page-content" id="services">
-        <div className="section-header">
-          <h2 className="services-title">Our Services</h2>
-          <p className="services-subtitle">Comprehensive solutions from concept to completion</p>
+        {/* ===== Animated Stats ===== */}
+        <div className="stats-section" ref={statsRef}>
+          <div className="stat-item">
+            <h3>{stats.projects}+</h3>
+            <p>Projects Completed</p>
+          </div>
+          <div className="stat-item">
+            <h3>{stats.clients}+</h3>
+            <p>Happy Clients</p>
+          </div>
+          <div className="stat-item">
+            <h3>{stats.awards}</h3>
+            <p>Awards Won</p>
+          </div>
+          <div className="stat-item">
+            <h3>{stats.years}+</h3>
+            <p>Years of Experience</p>
+          </div>
         </div>
 
-        <div className="services-grid">
-          {services.map((service, i) => (
-            <div
-              key={i}
-              className={`service-card ${expandedService === i ? "expanded" : ""}`}
-              ref={(el) => (elementsRef.current[i] = el)}
-            >
-              <div className="service-image-container">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="service-image"
-                  onClick={() => setModalImage(service.image)}
-                />
-                <div className="service-overlay">
-                  <button className="view-details-btn" onClick={() => setModalImage(service.image)}>
-                    <ZoomIn size={20} /> Enlarge
-                  </button>
-                </div>
+        {/* ===== Steps to Get Our Services ===== */}
+        <div className="steps-section">
+          <h2 className="steps-title">How to Get Our Services</h2>
+          <div className="steps-grid">
+            {steps.map((step, i) => (
+              <div key={i} className="step-card">
+                <div className="step-icon">{step.icon}</div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
               </div>
-
-              <div className="service-info">
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-
-                {expandedService === i && (
-                  <div className="expanded-content">
-                    <p>{service.longDescription}</p>
-                    <div className="service-features">
-                      <h4>What We Offer:</h4>
-                      <ul>
-                        {service.features.map((f, idx) => (
-                          <li key={idx}>{f}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
-                <div className="service-actions">
-                  {expandedService === i && <a href="/contact" className="service-cta-btn">Request This Service</a>}
-                  <button className="expand-service-btn" onClick={() => toggleServiceExpansion(i)}>
-                    {expandedService === i ? "Show Less" : "Learn More"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* ===== Modal ===== */}
+        {modalImage && (
+          <div className="modal" onClick={() => setModalImage(null)}>
+            <button className="modal-close" onClick={() => setModalImage(null)}>
+              <X size={32} />
+            </button>
+            <img src={modalImage} alt="Large view" className="modal-content" />
+          </div>
+        )}
       </div>
-
-      {/* ===== Animated Stats ===== */}
-      <div className="stats-section" ref={statsRef}>
-        <div className="stat-item">
-          <h3>{stats.projects}+</h3>
-          <p>Projects Completed</p>
-        </div>
-        <div className="stat-item">
-          <h3>{stats.clients}+</h3>
-          <p>Happy Clients</p>
-        </div>
-        <div className="stat-item">
-          <h3>{stats.awards}</h3>
-          <p>Awards Won</p>
-        </div>
-        <div className="stat-item">
-          <h3>{stats.years}+</h3>
-          <p>Years of Experience</p>
-        </div>
-      </div>
-
-      {/* ===== Steps to Get Our Services ===== */}
-      <div className="steps-section">
-        <h2 className="steps-title">How to Get Our Services</h2>
-        <div className="steps-grid">
-          {steps.map((step, i) => (
-            <div key={i} className="step-card">
-              <div className="step-icon">{step.icon}</div>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ===== Modal ===== */}
-      {modalImage && (
-        <div className="modal" onClick={() => setModalImage(null)}>
-          <button className="modal-close" onClick={() => setModalImage(null)}>
-            <X size={32} />
-          </button>
-          <img src={modalImage} alt="Large view" className="modal-content" />
-        </div>
-      )}
-    </div>
+      <Footer />
+    </>
   );
 }
