@@ -37,7 +37,7 @@ export default function Login() {
         if (res.data.user.role === "admin") {
           navigate("/dashboard");
         } else {
-          navigate("/homepage");
+          navigate("/");
         }
       }
     } catch (err) {
