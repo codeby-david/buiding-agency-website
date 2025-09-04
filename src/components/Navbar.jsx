@@ -31,7 +31,7 @@ export default function Navbar() {
           <Link to="/about"><FaInfoCircle /> About Us</Link>
         </li>
         <li>
-          <Link to="/booking" className="btn-primary">
+          <Link to="/booking" className="btn-primary1">
             <FaBook /> Booking
           </Link>
         </li>

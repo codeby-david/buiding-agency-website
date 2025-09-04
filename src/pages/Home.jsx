@@ -16,6 +16,7 @@ import CustomHomeImg from "/images/custom-home.jpg";
 import LuxuryHomeImg from "/images/luxury-home.jpg";
 import MultiGenHomeImg from "/images/multigen-home.jpg";
 import EnergyHomeImg from "/images/energy-home.jpg";
+import Footer from "../components/Footer";
 
 const videos = [
   {
@@ -363,6 +364,7 @@ const HomePage = () => {
           </div>
         </motion.section>
       </div>
+      <Footer />
     </>
   );
 };
