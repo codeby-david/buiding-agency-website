@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaPhone } from "react-icons/fa";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Auth.css";
 
 export default function Login() {
   const [form, setForm] = useState({ emailOrPhone: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,8 +22,30 @@ export default function Login() {
       setError("All fields are required");
       return;
     }
-    // 🔗 Later: Call backend login API
-    navigate("/dashboard");
+
+    try {
+      setLoading(true);
+      const res = await axios.post("http://localhost:5000/api/users/login", form, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token); // save token
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // save user info
+
+        // ✅ Redirect based on role
+        if (res.data.user.role === "admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/homepage");
+        }
+      }
+    } catch (err) {
+      console.error(err.response?.data);
+      setError(err.response?.data?.message || "Login failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,7 +79,9 @@ export default function Login() {
 
           {error && <div className="field-error">{error}</div>}
 
-          <button type="submit" className="btn-primary">Login</button>
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
         </form>
 
         <div className="or">OR</div>
@@ -64,7 +90,8 @@ export default function Login() {
         <GoogleLogin
           onSuccess={(res) => {
             console.log("Google login success", res);
-            navigate("/dashboard");
+            // ⚡ You can also check role here after verifying on backend
+            navigate("/");
           }}
           onError={() => setError("Google login failed")}
         />

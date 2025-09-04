@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock, FaUser, FaPhone } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axios"; // 🔗 Axios instance
 import "./Auth.css";
 
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -13,14 +15,26 @@ export default function Register() {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!form.name || !form.email || !form.phone || !form.password) {
       setError("All fields are required");
       return;
     }
-    // 🔗 Later: Call backend register API
-    navigate("/login");
+
+    try {
+      setLoading(true);
+      const res = await api.post("/users/register", form); // ✅ backend call
+      alert("Registration successful! Please login.");
+      console.log("✅ Registered user:", res.data);
+      navigate("/login");
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      setError(err.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,9 +89,10 @@ export default function Register() {
           </div>
 
           {error && <div className="field-error">{error}</div>}
-          <Link to="/register">
-            <button type="submit" className="btn-primary">Register</button>
-          </Link>
+
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
+          </button>
         </form>
 
         <div className="auth-links">
