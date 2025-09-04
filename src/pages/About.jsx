@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import "./About.css";
+import Footer from "../components/Footer";
 
 const About = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -131,212 +132,215 @@ const About = () => {
   ];
 
   return (
-    <div className="about-page">
-      <Navbar />
+    <>
+      <div className="about-page">
+        <Navbar />
 
-      {/* Hero Section */}
-      <section className="about-hero">
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            Building Dreams, Crafting Realities
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            For over a decade, we've been transforming visions into exceptional spaces that stand the test of time.
-          </motion.p>
-          <motion.a
-            href="/projects"
-            className="cta-button"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-          >
-            View Our Work <ArrowRight size={20} />
-          </motion.a>
-        </div>
-      </section>
-
-      {/* Story Section */}
-      <section className="story-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>Our Story</h2>
-            <p>From humble beginnings to industry leaders</p>
-          </div>
-
-          <div className="timeline">
-            {timelineData.map((item, index) => (
-              <div
-                key={index}
-                className={`timeline-item ${index === activeTimeline ? 'active' : ''}`}
-                onClick={() => setActiveTimeline(index)}
-              >
-                <div className="timeline-marker"></div>
-                <div className="timeline-content">
-                  <h4>{item.year}</h4>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="stats-section">
-        <div className="container">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              className="stat-item"
+        {/* Hero Section */}
+        <section className="about-hero">
+          <div className="hero-overlay"></div>
+          <div className="hero-content">
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
             >
-              <h3>{stat.value}</h3>
-              <p>{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="team-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>Meet Our Team</h2>
-            <p>The talented professionals behind our success</p>
+              Building Dreams, Crafting Realities
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              For over a decade, we've been transforming visions into exceptional spaces that stand the test of time.
+            </motion.p>
+            <motion.a
+              href="/projects"
+              className="cta-button"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+            >
+              View Our Work <ArrowRight size={20} />
+            </motion.a>
           </div>
+        </section>
 
-          <div className="team-grid">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={index}
-                className="team-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-              >
-                <div className="team-image">
-                  <img src={member.image} alt={member.name} />
-                  <div className="team-overlay">
-                    <div className="specialties">
-                      {member.specialties.map((specialty, i) => (
-                        <span key={i} className="specialty-tag">{specialty}</span>
-                      ))}
-                    </div>
+        {/* Story Section */}
+        <section className="story-section">
+          <div className="container">
+            <div className="section-header">
+              <h2>Our Story</h2>
+              <p>From humble beginnings to industry leaders</p>
+            </div>
+
+            <div className="timeline">
+              {timelineData.map((item, index) => (
+                <div
+                  key={index}
+                  className={`timeline-item ${index === activeTimeline ? 'active' : ''}`}
+                  onClick={() => setActiveTimeline(index)}
+                >
+                  <div className="timeline-marker"></div>
+                  <div className="timeline-content">
+                    <h4>{item.year}</h4>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
                   </div>
                 </div>
-                <div className="team-info">
-                  <h3>{member.name}</h3>
-                  <p className="role">{member.role}</p>
-                  <p className="bio">{member.bio}</p>
-                </div>
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Values Section */}
-      <section className="values-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>Our Values</h2>
-            <p>The principles that guide everything we do</p>
-          </div>
-
-          <div className="values-grid">
-            {values.map((value, index) => (
+        {/* Stats Section */}
+        <section className="stats-section">
+          <div className="container">
+            {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                className="value-card"
+                className="stat-item"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div className="value-icon">
-                  {value.icon}
-                </div>
-                <h3>{value.title}</h3>
-                <p>{value.description}</p>
+                <h3>{stat.value}</h3>
+                <p>{stat.label}</p>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Testimonials Section */}
-      <section className="testimonials-section">
-        <div className="container">
-          <div className="section-header">
-            <h2>What Our Clients Say</h2>
-            <p>Hear from those we've had the pleasure of working with</p>
-          </div>
-
-          <div className="testimonial-container">
-            <div className="testimonial-content">
-              <Quote size={36} className="quote-icon" />
-              <p className="testimonial-text">{testimonials[activeTestimonial].text}</p>
-              <div className="testimonial-author">
-                <h4>{testimonials[activeTestimonial].author}</h4>
-                <p>{testimonials[activeTestimonial].role} • {testimonials[activeTestimonial].project}</p>
-              </div>
+        {/* Team Section */}
+        <section className="team-section">
+          <div className="container">
+            <div className="section-header">
+              <h2>Meet Our Team</h2>
+              <p>The talented professionals behind our success</p>
             </div>
 
-            <div className="testimonial-controls">
-              <button
-                onClick={() => setActiveTestimonial(activeTestimonial === 0 ? testimonials.length - 1 : activeTestimonial - 1)}
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              <div className="testimonial-dots">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    className={index === activeTestimonial ? 'active' : ''}
-                    onClick={() => setActiveTestimonial(index)}
-                    aria-label={`View testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
-              <button
-                onClick={() => setActiveTestimonial(activeTestimonial === testimonials.length - 1 ? 0 : activeTestimonial + 1)}
-                aria-label="Next testimonial"
-              >
-                <ChevronRight size={24} />
-              </button>
+            <div className="team-grid">
+              {teamMembers.map((member, index) => (
+                <motion.div
+                  key={index}
+                  className="team-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10 }}
+                >
+                  <div className="team-image">
+                    <img src={member.image} alt={member.name} />
+                    <div className="team-overlay">
+                      <div className="specialties">
+                        {member.specialties.map((specialty, i) => (
+                          <span key={i} className="specialty-tag">{specialty}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="team-info">
+                    <h3>{member.name}</h3>
+                    <p className="role">{member.role}</p>
+                    <p className="bio">{member.bio}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="about-cta">
-        <div className="container">
-          <h2>Ready to Start Your Project?</h2>
-          <p>Let's discuss how we can bring your vision to life</p>
-          <div className="cta-buttons">
-            <a href="/contact" className="cta-button primary">Get in Touch</a>
-            <a href="/projects" className="cta-button secondary">View Projects</a>
+        {/* Values Section */}
+        <section className="values-section">
+          <div className="container">
+            <div className="section-header">
+              <h2>Our Values</h2>
+              <p>The principles that guide everything we do</p>
+            </div>
+
+            <div className="values-grid">
+              {values.map((value, index) => (
+                <motion.div
+                  key={index}
+                  className="value-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="value-icon">
+                    {value.icon}
+                  </div>
+                  <h3>{value.title}</h3>
+                  <p>{value.description}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="testimonials-section">
+          <div className="container">
+            <div className="section-header">
+              <h2>What Our Clients Say</h2>
+              <p>Hear from those we've had the pleasure of working with</p>
+            </div>
+
+            <div className="testimonial-container">
+              <div className="testimonial-content">
+                <Quote size={36} className="quote-icon" />
+                <p className="testimonial-text">{testimonials[activeTestimonial].text}</p>
+                <div className="testimonial-author">
+                  <h4>{testimonials[activeTestimonial].author}</h4>
+                  <p>{testimonials[activeTestimonial].role} • {testimonials[activeTestimonial].project}</p>
+                </div>
+              </div>
+
+              <div className="testimonial-controls">
+                <button
+                  onClick={() => setActiveTestimonial(activeTestimonial === 0 ? testimonials.length - 1 : activeTestimonial - 1)}
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <div className="testimonial-dots">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      className={index === activeTestimonial ? 'active' : ''}
+                      onClick={() => setActiveTestimonial(index)}
+                      aria-label={`View testimonial ${index + 1}`}
+                    />
+                  ))}
+                </div>
+                <button
+                  onClick={() => setActiveTestimonial(activeTestimonial === testimonials.length - 1 ? 0 : activeTestimonial + 1)}
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="about-cta">
+          <div className="container">
+            <h2>Ready to Start Your Project?</h2>
+            <p>Let's discuss how we can bring your vision to life</p>
+            <div className="cta-buttons">
+              <a href="/contact" className="cta-button primary">Get in Touch</a>
+              <a href="/projects" className="cta-button secondary">View Projects</a>
+            </div>
+          </div>
+        </section>
+      </div>
+      <Footer />
+    </>
   );
 };
 
