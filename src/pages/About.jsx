@@ -9,9 +9,7 @@ import {
   Shield,
   ChevronLeft,
   ChevronRight,
-  Quote,
-  Calendar,
-  MapPin
+  Quote
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import "./About.css";
@@ -46,28 +44,32 @@ const About = () => {
     {
       name: "Robert Davis",
       role: "Founder & CEO",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
       bio: "With over 20 years in construction, Robert leads our vision for excellence.",
       specialties: ["Project Management", "Structural Engineering"]
     },
     {
       name: "Jennifer Kim",
       role: "Lead Architect",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
+      image:
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
       bio: "Jennifer brings innovative design solutions to every project.",
       specialties: ["Modern Design", "Sustainable Architecture"]
     },
     {
       name: "Marcus Johnson",
       role: "Construction Manager",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
       bio: "Marcus ensures every project meets our high standards for quality.",
       specialties: ["Quality Control", "Team Leadership"]
     },
     {
       name: "Lisa Patel",
       role: "Interior Design Specialist",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
+      image:
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
       bio: "Lisa creates beautiful, functional spaces that clients love.",
       specialties: ["Space Planning", "Material Selection"]
     }
@@ -77,12 +79,14 @@ const About = () => {
     {
       icon: <Heart size={36} />,
       title: "Passion",
-      description: "We love what we do and it shows in every project we complete."
+      description:
+        "We love what we do and it shows in every project we complete."
     },
     {
       icon: <Shield size={36} />,
       title: "Integrity",
-      description: "We're committed to honesty, transparency, and doing what's right."
+      description:
+        "We're committed to honesty, transparency, and doing what's right."
     },
     {
       icon: <Target size={36} />,
@@ -100,27 +104,32 @@ const About = () => {
     {
       year: "2010",
       title: "Company Founded",
-      description: "Started with a small team and big dreams of transforming construction."
+      description:
+        "Started with a small team and big dreams of transforming construction."
     },
     {
       year: "2013",
       title: "First Major Project",
-      description: "Completed a 20-home development that set new standards in the community."
+      description:
+        "Completed a 20-home development that set new standards in the community."
     },
     {
       year: "2016",
       title: "Expanded Services",
-      description: "Added architectural design and interior design divisions to our company."
+      description:
+        "Added architectural design and interior design divisions to our company."
     },
     {
       year: "2019",
       title: "Sustainability Focus",
-      description: "Commited to eco-friendly building practices and sustainable materials."
+      description:
+        "Commited to eco-friendly building practices and sustainable materials."
     },
     {
       year: "2023",
       title: "150+ Projects Completed",
-      description: "Reached a milestone of over 150 successful projects across the region."
+      description:
+        "Reached a milestone of over 150 successful projects across the region."
     }
   ];
 
@@ -152,7 +161,8 @@ const About = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              For over a decade, we've been transforming visions into exceptional spaces that stand the test of time.
+              For over a decade, we've been transforming visions into exceptional
+              spaces that stand the test of time.
             </motion.p>
             <motion.a
               href="/projects"
@@ -178,7 +188,8 @@ const About = () => {
               {timelineData.map((item, index) => (
                 <div
                   key={index}
-                  className={`timeline-item ${index === activeTimeline ? 'active' : ''}`}
+                  className={`timeline-item ${index === activeTimeline ? "active" : ""
+                    }`}
                   onClick={() => setActiveTimeline(index)}
                 >
                   <div className="timeline-marker"></div>
@@ -236,7 +247,9 @@ const About = () => {
                     <div className="team-overlay">
                       <div className="specialties">
                         {member.specialties.map((specialty, i) => (
-                          <span key={i} className="specialty-tag">{specialty}</span>
+                          <span key={i} className="specialty-tag">
+                            {specialty}
+                          </span>
                         ))}
                       </div>
                     </div>
@@ -270,9 +283,7 @@ const About = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <div className="value-icon">
-                    {value.icon}
-                  </div>
+                  <div className="value-icon">{value.icon}</div>
                   <h3>{value.title}</h3>
                   <p>{value.description}</p>
                 </motion.div>
@@ -292,16 +303,27 @@ const About = () => {
             <div className="testimonial-container">
               <div className="testimonial-content">
                 <Quote size={36} className="quote-icon" />
-                <p className="testimonial-text">{testimonials[activeTestimonial].text}</p>
+                <p className="testimonial-text">
+                  {testimonials[activeTestimonial].text}
+                </p>
                 <div className="testimonial-author">
                   <h4>{testimonials[activeTestimonial].author}</h4>
-                  <p>{testimonials[activeTestimonial].role} • {testimonials[activeTestimonial].project}</p>
+                  <p>
+                    {testimonials[activeTestimonial].role} •{" "}
+                    {testimonials[activeTestimonial].project}
+                  </p>
                 </div>
               </div>
 
               <div className="testimonial-controls">
                 <button
-                  onClick={() => setActiveTestimonial(activeTestimonial === 0 ? testimonials.length - 1 : activeTestimonial - 1)}
+                  onClick={() =>
+                    setActiveTestimonial(
+                      activeTestimonial === 0
+                        ? testimonials.length - 1
+                        : activeTestimonial - 1
+                    )
+                  }
                   aria-label="Previous testimonial"
                 >
                   <ChevronLeft size={24} />
@@ -310,14 +332,20 @@ const About = () => {
                   {testimonials.map((_, index) => (
                     <button
                       key={index}
-                      className={index === activeTestimonial ? 'active' : ''}
+                      className={index === activeTestimonial ? "active" : ""}
                       onClick={() => setActiveTestimonial(index)}
                       aria-label={`View testimonial ${index + 1}`}
                     />
                   ))}
                 </div>
                 <button
-                  onClick={() => setActiveTestimonial(activeTestimonial === testimonials.length - 1 ? 0 : activeTestimonial + 1)}
+                  onClick={() =>
+                    setActiveTestimonial(
+                      activeTestimonial === testimonials.length - 1
+                        ? 0
+                        : activeTestimonial + 1
+                    )
+                  }
                   aria-label="Next testimonial"
                 >
                   <ChevronRight size={24} />
@@ -327,15 +355,31 @@ const About = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="about-cta">
+        {/* Contact Form Section */}
+        <section className="contact-section">
           <div className="container">
-            <h2>Ready to Start Your Project?</h2>
-            <p>Let's discuss how we can bring your vision to life</p>
-            <div className="cta-buttons">
-              <a href="/contact" className="cta-button primary">Get in Touch</a>
-              <a href="/projects" className="cta-button secondary">View Projects</a>
+            <div className="section-header">
+              <h2>Get in Touch</h2>
+              <p>We’d love to hear from you! Fill out the form below.</p>
             </div>
+
+            <form className="contact-form">
+              <div className="form-group">
+                <input type="text" placeholder="Your Name" required />
+              </div>
+              <div className="form-group">
+                <input type="email" placeholder="Your Email" required />
+              </div>
+              <div className="form-group">
+                <input type="tel" placeholder="Your Phone (optional)" />
+              </div>
+              <div className="form-group">
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+              </div>
+              <button type="submit" className="cta-button primary">
+                Send Message
+              </button>
+            </form>
           </div>
         </section>
       </div>
