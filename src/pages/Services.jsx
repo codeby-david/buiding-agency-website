@@ -164,8 +164,8 @@ export default function Services() {
               </div>
             ))}
 
-            <div className="carousel-content">
-              <h2>Building Dreams Into Reality</h2>
+            <div className="carousel-content1">
+              <h2> <strong>Building Dreams Into Reality</strong></h2>
               <p>Expert construction and design services for your perfect home</p>
               <a href="#services" className="carousel-cta-btn">
                 Explore Our Services <ArrowRight size={20} />

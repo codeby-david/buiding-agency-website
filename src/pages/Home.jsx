@@ -322,8 +322,8 @@ const HomePage = () => {
               <div className="client-info">
                 <div className="avatar"></div>
                 <div className="client-details">
-                  <h4>John Matthews</h4>
-                  <p>Homeowner, Maple Street Residence</p>
+                  <h4>SARAH WAIRIMU</h4>
+                  <p>Homeowner, Ruiru</p>
                 </div>
               </div>
             </motion.div>
@@ -339,8 +339,8 @@ const HomePage = () => {
               <div className="client-info">
                 <div className="avatar"></div>
                 <div className="client-details">
-                  <h4>Sarah Kensington</h4>
-                  <p>Homeowner, Oakwood Estate</p>
+                  <h4>DAVID MATHENGE</h4>
+                  <p>Homeowner, Westlands</p>
                 </div>
               </div>
             </motion.div>
@@ -356,8 +356,8 @@ const HomePage = () => {
               <div className="client-info">
                 <div className="avatar"></div>
                 <div className="client-details">
-                  <h4>Alex Thompson</h4>
-                  <p>Homeowner, Hillside Retreat</p>
+                  <h4>ROBERT THUO</h4>
+                  <p>Homeowner, Nakuru</p>
                 </div>
               </div>
             </motion.div>
