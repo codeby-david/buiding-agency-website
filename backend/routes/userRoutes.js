@@ -1,17 +1,55 @@
 import express from "express";
-import { Login, Register } from "../controllers/authController.js";
 import crypto from "crypto";
 import User from "../models/User.js";
 import sendEmail from "../utils/sendEmails.js";
+import { protect } from "../middleware/authMiddleware.js"; // Changed import
 
-import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-// --- Existing auth routes ---
-router.post("/register", Register);
-router.post("/login", Login);
-router.put("/profile", authMiddleware, updateProfile);
+// --- Profile Update Route ---
+router.put("/profile", protect, async (req, res) => { // Use protect directly
+  try {
+    const { name, email, phone, currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
 
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update basic info
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.phone = phone || user.phone;
+
+    // Update password if provided
+    if (newPassword) {
+      const isMatch = await user.comparePassword(currentPassword);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+      user.password = newPassword;
+    }
+
+    await user.save();
+
+    res.json({
+      message: "Profile updated successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        isAdmin: user.isAdmin,
+        createdAt: user.createdAt
+      }
+    });
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // --- Forgot Password ---
 router.post("/forgot-password", async (req, res) => {

@@ -23,15 +23,56 @@ export default function Register() {
       return;
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    // Validate phone number (at least 10 digits)
+    const phoneRegex = /^\d{10,}$/;
+    const cleanPhone = form.phone.replace(/\D/g, '');
+    if (!phoneRegex.test(cleanPhone)) {
+      setError("Please enter a valid phone number (at least 10 digits)");
+      return;
+    }
+
+    // Validate password strength
+    if (form.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
     try {
       setLoading(true);
-      const res = await api.post("/users/register", form); // ✅ backend call
+      setError("");
+
+      // ✅ FIXED: Changed endpoint from "/users/register" to "/auth/register"
+      const res = await api.post("/auth/register", {
+        name: form.name,
+        email: form.email.toLowerCase().trim(),
+        phone: cleanPhone,
+        password: form.password
+      });
+
       alert("Registration successful! Please login.");
       console.log("✅ Registered user:", res.data);
       navigate("/login");
     } catch (err) {
-      console.error(err.response?.data || err.message);
-      setError(err.response?.data?.message || "Registration failed");
+      console.error("Registration error:", err.response?.data || err.message);
+
+      if (err.response?.status === 400) {
+        setError(err.response.data?.message || "Invalid registration data");
+      } else if (err.response?.status === 409) {
+        setError("Email or phone number already exists");
+      } else if (err.response?.status === 500) {
+        setError("Server error. Please try again later.");
+      } else if (err.request) {
+        setError("Cannot connect to server. Please check your connection.");
+      } else {
+        setError("Registration failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -52,6 +93,8 @@ export default function Register() {
               placeholder="Full Name"
               value={form.name}
               onChange={handleChange}
+              required
+              autoComplete="name"
             />
           </div>
 
@@ -63,6 +106,8 @@ export default function Register() {
               placeholder="Email Address"
               value={form.email}
               onChange={handleChange}
+              required
+              autoComplete="email"
             />
           </div>
 
@@ -71,9 +116,11 @@ export default function Register() {
             <input
               type="tel"
               name="phone"
-              placeholder="Phone Number"
+              placeholder="Phone Number (e.g., 1234567890)"
               value={form.phone}
               onChange={handleChange}
+              required
+              autoComplete="tel"
             />
           </div>
 
@@ -82,9 +129,11 @@ export default function Register() {
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Password (min. 6 characters)"
               value={form.password}
               onChange={handleChange}
+              required
+              autoComplete="new-password"
             />
           </div>
 

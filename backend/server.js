@@ -3,28 +3,28 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js"; // Make sure this exists
 import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
 
-// ✅ Proper CORS config to allow frontend + cookies/tokens
-app.use(
-  cors({
-    origin: "http://localhost:5173", // frontend URL
-    credentials: true,               // allow cookies & auth headers
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-// ✅ Middleware
 app.use(express.json());
 
-// ✅ Routes
+// Make sure you have auth routes
+app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
 
+// ... rest of your server code
+// Remove this line: app.use("/api/auth", authRoutes);
 
 // ✅ DB connect
 mongoose

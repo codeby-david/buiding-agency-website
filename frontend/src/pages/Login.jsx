@@ -42,7 +42,8 @@ export default function Login() {
         requestData.phone = form.emailOrPhone.trim().replace(/\D/g, '');
       }
 
-      const res = await axios.post("http://localhost:5000/api/users/login", requestData);
+      // FIXED: Changed endpoint from /api/users/login to /api/auth/login
+      const res = await axios.post("http://localhost:5000/api/auth/login", requestData);
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
@@ -57,11 +58,23 @@ export default function Login() {
     } catch (err) {
       console.error("Login error:", err);
 
-      if (err.response?.status === 401) {
-        setError("Invalid email/phone or password. Please check your credentials.");
+      // Enhanced error handling
+      if (err.response) {
+        // Server responded with error status
+        if (err.response.status === 401) {
+          setError("Invalid email/phone or password. Please check your credentials.");
+        } else if (err.response.status === 404) {
+          setError("Login endpoint not found. Please check backend configuration.");
+        } else if (err.response.status === 500) {
+          setError("Server error. Please try again later.");
+        } else {
+          setError(err.response.data?.message || "Login failed. Please try again.");
+        }
       } else if (err.request) {
-        setError("Cannot connect to server. Please try again later.");
+        // Request was made but no response received
+        setError("Cannot connect to server. Please check if the backend is running on port 5000.");
       } else {
+        // Other errors
         setError("Login failed. Please try again.");
       }
     } finally {
