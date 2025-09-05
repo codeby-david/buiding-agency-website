@@ -34,13 +34,22 @@ export const Register = async (req, res) => {
 };
 
 // Login (supports email OR phone)
+// Login (supports email OR phone)
 export const Login = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
 
-    const user = await User.findOne({
-      $or: [{ email }, { phone }],
-    });
+    // ✅ FIX: Build query conditionally
+    let query = {};
+    if (email) {
+      query.email = email;
+    } else if (phone) {
+      query.phone = phone;
+    } else {
+      return res.status(400).json({ message: "Email or phone is required" });
+    }
+
+    const user = await User.findOne(query);
 
     if (user && (await user.matchPassword(password))) {
       res.json({

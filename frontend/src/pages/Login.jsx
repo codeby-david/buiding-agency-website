@@ -25,19 +25,29 @@ export default function Login() {
 
     try {
       setLoading(true);
+      setError("");
 
-      // Backend expects email OR phone, so send both keys
-      const res = await axios.post("http://localhost:5000/api/users/login", {
-        email: form.emailOrPhone.includes("@") ? form.emailOrPhone : undefined,
-        phone: !form.emailOrPhone.includes("@") ? form.emailOrPhone : undefined,
-        password: form.password,
-      });
+      // Determine if input is email or phone
+      const isEmail = form.emailOrPhone.includes("@");
+
+      // Create request data object
+      const requestData = {
+        password: form.password
+      };
+
+      // Add either email or phone
+      if (isEmail) {
+        requestData.email = form.emailOrPhone.toLowerCase().trim();
+      } else {
+        requestData.phone = form.emailOrPhone.trim().replace(/\D/g, '');
+      }
+
+      const res = await axios.post("http://localhost:5000/api/users/login", requestData);
 
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data)); // whole user object
+        localStorage.setItem("user", JSON.stringify(res.data));
 
-        // Redirect by role
         if (res.data.isAdmin) {
           navigate("/dashboard");
         } else {
@@ -45,8 +55,15 @@ export default function Login() {
         }
       }
     } catch (err) {
-      console.error(err.response?.data);
-      setError(err.response?.data?.message || "Login failed. Try again.");
+      console.error("Login error:", err);
+
+      if (err.response?.status === 401) {
+        setError("Invalid email/phone or password. Please check your credentials.");
+      } else if (err.request) {
+        setError("Cannot connect to server. Please try again later.");
+      } else {
+        setError("Login failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -67,6 +84,7 @@ export default function Login() {
               placeholder="Email or Phone"
               value={form.emailOrPhone}
               onChange={handleChange}
+              autoComplete="email"
             />
           </div>
 
@@ -78,6 +96,7 @@ export default function Login() {
               placeholder="Password"
               value={form.password}
               onChange={handleChange}
+              autoComplete="current-password"
             />
           </div>
 
@@ -90,7 +109,6 @@ export default function Login() {
 
         <div className="or">OR</div>
 
-        {/* Google Login */}
         <GoogleLogin
           onSuccess={(res) => {
             console.log("Google login success", res);
@@ -100,7 +118,7 @@ export default function Login() {
         />
 
         <div className="auth-links">
-          <Link to="/register">Don’t have an account? Register</Link>
+          <Link to="/register">Don't have an account? Register</Link>
           <Link to="/forgot-password">Forgot Password?</Link>
         </div>
       </div>
