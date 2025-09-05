@@ -13,8 +13,25 @@ import {
 import api from "../api/axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import jwt_decode from "jwt-decode"; // ✅ Correct import for Vite
 import "./Dashboard.css";
+
+// Manual JWT decoding function (fallback if library fails)
+const manualJwtDecode = (token) => {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("Manual JWT decode failed:", error);
+    throw new Error("Invalid token");
+  }
+};
 
 export default function OwnerDashboard() {
   const [bookings, setBookings] = useState([]);
@@ -31,24 +48,38 @@ export default function OwnerDashboard() {
           return;
         }
 
-        // Decode JWT to check role
-        const decoded = jwt_decode(token);
+        let decoded;
+        try {
+          // Try to use jwt-decode library first
+          const jwtDecodeModule = await import("jwt-decode");
+          const jwt_decode = jwtDecodeModule.default || jwtDecodeModule;
+          decoded = jwt_decode(token);
+        } catch (libraryError) {
+          console.warn("jwt-decode library failed, using manual decode:", libraryError);
+          // Fallback to manual decoding
+          decoded = manualJwtDecode(token);
+        }
+
+        console.log("Decoded token:", decoded); // Debug log
+
         if (!decoded.isAdmin) {
           setError("🚫 Access denied. Admins only.");
           setLoading(false);
           return;
         }
 
-        // Fetch bookings from backend
         const res = await api.get("/bookings", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+        console.log("API response:", res.data); // Debug log
         setBookings(res.data);
       } catch (err) {
-        console.error(err);
+        console.error("Fetch bookings error:", err);
         if (err.response && err.response.status === 401) {
           setError("❌ Unauthorized. Your session may have expired.");
+        } else if (err.message.includes("token") || err.message.includes("JWT")) {
+          setError("❌ Token validation failed. Please login again.");
         } else {
           setError("❌ Failed to load bookings. Try again later.");
         }
