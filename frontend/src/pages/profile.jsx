@@ -23,6 +23,7 @@ export default function Profile() {
     const userData = localStorage.getItem("user");
     if (userData) {
       const userObj = JSON.parse(userData);
+      console.log("Loaded user:", userObj);
       setUser(userObj);
       setFormData(prev => ({
         ...prev,
@@ -65,7 +66,6 @@ export default function Profile() {
 
       if (response.ok) {
         setMessage("Profile updated successfully!");
-        // Update local storage
         const updatedUser = { ...user, ...data.user };
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUser(updatedUser);
@@ -99,12 +99,7 @@ export default function Profile() {
           <div className="profile-header">
             <h1><FaUser /> Profile</h1>
             {!editMode ? (
-              <button
-                className="edit-btn"
-                onClick={() => setEditMode(true)}
-              >
-                Edit Profile
-              </button>
+              <button className="edit-btn" onClick={() => setEditMode(true)}>Edit Profile</button>
             ) : (
               <button
                 className="cancel-btn"

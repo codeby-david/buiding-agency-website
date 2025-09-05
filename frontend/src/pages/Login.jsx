@@ -27,29 +27,23 @@ export default function Login() {
       setLoading(true);
       setError("");
 
-      // Determine if input is email or phone
       const isEmail = form.emailOrPhone.includes("@");
 
-      // Create request data object
-      const requestData = {
-        password: form.password
-      };
-
-      // Add either email or phone
+      const requestData = { password: form.password };
       if (isEmail) {
         requestData.email = form.emailOrPhone.toLowerCase().trim();
       } else {
-        requestData.phone = form.emailOrPhone.trim().replace(/\D/g, '');
+        requestData.phone = form.emailOrPhone.trim().replace(/\D/g, "");
       }
 
-      // FIXED: Changed endpoint from /api/users/login to /api/auth/login
       const res = await axios.post("http://localhost:5000/api/auth/login", requestData);
 
-      if (res.data.token) {
+      if (res.data.token && res.data.user) {
+        // ✅ Save token and ONLY user object
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data));
+        localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        if (res.data.isAdmin) {
+        if (res.data.user.isAdmin) {
           navigate("/dashboard");
         } else {
           navigate("/");
@@ -57,24 +51,19 @@ export default function Login() {
       }
     } catch (err) {
       console.error("Login error:", err);
-
-      // Enhanced error handling
       if (err.response) {
-        // Server responded with error status
         if (err.response.status === 401) {
-          setError("Invalid email/phone or password. Please check your credentials.");
+          setError("Invalid email/phone or password.");
         } else if (err.response.status === 404) {
-          setError("Login endpoint not found. Please check backend configuration.");
+          setError("Login endpoint not found.");
         } else if (err.response.status === 500) {
           setError("Server error. Please try again later.");
         } else {
-          setError(err.response.data?.message || "Login failed. Please try again.");
+          setError(err.response.data?.message || "Login failed.");
         }
       } else if (err.request) {
-        // Request was made but no response received
-        setError("Cannot connect to server. Please check if the backend is running on port 5000.");
+        setError("Cannot connect to server. Please check if backend is running.");
       } else {
-        // Other errors
         setError("Login failed. Please try again.");
       }
     } finally {
