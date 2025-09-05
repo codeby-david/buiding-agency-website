@@ -25,16 +25,20 @@ export default function Login() {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:5000/api/users/login", form, {
-        headers: { "Content-Type": "application/json" },
+
+      // Backend expects email OR phone, so send both keys
+      const res = await axios.post("http://localhost:5000/api/users/login", {
+        email: form.emailOrPhone.includes("@") ? form.emailOrPhone : undefined,
+        phone: !form.emailOrPhone.includes("@") ? form.emailOrPhone : undefined,
+        password: form.password,
       });
 
       if (res.data.token) {
-        localStorage.setItem("token", res.data.token); // save token
-        localStorage.setItem("user", JSON.stringify(res.data.user)); // save user info
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data)); // whole user object
 
-        // ✅ Redirect based on role
-        if (res.data.user.isAdmin) {
+        // Redirect by role
+        if (res.data.isAdmin) {
           navigate("/dashboard");
         } else {
           navigate("/");
@@ -90,7 +94,6 @@ export default function Login() {
         <GoogleLogin
           onSuccess={(res) => {
             console.log("Google login success", res);
-            // ⚡ You can also check role here after verifying on backend
             navigate("/");
           }}
           onError={() => setError("Google login failed")}

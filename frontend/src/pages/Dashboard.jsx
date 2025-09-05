@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { FaUser, FaEnvelope, FaPhone, FaHome, FaCalendarAlt, FaMoneyBill, FaRulerCombined, FaBed, FaBath } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaHome,
+  FaCalendarAlt,
+  FaMoneyBill,
+  FaRulerCombined,
+  FaBed,
+  FaBath,
+} from "react-icons/fa";
 import api from "../api/axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { jwtDecode } from "jwt-decode";
+import jwt_decode from "jwt-decode"; // ✅ Correct import for Vite
 import "./Dashboard.css";
 
 export default function OwnerDashboard() {
@@ -22,20 +32,26 @@ export default function OwnerDashboard() {
         }
 
         // Decode JWT to check role
-        const decoded = jwtDecode(token);
+        const decoded = jwt_decode(token);
         if (!decoded.isAdmin) {
           setError("🚫 Access denied. Admins only.");
           setLoading(false);
           return;
         }
 
+        // Fetch bookings from backend
         const res = await api.get("/bookings", {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         setBookings(res.data);
       } catch (err) {
         console.error(err);
-        setError("❌ Failed to load bookings. Try again later.");
+        if (err.response && err.response.status === 401) {
+          setError("❌ Unauthorized. Your session may have expired.");
+        } else {
+          setError("❌ Failed to load bookings. Try again later.");
+        }
       } finally {
         setLoading(false);
       }
@@ -60,16 +76,37 @@ export default function OwnerDashboard() {
           <div className="booking-list">
             {bookings.map((b) => (
               <div key={b._id} className="booking-card">
-                <h3><FaHome /> {b.houseType} Project</h3>
-                <p><FaUser /> <strong>{b.name}</strong></p>
-                <p><FaEnvelope /> {b.email}</p>
-                <p><FaPhone /> {b.phone}</p>
-                <p><FaMoneyBill /> Budget: ${b.budget}</p>
-                <p><FaRulerCombined /> Plot: {b.plotSize} sqm</p>
-                <p><FaBed /> Bedrooms: {b.bedrooms} | <FaBath /> Bathrooms: {b.bathrooms}</p>
-                <p><FaCalendarAlt /> {b.startDate} → {b.endDate}</p>
-                <p><strong>Address:</strong> {b.address}, {b.country}</p>
-                <p><strong>Details:</strong> {b.details || "N/A"}</p>
+                <h3>
+                  <FaHome /> {b.houseType} Project
+                </h3>
+                <p>
+                  <FaUser /> <strong>{b.name}</strong>
+                </p>
+                <p>
+                  <FaEnvelope /> {b.email}
+                </p>
+                <p>
+                  <FaPhone /> {b.phone}
+                </p>
+                <p>
+                  <FaMoneyBill /> Budget: ${b.budget}
+                </p>
+                <p>
+                  <FaRulerCombined /> Plot: {b.plotSize} sqm
+                </p>
+                <p>
+                  <FaBed /> Bedrooms: {b.bedrooms} | <FaBath /> Bathrooms:{" "}
+                  {b.bathrooms}
+                </p>
+                <p>
+                  <FaCalendarAlt /> {b.startDate} → {b.endDate}
+                </p>
+                <p>
+                  <strong>Address:</strong> {b.address}, {b.country}
+                </p>
+                <p>
+                  <strong>Details:</strong> {b.details || "N/A"}
+                </p>
               </div>
             ))}
           </div>
