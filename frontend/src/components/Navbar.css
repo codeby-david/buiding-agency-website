@@ -20,7 +20,7 @@
   top: 0;
   z-index: 100;
 
-  margin: 2px 10px 0px 10px;
+  margin: 1px 40px 2px 10px;
   border-radius: 15px;
 }
 
@@ -77,6 +77,124 @@
 
 .btn-primary:hover {
   background-color: var(--accent);
-  color: var(--secondary) !important;
+  color: var(--text-light);
   transform: scale(1.1);
+}
+
+/* New User Menu Styles (added without affecting existing styles) */
+.user-menu-item {
+  position: relative;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.user-menu:hover {
+  background: #f8f9fa;
+}
+
+.user-icon {
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  min-width: 180px;
+  display: none;
+  z-index: 1001;
+}
+
+.user-menu:hover .user-dropdown {
+  display: block;
+}
+
+.dropdown-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.dropdown-link:hover {
+  background: #f8f9fa;
+  color: #007bff;
+}
+
+.logout-btn {
+  color: #dc3545;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logout-btn:hover {
+  background: #fff5f5;
+  color: #c82333;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .user-dropdown {
+    right: -50%;
+    transform: translateX(50%);
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 0.5rem;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+  }
+
+  .nav-links a svg {
+    font-size: 0.9rem;
+  }
 }
