@@ -248,7 +248,9 @@ const HomePage = () => {
                 <li><FaCheckCircle className="check-icon" /> Premium hardwood flooring</li>
                 <li><FaCheckCircle className="check-icon" /> 10-year structural warranty</li>
               </ul>
-              <button className="price-btn">Get Quote</button>
+              <Link to="/about">
+                <button className="price-btn">Get Quote</button>
+              </Link>
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} className="price-card">

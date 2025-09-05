@@ -10,6 +10,7 @@ import {
   Hammer,
   Home,
   Smile,
+  Weight,
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import "./Services.css";
@@ -165,8 +166,8 @@ export default function Services() {
             ))}
 
             <div className="carousel-content1">
-              <h2> <strong>Building Dreams Into Reality</strong></h2>
-              <p>Expert construction and design services for your perfect home</p>
+              <h1 style={{ color: "white", fontWeight: 800, fontSize: 60 }}> <strong>Building Dreams Into Reality</strong></h1>
+              <p style={{ fontSize: 20 }}>Expert construction and design services for your perfect home</p>
               <a href="#services" className="carousel-cta-btn">
                 Explore Our Services <ArrowRight size={20} />
               </a>

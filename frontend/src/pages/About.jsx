@@ -22,19 +22,19 @@ const About = () => {
   const testimonials = [
     {
       text: "The team delivered our dream home with precision and care. Their attention to detail is unmatched.",
-      author: "Sarah Johnson",
+      author: "BENSON KURIA",
       role: "Homeowner",
       project: "Lakeside Residence"
     },
     {
       text: "Working with this construction team was seamless. They completed our commercial project on time and within budget.",
-      author: "Michael Chen",
+      author: "JOHN GITAU",
       role: "Business Owner",
       project: "Office Complex"
     },
     {
       text: "Their innovative designs and sustainable approach made our renovation project truly special.",
-      author: "Emma Rodriguez",
+      author: "DENNIS MWANGI",
       role: "Interior Designer",
       project: "Heritage Home Restoration"
     }
@@ -42,35 +42,35 @@ const About = () => {
 
   const teamMembers = [
     {
-      name: "Robert Davis",
+      name: "JAMES MACHARIA",
       role: "Founder & CEO",
       image:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-      bio: "With over 20 years in construction, Robert leads our vision for excellence.",
+      bio: "With over 20 years in construction, James leads our vision for excellence.",
       specialties: ["Project Management", "Structural Engineering"]
     },
     {
-      name: "Jennifer Kim",
+      name: "MARY MUTHONI",
       role: "Lead Architect",
       image:
         "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
-      bio: "Jennifer brings innovative design solutions to every project.",
+      bio: "Mary brings innovative design solutions to every project.",
       specialties: ["Modern Design", "Sustainable Architecture"]
     },
     {
-      name: "Marcus Johnson",
+      name: "JOHN NDICHU",
       role: "Construction Manager",
       image:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
-      bio: "Marcus ensures every project meets our high standards for quality.",
+      bio: "John ensures every project meets our high standards for quality.",
       specialties: ["Quality Control", "Team Leadership"]
     },
     {
-      name: "Lisa Patel",
+      name: "ANN WANJIRU",
       role: "Interior Design Specialist",
       image:
         "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
-      bio: "Lisa creates beautiful, functional spaces that clients love.",
+      bio: "Ann creates beautiful, functional spaces that clients love.",
       specialties: ["Space Planning", "Material Selection"]
     }
   ];

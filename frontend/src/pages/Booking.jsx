@@ -251,7 +251,7 @@ export default function BookingForm() {
                     aria-invalid={!!errors.country}
                     aria-describedby={errors.country ? "country-error" : null}
                   >
-                    <option value="">Select your country</option>
+                    <option value="" >Select your country</option>
                     <option value="Kenya">Kenya</option>
                     <option value="USA">Uganda</option>
                     <option value="UK">Tanzania</option>

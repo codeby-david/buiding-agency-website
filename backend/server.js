@@ -1,22 +1,23 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
+
 import bookingRoutes from "./routes/bookingRoutes.js";
+import userRoutes from "./routes/userRoutes.js";  // ✅ Add this if you have it
 
 dotenv.config();
 connectDB();
 
 const app = express();
 
-// Body parser (JSON)
+// Middleware for JSON
 app.use(express.json());
 
 // Routes
-app.use("/api/users", userRoutes);
+app.use("/api/users", userRoutes);   // ✅ Fixed
 app.use("/api/bookings", bookingRoutes);
 
-// Root route (optional)
+// Root route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
