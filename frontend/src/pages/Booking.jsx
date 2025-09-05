@@ -43,7 +43,7 @@ export default function BookingForm() {
   const [errors, setErrors] = useState({});
   const [visible, setVisible] = useState(false);
 
-  // Rain drops for animation
+  // Animation setup
   const [rainDrops, setRainDrops] = useState([]);
   useEffect(() => {
     const drops = [];
@@ -105,20 +105,30 @@ export default function BookingForm() {
     const err = validate();
     if (Object.keys(err).length) {
       setErrors(err);
-      const container = document.querySelector(".form-container");
-      if (container) {
-        container.classList.remove("shake");
-        container.offsetWidth;
-        container.classList.add("shake");
-      }
       return;
     }
+
     setSubmitting(true);
     try {
-      await new Promise((r) => setTimeout(r, 1200));
-      setSuccessMsg(
-        "✅ Your booking request was submitted. We'll contact you shortly!"
-      );
+      // prepare FormData (for file upload)
+      const formData = new FormData();
+      Object.entries(form).forEach(([key, value]) => {
+        if (value) formData.append(key, value);
+      });
+      formData.append("houseType", houseType);
+
+      // send request
+      const res = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Failed to submit booking");
+
+      const data = await res.json();
+      console.log("Booking saved:", data);
+
+      setSuccessMsg("✅ Your booking request was submitted. We'll contact you shortly!");
       setForm({
         name: "",
         email: "",
@@ -136,7 +146,8 @@ export default function BookingForm() {
       });
       setHouseType("Cottage");
       setErrors({});
-    } catch {
+    } catch (err) {
+      console.error(err);
       setErrors({ submit: "Something went wrong. Try again." });
     } finally {
       setSubmitting(false);
@@ -146,48 +157,19 @@ export default function BookingForm() {
   return (
     <>
       <div className="booking-page">
-        {/* Video background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="bg-video2"
-          poster="/images/rainy-house-fallback.jpg"
-        >
+        <video autoPlay loop muted playsInline className="bg-video2">
           <source src="/videos/construction4.mp4" type="video/mp4" />
         </video>
         <div className="video-overlay"></div>
-        <div className="rain-effect">
-          {rainDrops.map((drop, i) => (
-            <div
-              key={i}
-              className="rain-drop"
-              style={{
-                left: `${drop.left}%`,
-                animationDelay: `${drop.delay}s`,
-                animationDuration: `${drop.duration}s`,
-              }}
-            />
-          ))}
-        </div>
+
         <Navbar />
 
         <main className="booking-main">
-          <div
-            className={`form-container ${visible ? "fade-in-up" : ""}`}
-            role="region"
-            aria-labelledby="booking-heading"
-          >
+          <div className={`form-container ${visible ? "fade-in-up" : ""}`}>
             <div className="form-header">
-              <span className="rain-icon" role="img" aria-label="rain">
-                <FaHome />
-              </span>
-              <h2 id="booking-heading">🏠 House Construction Booking</h2>
-              <p className="subtitle">
-                Book your dream home construction — tell us where and we'll handle the rest.
-              </p>
+              <FaHome /> <h2>🏠 House Construction Booking</h2>
             </div>
+
             <form onSubmit={handleSubmit} noValidate>
               <div className="form-grid">
                 {/* Name */}
@@ -455,15 +437,12 @@ export default function BookingForm() {
                   {submitting ? <span className="spinner"></span> : "Submit Booking Request"}
                 </button>
               </div>
+
               {/* Success */}
               {successMsg && (
                 <div className="submit-success" role="status">
                   <FaCheckCircle className="success-icon" /> {successMsg}
-                  <button
-                    onClick={() => setSuccessMsg("")}
-                    className="close-btn"
-                    aria-label="Dismiss success message"
-                  >
+                  <button onClick={() => setSuccessMsg("")} className="close-btn">
                     ×
                   </button>
                 </div>

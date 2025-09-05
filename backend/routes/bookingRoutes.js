@@ -1,17 +1,23 @@
-// routes/bookingRoutes.js
 import express from "express";
-import { protect, admin } from "../middleware/authMiddleware.js";
-import {
-  createBooking,
-  getMyBookings,
-  getAllBookings,
-} from "../controllers/bookingController.js";
+import multer from "multer";
+import { createBooking, getAllBookings } from "../controllers/bookingController.js";
 
 const router = express.Router();
 
-router.post("/", protect, createBooking);        // logged-in user
-router.get("/my", protect, getMyBookings);       // user’s own bookings
-router.get("/", protect, admin, getAllBookings); // admin only
+// Multer config for file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
 
-// 👇 IMPORTANT: export default router
+const upload = multer({ storage });
+
+// Routes
+router.post("/", upload.single("plotDoc"), createBooking);
+router.get("/", getAllBookings);
+
 export default router;
