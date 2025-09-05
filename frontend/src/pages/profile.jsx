@@ -129,7 +129,7 @@ export default function Profile() {
           {error && <div className="error-message">{error}</div>}
 
           <form onSubmit={handleSubmit} className="profile-form">
-            <div className="form-group">
+            <div className="form-group2">
               <label><FaUser /> Name</label>
               <input
                 type="text"
@@ -141,7 +141,7 @@ export default function Profile() {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group2">
               <label><FaEnvelope /> Email</label>
               <input
                 type="email"
@@ -153,7 +153,7 @@ export default function Profile() {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group2">
               <label><FaPhone /> Phone</label>
               <input
                 type="tel"
@@ -169,7 +169,7 @@ export default function Profile() {
                 <div className="password-section">
                   <h3>Change Password</h3>
 
-                  <div className="form-group">
+                  <div className="form-group2">
                     <label><FaLock /> Current Password</label>
                     <div className="password-input">
                       <input
@@ -189,7 +189,7 @@ export default function Profile() {
                     </div>
                   </div>
 
-                  <div className="form-group">
+                  <div className="form-group2">
                     <label><FaLock /> New Password</label>
                     <div className="password-input">
                       <input
@@ -202,7 +202,7 @@ export default function Profile() {
                     </div>
                   </div>
 
-                  <div className="form-group">
+                  <div className="form-group2">
                     <label><FaLock /> Confirm New Password</label>
                     <div className="password-input">
                       <input
