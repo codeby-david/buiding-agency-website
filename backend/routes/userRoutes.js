@@ -4,12 +4,14 @@ import crypto from "crypto";
 import User from "../models/User.js";
 import sendEmail from "../utils/sendEmails.js";
 
-
+import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // --- Existing auth routes ---
 router.post("/register", Register);
 router.post("/login", Login);
+router.put("/profile", authMiddleware, updateProfile);
+
 
 // --- Forgot Password ---
 router.post("/forgot-password", async (req, res) => {
