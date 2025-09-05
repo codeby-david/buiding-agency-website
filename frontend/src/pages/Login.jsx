@@ -34,7 +34,7 @@ export default function Login() {
         localStorage.setItem("user", JSON.stringify(res.data.user)); // save user info
 
         // ✅ Redirect based on role
-        if (res.data.user.role === "admin") {
+        if (res.data.user.isAdmin) {
           navigate("/dashboard");
         } else {
           navigate("/");

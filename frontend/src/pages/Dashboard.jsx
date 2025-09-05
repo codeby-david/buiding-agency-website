@@ -3,6 +3,7 @@ import { FaUser, FaEnvelope, FaPhone, FaHome, FaCalendarAlt, FaMoneyBill, FaRule
 import api from "../api/axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { jwtDecode } from "jwt-decode";
 import "./Dashboard.css";
 
 export default function OwnerDashboard() {
@@ -14,6 +15,20 @@ export default function OwnerDashboard() {
     const fetchBookings = async () => {
       try {
         const token = localStorage.getItem("token");
+        if (!token) {
+          setError("❌ Unauthorized. Please login as admin.");
+          setLoading(false);
+          return;
+        }
+
+        // Decode JWT to check role
+        const decoded = jwtDecode(token);
+        if (!decoded.isAdmin) {
+          setError("🚫 Access denied. Admins only.");
+          setLoading(false);
+          return;
+        }
+
         const res = await api.get("/bookings", {
           headers: { Authorization: `Bearer ${token}` },
         });
