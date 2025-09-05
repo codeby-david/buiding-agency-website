@@ -30,7 +30,7 @@ export default function Register() {
       return;
     }
 
-    // Validate phone number (at least 10 digits)
+    // THSIS is toi Validate phone number (at least 10 digits)
     const phoneRegex = /^\d{10,}$/;
     const cleanPhone = form.phone.replace(/\D/g, '');
     if (!phoneRegex.test(cleanPhone)) {
@@ -48,7 +48,7 @@ export default function Register() {
       setLoading(true);
       setError("");
 
-      // ✅ FIXED: Changed endpoint from "/users/register" to "/auth/register"
+
       const res = await api.post("/auth/register", {
         name: form.name,
         email: form.email.toLowerCase().trim(),
@@ -57,7 +57,7 @@ export default function Register() {
       });
 
       alert("Registration successful! Please login.");
-      console.log("✅ Registered user:", res.data);
+      console.log("Registered user:", res.data);
       navigate("/login");
     } catch (err) {
       console.error("Registration error:", err.response?.data || err.message);

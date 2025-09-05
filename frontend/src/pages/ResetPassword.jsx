@@ -10,8 +10,8 @@ export default function ResetPassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 🔗 Call backend with reset code + new password
-    setMsg("✅ Password reset successful. Redirecting...");
+    //  Call backend with reset code + new password
+    setMsg(" Password reset successful. Redirecting...");
     setTimeout(() => navigate("/login"), 2000);
   };
 

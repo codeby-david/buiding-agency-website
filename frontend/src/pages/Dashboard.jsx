@@ -43,7 +43,7 @@ export default function OwnerDashboard() {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          setError("❌ Unauthorized. Please login as admin.");
+          setError("Unauthorized. Please login as admin!!.");
           setLoading(false);
           return;
         }
@@ -60,10 +60,10 @@ export default function OwnerDashboard() {
           decoded = manualJwtDecode(token);
         }
 
-        console.log("Decoded token:", decoded); // Debug log
+        // console.log("Decoded token:", decoded); // Debug log
 
         if (!decoded.isAdmin) {
-          setError("🚫 Access denied. Admins only.");
+          setError("Access denied. Admins only.");
           setLoading(false);
           return;
         }
@@ -72,7 +72,7 @@ export default function OwnerDashboard() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        console.log("API response:", res.data); // Debug log
+        // console.log("API response:", res.data); // Debug log
         setBookings(res.data);
       } catch (err) {
         console.error("Fetch bookings error:", err);
@@ -95,7 +95,7 @@ export default function OwnerDashboard() {
     <>
       <Navbar />
       <div className="owner-dashboard">
-        <h2 className="dashboard-title">📋 All Customer Bookings</h2>
+        <h2 className="dashboard-title">WELCOME TO ALL CUSTOMERS BOOKINGS</h2>
 
         {loading ? (
           <p className="loading">Loading bookings...</p>

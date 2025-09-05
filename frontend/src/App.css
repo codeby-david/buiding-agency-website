@@ -1,11 +1,10 @@
-/* Reset default browser padding and margin */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Make body fill the viewport */
+
 body {
   font-family: Arial, sans-serif;
   background-color: #ffffff;

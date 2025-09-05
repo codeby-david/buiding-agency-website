@@ -10,7 +10,7 @@ export default function ForgotPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email) return;
-    // 🔗 Call backend: send reset email
+    //  Call backend: send reset email
     setMsg("✅ Reset code sent to your email.");
   };
 

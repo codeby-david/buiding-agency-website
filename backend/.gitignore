@@ -19,3 +19,4 @@ uploads/
 # IDE/editor stuff
 .vscode/
 .DS_Store
+.env

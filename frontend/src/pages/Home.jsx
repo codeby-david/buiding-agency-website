@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 import { motion } from "framer-motion";
 
-// Import house images (you'll need to add these to your project)
+
 import StarterHomeImg from "/images/starter-home.jpg";
 import FamilyHomeImg from "/images/family-home.jpg";
 import CustomHomeImg from "/images/custom-home.jpg";

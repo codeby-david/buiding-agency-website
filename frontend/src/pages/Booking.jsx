@@ -110,7 +110,7 @@ export default function BookingForm() {
 
     setSubmitting(true);
     try {
-      // prepare FormData (for file upload)
+      // prepare FormData 
       const formData = new FormData();
       Object.entries(form).forEach(([key, value]) => {
         if (value) formData.append(key, value);
