@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaHome,
@@ -16,7 +16,10 @@ import "./Navbar.css";
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     // Check if user is logged in
@@ -27,6 +30,21 @@ export default function Navbar() {
       setIsLoggedIn(true);
       setUser(JSON.parse(userData));
     }
+
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, []);
 
   const handleLogout = () => {
@@ -37,12 +55,34 @@ export default function Navbar() {
     // Update state
     setIsLoggedIn(false);
     setUser(null);
+    setIsDropdownOpen(false);
 
     // Redirect to home
     navigate("/");
 
     // Reload to update navbar everywhere
     window.location.reload();
+  };
+
+  const openDropdown = () => {
+    setIsDropdownOpen(true);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+
+  const closeDropdown = () => {
+    // Add delay before closing
+    timeoutRef.current = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 3000000000); // 300ms delay
+  };
+
+  const keepDropdownOpen = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsDropdownOpen(true);
   };
 
   return (
@@ -83,11 +123,20 @@ export default function Navbar() {
             )}
 
             {/* User dropdown menu */}
-            <li className="user-menu-item">
+            <li
+              className="user-menu-item"
+              ref={dropdownRef}
+              onMouseEnter={openDropdown}
+              onMouseLeave={closeDropdown}
+            >
               <div className="user-menu">
                 <FaUserCircle className="user-icon" />
                 <span className="user-name">{user?.name}</span>
-                <div className="user-dropdown">
+                <div
+                  className={`user-dropdown ${isDropdownOpen ? 'active' : ''}`}
+                  onMouseEnter={keepDropdownOpen}
+                  onMouseLeave={closeDropdown}
+                >
                   <Link to="/profile" className="dropdown-link">
                     <FaUser /> Profile
                   </Link>

@@ -1,10 +1,7 @@
 :root {
   --primary: #FF6B00;
-  /* Orange */
   --secondary: #1B263B;
-  /* Dark Blue */
   --accent: #FFD700;
-  /* Yellow */
   --bg-light: #F5F5F5;
   --text-dark: #333333;
   --text-light: #FFFFFF;
@@ -19,7 +16,6 @@
   position: sticky;
   top: 0;
   z-index: 100;
-
   margin: 1px 40px 2px 10px;
   border-radius: 15px;
 }
@@ -50,19 +46,16 @@
   gap: 6px;
   transition: all 0.3s ease;
   cursor: pointer;
-  /* ✅ makes it look clickable */
 }
 
 .nav-links a:hover {
   color: var(--accent);
   transform: scale(1.05);
-  /* ✅ subtle zoom effect */
 }
 
 .nav-links a:active {
   color: var(--accent);
   transform: scale(1.05);
-  /* ✅ subtle zoom effect */
 }
 
 /* Booking button */
@@ -75,13 +68,13 @@
   transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
+.btn-primary1:hover {
   background-color: var(--accent);
-  color: var(--text-light);
+  color: var(--text-dark) !important;
   transform: scale(1.1);
 }
 
-/* New User Menu Styles (added without affecting existing styles) */
+/* User Menu Styles - WITH DELAY */
 .user-menu-item {
   position: relative;
 }
@@ -93,39 +86,59 @@
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 5px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .user-menu:hover {
-  background: #f8f9fa;
+  background: rgba(255, 107, 0, 0.1);
 }
 
 .user-icon {
-  color: #666;
+  color: var(--text-light);
   font-size: 1.2rem;
 }
 
 .user-name {
   font-weight: 500;
-  color: #333;
-  font-size: 0.9rem;
+  color: var(--text-light);
+  font-size: 1rem;
 }
 
 .user-dropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  background: white;
+  background: var(--secondary);
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   padding: 0.5rem 0;
   min-width: 180px;
-  display: none;
   z-index: 1001;
+  border: 1px solid var(--primary);
+  margin-top: 10px;
+  /* Add smooth transition */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.user-menu:hover .user-dropdown {
-  display: block;
+.user-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+/* Add a small arrow indicator */
+.user-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid var(--primary);
 }
 
 .dropdown-link {
@@ -133,32 +146,40 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  color: #333;
+  color: var(--text-light);
   text-decoration: none;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   border: none;
   background: none;
   width: 100%;
   text-align: left;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-link:hover {
-  background: #f8f9fa;
-  color: #007bff;
+  background: var(--primary);
+  color: var(--text-light);
+  transform: scale(1.02);
+  margin: 0;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .logout-btn {
-  color: #dc3545;
+  color: var(--text-light);
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .logout-btn:hover {
-  background: #fff5f5;
-  color: #c82333;
+  background: #dc3545;
+  color: var(--text-light);
 }
 
 /* Mobile responsive */
@@ -167,6 +188,7 @@
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    margin: 1px 10px;
   }
 
   .nav-links {
@@ -181,6 +203,15 @@
 
   .user-dropdown {
     right: -50%;
+    transform: translateX(50%) translateY(-10px);
+  }
+
+  .user-dropdown.active {
+    transform: translateX(50%) translateY(0);
+  }
+
+  .user-dropdown::before {
+    right: 50%;
     transform: translateX(50%);
   }
 }
@@ -196,5 +227,14 @@
 
   .nav-links a svg {
     font-size: 0.9rem;
+  }
+
+  .user-dropdown {
+    min-width: 150px;
+  }
+
+  .dropdown-link {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
   }
 }
