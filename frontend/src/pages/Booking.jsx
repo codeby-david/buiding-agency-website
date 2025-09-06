@@ -181,220 +181,306 @@ export default function BookingForm() {
         <main className="booking-main">
           <div className={`form-container ${visible ? "fade-in-up" : ""}`}>
             <div className="form-header">
-              <FaHome /> <h2>🏠 House Construction Booking</h2>
+              <div className="form-icon">
+                <FaHome />
+              </div>
+              <h2>House Construction Booking</h2>
+              <p className="subtitle">Fill in your details to start your dream home project</p>
             </div>
 
             <form onSubmit={handleSubmit} noValidate>
               <div className="form-grid">
                 {/* Name */}
                 <div className="form-group">
-                  <FaUser className="icon" />
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    value={form.name}
-                    onChange={handleChange("name")}
-                    aria-invalid={!!errors.name}
-                    aria-describedby={errors.name ? "name-error" : null}
-                  />
+                  <label htmlFor="name">Full Name</label>
+                  <div className="input-wrapper">
+                    <FaUser className="icon" />
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={form.name}
+                      onChange={handleChange("name")}
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? "name-error" : null}
+                    />
+                  </div>
                   {errors.name && (
                     <div id="name-error" className="field-error">
                       {errors.name}
                     </div>
                   )}
                 </div>
+
                 {/* Email */}
                 <div className="form-group">
-                  <FaEnvelope className="icon" />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={form.email}
-                    onChange={handleChange("email")}
-                    aria-invalid={!!errors.email}
-                    aria-describedby={errors.email ? "email-error" : null}
-                  />
+                  <label htmlFor="email">Email Address</label>
+                  <div className="input-wrapper">
+                    <FaEnvelope className="icon" />
+                    <input
+                      id="email"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      value={form.email}
+                      onChange={handleChange("email")}
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "email-error" : null}
+                    />
+                  </div>
                   {errors.email && (
                     <div id="email-error" className="field-error">
                       {errors.email}
                     </div>
                   )}
                 </div>
+
                 {/* Phone */}
                 <div className="form-group">
-                  <FaPhone className="icon" />
-                  <input
-                    type="tel"
-                    placeholder="+254 7000000000"
-                    value={form.phone}
-                    onChange={handleChange("phone")}
-                    aria-invalid={!!errors.phone}
-                    aria-describedby={errors.phone ? "phone-error" : null}
-                  />
+                  <label htmlFor="phone">Phone Number</label>
+                  <div className="input-wrapper">
+                    <FaPhone className="icon" />
+                    <input
+                      id="phone"
+                      type="tel"
+                      placeholder="+254 7000000000"
+                      value={form.phone}
+                      onChange={handleChange("phone")}
+                      aria-invalid={!!errors.phone}
+                      aria-describedby={errors.phone ? "phone-error" : null}
+                    />
+                  </div>
                   {errors.phone && (
                     <div id="phone-error" className="field-error">
                       {errors.phone}
                     </div>
                   )}
                 </div>
+
                 {/* Country */}
                 <div className="form-group">
-                  <FaGlobe className="icon" />
-                  <select
-                    required
-                    value={form.country}
-                    onChange={handleChange("country")}
-                    aria-invalid={!!errors.country}
-                    aria-describedby={errors.country ? "country-error" : null}
-                  >
-                    <option value="" >Select your country</option>
-                    <option value="Kenya">Kenya</option>
-                    <option value="Uganda">Uganda</option>
-                    <option value="Tanzania">Tanzania</option>
-                    <option value="Ethiopia">Ethiopia</option>
-                    <option value="Sudan">Sudan</option>
-                    <option value="Somalia">Somalia</option>
-                    <option value="Egypt">Egypt</option>
-                  </select>
+                  <label htmlFor="country">Country</label>
+                  <div className="input-wrapper">
+                    <FaGlobe className="icon" />
+                    <select
+                      id="country"
+                      required
+                      value={form.country}
+                      onChange={handleChange("country")}
+                      aria-invalid={!!errors.country}
+                      aria-describedby={errors.country ? "country-error" : null}
+                    >
+                      <option value="">Select your country</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Uganda">Uganda</option>
+                      <option value="Tanzania">Tanzania</option>
+                      <option value="Ethiopia">Ethiopia</option>
+                      <option value="Sudan">Sudan</option>
+                      <option value="Somalia">Somalia</option>
+                      <option value="Egypt">Egypt</option>
+                    </select>
+                  </div>
                   {errors.country && (
                     <div id="country-error" className="field-error">
                       {errors.country}
                     </div>
                   )}
                 </div>
+
                 {/* Address */}
                 <div className="form-group full-width">
-                  <FaMapMarkerAlt className="icon" />
-                  <input
-                    type="text"
-                    placeholder="Street / Plot "
-                    value={form.address}
-                    onChange={handleChange("address")}
-                    aria-invalid={!!errors.address}
-                    aria-describedby={errors.address ? "address-error" : null}
-                  />
+                  <label htmlFor="address">Street / Plot Address</label>
+                  <div className="input-wrapper">
+                    <FaMapMarkerAlt className="icon" />
+                    <input
+                      id="address"
+                      type="text"
+                      placeholder="Enter your street or plot address"
+                      value={form.address}
+                      onChange={handleChange("address")}
+                      aria-invalid={!!errors.address}
+                      aria-describedby={errors.address ? "address-error" : null}
+                    />
+                  </div>
                   {errors.address && (
                     <div id="address-error" className="field-error">
                       {errors.address}
                     </div>
                   )}
                 </div>
+
                 {/* Details */}
                 <div className="form-group full-width">
+                  <label htmlFor="details">Additional Details</label>
                   <textarea
-                    placeholder="Extra details (road, nearby landmarks...)"
+                    id="details"
+                    placeholder="Extra details (road, nearby landmarks, special requirements...)"
                     value={form.details}
                     onChange={handleChange("details")}
                   />
                 </div>
+
                 {/* Project Start Date */}
                 <div className="form-group">
-                  <FaCalendarAlt className="icon" />
-                  <input
-                    type="date"
-                    placeholder="Project Start Date"
-                    value={form.startDate}
-                    onChange={handleChange("startDate")}
-                    aria-invalid={!!errors.startDate}
-                    aria-describedby={errors.startDate ? "startDate-error" : null}
-                  />
+                  <label htmlFor="startDate">Project Start Date</label>
+                  <div className="input-wrapper">
+                    <FaCalendarAlt className="icon" />
+                    <input
+                      id="startDate"
+                      type="date"
+                      value={form.startDate}
+                      onChange={handleChange("startDate")}
+                      aria-invalid={!!errors.startDate}
+                      aria-describedby={errors.startDate ? "startDate-error" : null}
+                    />
+                  </div>
                   {errors.startDate && (
                     <div id="startDate-error" className="field-error">
                       {errors.startDate}
                     </div>
                   )}
                 </div>
+
                 {/* Preferred Completion Date */}
                 <div className="form-group">
-                  <FaCalendarAlt className="icon" />
-                  <input
-                    type="date"
-                    placeholder="Preferred Completion Date"
-                    value={form.endDate}
-                    onChange={handleChange("endDate")}
-                    aria-invalid={!!errors.endDate}
-                    aria-describedby={errors.endDate ? "endDate-error" : null}
-                  />
+                  <label htmlFor="endDate">Preferred Completion Date</label>
+                  <div className="input-wrapper">
+                    <FaCalendarAlt className="icon" />
+                    <input
+                      id="endDate"
+                      type="date"
+                      value={form.endDate}
+                      onChange={handleChange("endDate")}
+                      aria-invalid={!!errors.endDate}
+                      aria-describedby={errors.endDate ? "endDate-error" : null}
+                    />
+                  </div>
                   {errors.endDate && (
                     <div id="endDate-error" className="field-error">
                       {errors.endDate}
                     </div>
                   )}
                 </div>
+
                 {/* Plot Size */}
                 <div className="form-group">
-                  <FaRulerCombined className="icon" />
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Plot Size (sq. meters)"
-                    value={form.plotSize}
-                    onChange={handleChange("plotSize")}
-                    aria-invalid={!!errors.plotSize}
-                    aria-describedby={errors.plotSize ? "plotSize-error" : null}
-                  />
+                  <label htmlFor="plotSize">Plot Size (sq. meters)</label>
+                  <div className="input-wrapper">
+                    <FaRulerCombined className="icon" />
+                    <input
+                      id="plotSize"
+                      type="number"
+                      min="1"
+                      placeholder="e.g. 100"
+                      value={form.plotSize}
+                      onChange={handleChange("plotSize")}
+                      aria-invalid={!!errors.plotSize}
+                      aria-describedby={errors.plotSize ? "plotSize-error" : null}
+                    />
+                  </div>
                   {errors.plotSize && (
                     <div id="plotSize-error" className="field-error">
                       {errors.plotSize}
                     </div>
                   )}
                 </div>
+
                 {/* Bedrooms */}
                 <div className="form-group">
-                  <FaBed className="icon" />
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Number of Bedrooms"
-                    value={form.bedrooms}
-                    onChange={handleChange("bedrooms")}
-                    aria-invalid={!!errors.bedrooms}
-                    aria-describedby={errors.bedrooms ? "bedrooms-error" : null}
-                  />
+                  <label htmlFor="bedrooms">Number of Bedrooms</label>
+                  <div className="input-wrapper">
+                    <FaBed className="icon" />
+                    <input
+                      id="bedrooms"
+                      type="number"
+                      min="1"
+                      placeholder="e.g. 3"
+                      value={form.bedrooms}
+                      onChange={handleChange("bedrooms")}
+                      aria-invalid={!!errors.bedrooms}
+                      aria-describedby={errors.bedrooms ? "bedrooms-error" : null}
+                    />
+                  </div>
                   {errors.bedrooms && (
                     <div id="bedrooms-error" className="field-error">
                       {errors.bedrooms}
                     </div>
                   )}
                 </div>
+
                 {/* Bathrooms */}
                 <div className="form-group">
-                  <FaBath className="icon" />
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Number of Bathrooms"
-                    value={form.bathrooms}
-                    onChange={handleChange("bathrooms")}
-                    aria-invalid={!!errors.bathrooms}
-                    aria-describedby={errors.bathrooms ? "bathrooms-error" : null}
-                  />
+                  <label htmlFor="bathrooms">Number of Bathrooms</label>
+                  <div className="input-wrapper">
+                    <FaBath className="icon" />
+                    <input
+                      id="bathrooms"
+                      type="number"
+                      min="1"
+                      placeholder="e.g. 2"
+                      value={form.bathrooms}
+                      onChange={handleChange("bathrooms")}
+                      aria-invalid={!!errors.bathrooms}
+                      aria-describedby={errors.bathrooms ? "bathrooms-error" : null}
+                    />
+                  </div>
                   {errors.bathrooms && (
                     <div id="bathrooms-error" className="field-error">
                       {errors.bathrooms}
                     </div>
                   )}
                 </div>
+
+                {/* Budget */}
+                <div className="form-group">
+                  <label htmlFor="budget">Budget (KSH)</label>
+                  <div className="input-wrapper">
+                    <FaHome className="icon" />
+                    <input
+                      id="budget"
+                      type="number"
+                      min="50000"
+                      step="1000"
+                      placeholder="Minimum 50,000"
+                      value={form.budget}
+                      onChange={handleChange("budget")}
+                      aria-invalid={!!errors.budget}
+                      aria-describedby={errors.budget ? "budget-error" : null}
+                    />
+                  </div>
+                  {errors.budget && (
+                    <div id="budget-error" className="field-error">
+                      {errors.budget}
+                    </div>
+                  )}
+                </div>
+
                 {/* Plot Document Upload */}
                 <div className="form-group full-width">
-                  <FaFileUpload className="icon" />
-                  <input
-                    type="file"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={handleChange("plotDoc")}
-                    aria-describedby="plotDoc-help"
-                    style={{ paddingLeft: "2.5rem", paddingTop: "0.7rem" }}
-                  />
-                  <small id="plotDoc-help" style={{ color: "#888", marginLeft: "2.5rem" }}>
-                    (Optional) Upload plot document (PDF, JPG, PNG)
+                  <label htmlFor="plotDoc">Plot Document (Optional)</label>
+                  <div className="file-input-wrapper">
+                    <FaFileUpload className="icon" />
+                    <input
+                      id="plotDoc"
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={handleChange("plotDoc")}
+                      aria-describedby="plotDoc-help"
+                    />
+                    <label htmlFor="plotDoc" className="file-input-label">
+                      Choose file
+                    </label>
+                  </div>
+                  <small id="plotDoc-help">
+                    Upload plot document (PDF, JPG, PNG)
                   </small>
                   {form.plotDoc && (
-                    <div style={{ color: "#ff8000", marginLeft: "2.5rem", fontSize: "0.95rem" }}>
+                    <div className="file-selected">
                       Selected: {form.plotDoc.name}
                     </div>
                   )}
                 </div>
               </div>
+
               {/* House Type */}
               <div className="house-type">
                 <label>Type of House:</label>
@@ -422,29 +508,11 @@ export default function BookingForm() {
                   })}
                 </div>
               </div>
-              {/* Budget */}
-              <div className="form-group" style={{ maxWidth: 220 }}>
-                <FaHome className="icon" />
-                <input
-                  id="budget-input"
-                  type="number"
-                  min="50000"
-                  step="1000"
-                  placeholder="Enter your budget"
-                  value={form.budget}
-                  onChange={handleChange("budget")}
-                  aria-invalid={!!errors.budget}
-                  aria-describedby={errors.budget ? "budget-error" : null}
-                />
-                {errors.budget && (
-                  <div id="budget-error" className="field-error">
-                    {errors.budget}
-                  </div>
-                )}
-              </div>
+
               {errors.submit && (
-                <div className="field-error">{errors.submit}</div>
+                <div className="field-error submit-error">{errors.submit}</div>
               )}
+
               {/* Submit */}
               <div className="submit-row">
                 <button type="submit" className="submit-btn" disabled={submitting}>
@@ -455,7 +523,8 @@ export default function BookingForm() {
               {/* Success */}
               {successMsg && (
                 <div className="submit-success" role="status">
-                  <FaCheckCircle className="success-icon" /> {successMsg}
+                  <FaCheckCircle className="success-icon" />
+                  <span>{successMsg}</span>
                   <button onClick={() => setSuccessMsg("")} className="close-btn">
                     ×
                   </button>

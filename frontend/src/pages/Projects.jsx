@@ -15,7 +15,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.css";
 import Footer from "../components/Footer";
 
-
 const fallbackImg =
   "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=60";
 const onImgError = (e) => {
@@ -252,7 +251,7 @@ export default function Projects() {
   const cardsRef = useRef([]);
   const [visibleCards, setVisibleCards] = useState(new Set());
 
-  // Animate-in on scroll (fixed version)
+  // Animate-in on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -265,7 +264,6 @@ export default function Projects() {
       },
       { threshold: 0.12 }
     );
-
 
     cardsRef.current.forEach((el) => {
       if (el) observer.observe(el);
@@ -285,20 +283,19 @@ export default function Projects() {
   return (
     <>
       <div className="projects-page">
-
-        <Navbar />
-        {/* Hero */}
-        <motion.header
-
-          className="projects-hero"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-
-          <h1>Our Projects</h1>
-          <p>From vision to reality — explore our completed work and ongoing builds</p>
-        </motion.header>
+        {/* Hero Section with Navbar */}
+        <div className="projects-hero-container">
+          <Navbar />
+          <motion.header
+            className="projects-hero"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <h1>Our Projects</h1>
+            <p>From vision to reality — explore our completed work and ongoing builds</p>
+          </motion.header>
+        </div>
 
         {/* Completed Projects */}
         <section className="projects-section">
