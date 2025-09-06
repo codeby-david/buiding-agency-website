@@ -10,7 +10,9 @@ import {
   FaSignOutAlt,
   FaUserCircle,
   FaClipboardList,
-  FaTachometerAlt
+  FaTachometerAlt,
+  FaBars,
+  FaTimes
 } from "react-icons/fa";
 import "./Navbar.css";
 
@@ -18,8 +20,10 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
@@ -32,19 +36,38 @@ export default function Navbar() {
     }
 
     const handleClickOutside = (event) => {
+      // Close dropdown if clicked outside
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
+      }
+
+      // Close mobile menu if clicked outside
+      if (isMobileMenuOpen && mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        !event.target.closest('.hamburger-menu')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    // Handle escape key press
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape') {
+        setIsDropdownOpen(false);
+        setIsMobileMenuOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscapeKey);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -52,6 +75,7 @@ export default function Navbar() {
     setIsLoggedIn(false);
     setUser(null);
     setIsDropdownOpen(false);
+    setIsMobileMenuOpen(false);
     navigate("/");
     window.location.reload();
   };
@@ -66,7 +90,7 @@ export default function Navbar() {
   const closeDropdown = () => {
     timeoutRef.current = setTimeout(() => {
       setIsDropdownOpen(false);
-    }, 3000000000);
+    }, 300);
   };
 
   const keepDropdownOpen = () => {
@@ -76,54 +100,72 @@ export default function Navbar() {
     setIsDropdownOpen(true);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    // Close dropdown when toggling mobile menu
+    if (isDropdownOpen) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  // Close mobile menu when a link is clicked
+  const handleNavLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="logo">🏗 BuildCo</div>
 
-      <ul className="nav-links">
+      {/* Hamburger menu for mobile */}
+      <div className="hamburger-menu" onClick={toggleMobileMenu}>
+        {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+      </div>
+
+      <ul className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`} ref={mobileMenuRef}>
         <li>
-          <Link to="/"><FaHome /> Home</Link>
+          <Link to="/" onClick={handleNavLinkClick}><FaHome /> Home</Link>
         </li>
         <li>
-          <Link to="/services"><FaTools /> Services</Link>
+          <Link to="/services" onClick={handleNavLinkClick}><FaTools /> Services</Link>
         </li>
         <li>
-          <Link to="/projects"><FaProjectDiagram /> Projects</Link>
+          <Link to="/projects" onClick={handleNavLinkClick}><FaProjectDiagram /> Projects</Link>
         </li>
         <li>
-          <Link to="/about"><FaInfoCircle /> About Us</Link>
+          <Link to="/about" onClick={handleNavLinkClick}><FaInfoCircle /> About Us</Link>
         </li>
 
         {isLoggedIn ? (
           <>
-            {/* ✅ Non-admin users see Booking + My Bookings */}
+            {/* Non-admin users see Booking + My Bookings */}
             {!user?.isAdmin && (
               <>
-                <li>
-                  <Link to="/booking" className="btn-primary1">
+                <li className="mobile-only">
+                  <Link to="/booking" className="btn-primary1" onClick={handleNavLinkClick}>
                     <FaBook /> Booking
                   </Link>
                 </li>
-                <li>
-                  <Link to="/my-bookings">
+                <li className="mobile-only">
+                  <Link to="/my-bookings" onClick={handleNavLinkClick}>
                     <FaClipboardList /> My Bookings
                   </Link>
                 </li>
               </>
             )}
 
-            {/* ✅ Admin/Owner sees Dashboard styled as button */}
+            {/* Admin/Owner sees Dashboard styled as button */}
             {user?.isAdmin && (
-              <li>
-                <Link to="/dashboard" className="btn-primary1">
+              <li className="mobile-only">
+                <Link to="/dashboard" className="btn-primary1" onClick={handleNavLinkClick}>
                   <FaTachometerAlt /> Dashboard
                 </Link>
               </li>
             )}
 
-            {/* User dropdown menu */}
+            {/* User dropdown menu - hidden on mobile, shown in separate section */}
             <li
-              className="user-menu-item"
+              className="user-menu-item desktop-only"
               ref={dropdownRef}
               onMouseEnter={openDropdown}
               onMouseLeave={closeDropdown}
@@ -136,24 +178,27 @@ export default function Navbar() {
                   onMouseEnter={keepDropdownOpen}
                   onMouseLeave={closeDropdown}
                 >
-                  <Link to="/profile" className="dropdown-link">
+                  <Link to="/profile" className="dropdown-link" onClick={handleNavLinkClick}>
                     <FaUser /> Profile
                   </Link>
 
                   {!user?.isAdmin && (
-                    <Link to="/my-bookings" className="dropdown-link">
+                    <Link to="/my-bookings" className="dropdown-link" onClick={handleNavLinkClick}>
                       <FaClipboardList /> My Bookings
                     </Link>
                   )}
 
                   {user?.isAdmin && (
-                    <Link to="/dashboard" className="dropdown-link">
+                    <Link to="/dashboard" className="dropdown-link" onClick={handleNavLinkClick}>
                       <FaTachometerAlt /> Dashboard
                     </Link>
                   )}
 
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      handleLogout();
+                      handleNavLinkClick();
+                    }}
                     className="dropdown-link logout-btn"
                   >
                     <FaSignOutAlt /> Logout
@@ -161,10 +206,45 @@ export default function Navbar() {
                 </div>
               </div>
             </li>
+
+            {/* Mobile user menu - appears at bottom of mobile menu */}
+            <div className="mobile-user-menu mobile-only">
+              <div className="mobile-user-info">
+                <FaUserCircle className="mobile-user-icon" />
+                <span className="mobile-user-name">{user?.name}</span>
+              </div>
+              <div className="mobile-user-links">
+                <Link to="/profile" className="mobile-user-link" onClick={handleNavLinkClick}>
+                  <FaUser /> Profile
+                </Link>
+
+                {!user?.isAdmin && (
+                  <Link to="/my-bookings" className="mobile-user-link" onClick={handleNavLinkClick}>
+                    <FaClipboardList /> My Bookings
+                  </Link>
+                )}
+
+                {user?.isAdmin && (
+                  <Link to="/dashboard" className="mobile-user-link" onClick={handleNavLinkClick}>
+                    <FaTachometerAlt /> Dashboard
+                  </Link>
+                )}
+
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    handleNavLinkClick();
+                  }}
+                  className="mobile-user-link logout-btn"
+                >
+                  <FaSignOutAlt /> Logout
+                </button>
+              </div>
+            </div>
           </>
         ) : (
           <li>
-            <Link to="/login"><FaUser /> Login/Register</Link>
+            <Link to="/login" onClick={handleNavLinkClick}><FaUser /> Login/Register</Link>
           </li>
         )}
       </ul>
