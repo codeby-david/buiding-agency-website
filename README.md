@@ -1,4 +1,4 @@
-# 🏗️ Building & Project Management System 
+# Building & Project Management System 
 
 A **full-stack MERN web application** for managing building projects and bookings.  
 This system is designed with a **modern, responsive UI**, secure **authentication & authorization**, and a smooth user experience powered by **React, Node.js, Express, and MongoDB**.
@@ -7,7 +7,7 @@ The project demonstrates **real-world web development practices** such as protec
 
 ---
 
-## 🎥 Demo
+## Demo
 
 > Here are some screenshots of the system in action:  
 
@@ -42,16 +42,16 @@ The project demonstrates **real-world web development practices** such as protec
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔐 **Authentication & Authorization**
+- **Authentication & Authorization**
   - Register/Login with email & password.
   - Google Authentication integrated.
   - Secure sessions using **JWT tokens**.
   - **Protected routes** – users cannot access booking pages without login.
   - Axios interceptors manage requests with tokens.
 
-- 👥 **User Roles**
+- **User Roles**
   - **User** can:
     - Book a project.
     - View their bookings.
@@ -62,7 +62,7 @@ The project demonstrates **real-world web development practices** such as protec
     - Manage projects and profiles.
     - Access secure admin routes.
 
-- 📋 **Projects Management**
+- **Projects Management**
   - Projects divided into **Completed** and **Ongoing**.
   - Each project has:
     - Image with **enlarge modal**.
@@ -70,12 +70,12 @@ The project demonstrates **real-world web development practices** such as protec
     - Progress bar (for ongoing projects).
     - Cost and other details.
 
-- 🖼️ **Modern UI**
+- **Modern UI**
   - Responsive design with **cards, hover effects, and modals**.
   - Progress bars to track ongoing projects.
   - Clean **dashboard layout** for both user and admin.
 
-- ⚡ **Performance & Security**
+-  **Performance & Security**
   - Secure API endpoints with JWT.
   - Axios for smooth API integration.
   - Role-based access control (Admin vs User).
@@ -83,7 +83,7 @@ The project demonstrates **real-world web development practices** such as protec
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Frontend:** React.js, Axios, CSS, React Router DOM  
 **Backend:** Node.js, Express.js  
@@ -93,7 +93,7 @@ The project demonstrates **real-world web development practices** such as protec
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 1. Clone the repository:
    ```bash
