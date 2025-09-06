@@ -110,20 +110,34 @@ export default function BookingForm() {
 
     setSubmitting(true);
     try {
-      // prepare FormData 
+      // Get the authentication token
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error("Please log in to make a booking");
+      }
+
+      // Prepare FormData
       const formData = new FormData();
       Object.entries(form).forEach(([key, value]) => {
-        if (value) formData.append(key, value);
+        if (value !== null && value !== "") {
+          formData.append(key, value);
+        }
       });
       formData.append("houseType", houseType);
 
-      // send request
+      // Send request with authentication
       const res = await fetch("http://localhost:5000/api/bookings", {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Failed to submit booking");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to submit booking");
+      }
 
       const data = await res.json();
       console.log("Booking saved:", data);
@@ -147,8 +161,8 @@ export default function BookingForm() {
       setHouseType("Cottage");
       setErrors({});
     } catch (err) {
-      console.error(err);
-      setErrors({ submit: "Something went wrong. Try again." });
+      console.error("Booking error:", err);
+      setErrors({ submit: err.message || "Something went wrong. Try again." });
     } finally {
       setSubmitting(false);
     }
@@ -235,12 +249,12 @@ export default function BookingForm() {
                   >
                     <option value="" >Select your country</option>
                     <option value="Kenya">Kenya</option>
-                    <option value="USA">Uganda</option>
-                    <option value="UK">Tanzania</option>
-                    <option value="Canada">Ethiopia</option>
-                    <option value="Germany">Sudan</option>
-                    <option value="Australia">Soomalia</option>
-                    <option value="India">Egypt</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Tanzania">Tanzania</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Somalia">Somalia</option>
+                    <option value="Egypt">Egypt</option>
                   </select>
                   {errors.country && (
                     <div id="country-error" className="field-error">
@@ -277,7 +291,7 @@ export default function BookingForm() {
                 <div className="form-group">
                   <FaCalendarAlt className="icon" />
                   <input
-                    type="number"
+                    type="date"
                     placeholder="Project Start Date"
                     value={form.startDate}
                     onChange={handleChange("startDate")}
