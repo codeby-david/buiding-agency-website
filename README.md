@@ -96,7 +96,7 @@ The project demonstrates **real-world web development practices** such as protec
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React.js, Axios, CSS, Tailwind (optional), React Router DOM  
+**Frontend:** React.js, Axios, CSS, React Router DOM  
 **Backend:** Node.js, Express.js  
 **Database:** MongoDB with Mongoose  
 **Authentication:** JWT, Google OAuth, Bcrypt (for password hashing)  
@@ -111,53 +111,103 @@ The project demonstrates **real-world web development practices** such as protec
    git clone https://github.com/codeby-david/building-management-system.git
 Navigate to the project:
 
-bash
-Copy code
-cd building-management-system
-Setup the backend:
+2. Backend Setup:
+   ```bash
+    cd backend
+    npm install
 
-bash
-Copy code
-cd backend
-npm install
-npm run dev
-Setup the frontend:
-
-bash
-Copy code
-cd frontend
-npm install
-npm start
 Create a .env file in backend/ with:
+    MONGO_URI=your_mongo_connection_string
+    JWT_SECRET=your_secret_key
+    GOOGLE_CLIENT_ID=your_google_client_id
+    GOOGLE_CLIENT_SECRET=your_google_client_secret
 
-env
-Copy code
-MONGO_URI=your_mongo_connection_string
-JWT_SECRET=your_secret_key
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-🚀 Usage
-Visit http://localhost:3000/ to view the app.
+Start backend server:
+    ```bash
+    node server.js
 
-Register/Login as a user to book projects.
+Runs on http://localhost:5000/ (or your configured port).
 
-Login as an admin to manage bookings.
+3️⃣ Frontend Setup
+    cd frontend
+    npm install
+    npm run dev
+Runs on http://localhost:3000/.
 
-Explore projects by category (Completed/Ongoing).
+Creating an Admin User
 
-Click project images to view enlarged modal details.
+To create an admin manually in the database:
+Option 1: Use Mongo Shell / Compass
 
-Logout anytime to clear your session.
+Insert a user document with role "admin" and hashed password.
+Example using Node.js REPL (inside backend):
+
+  // Run this inside backend folder
+const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
+const User = require("./models/User"); // adjust path if needed
+
+// backend/seedAdmin.js
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const User = require("./models/User"); // adjust if your User model path differs
+require("dotenv").config();
+
+const createAdmin = async () => {
+  try {
+    // Connect to MongoDB
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    // Check if admin already exists
+    const existingAdmin = await User.findOne({ email: "admin@example.com" });
+    if (existingAdmin) {
+      console.log("⚠️ Admin already exists!");
+      mongoose.disconnect();
+      return;
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash("AdminPassword123", 10);
+
+    // Create new admin
+    const admin = new User({
+      name: "Admin",
+      email: "admin@example.com",
+      password: hashedPassword,
+      role: "admin",
+    });
+
+    await admin.save();
+    console.log("   Admin user created successfully!");
+    console.log("   Login with:");
+    console.log("   Email: admin@example.com");
+    console.log("   Password: AdminPassword123");
+
+    mongoose.disconnect();
+  } catch (error) {
+    console.error("Error creating admin:", error);
+    mongoose.disconnect();
+  }
+};
+
+createAdmin();
+
+
+After running, you can login with:
+  Email: admin@example.com
+Password: AdminPassword123
 
 📂 Project Structure
-bash
-Copy code
-building-management-system/
+  building-management-system/
 │── backend/          # Express + MongoDB backend
 │   ├── models/       # Database schemas
 │   ├── routes/       # API routes
 │   ├── controllers/  # Business logic
-│   └── middleware/   # JWT auth, error handlers
+│   ├── middleware/   # JWT auth, error handlers
+│   └── server.js     # Backend entry point
 │
 │── frontend/         # React frontend
 │   ├── components/   # Navbar, Footer, Cards, Modal
@@ -166,9 +216,6 @@ building-management-system/
 │   ├── api/axios.js  # Axios setup with interceptors
 │   └── styles/       # CSS files
 │
-│── .env
+│── .env              # Environment variables
 │── package.json
 │── README.md
-🤝 Contributing
-Contributions, issues, and feature requests are welcome!
-Feel free to fork this repo and create a pull request.
