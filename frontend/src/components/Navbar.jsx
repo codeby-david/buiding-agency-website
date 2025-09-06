@@ -138,25 +138,18 @@ export default function Navbar() {
 
         {isLoggedIn ? (
           <>
-            {/* Non-admin users see Booking + My Bookings */}
+            {/* Non-admin users see Booking button */}
             {!user?.isAdmin && (
-              <>
-                <li className="mobile-only">
-                  <Link to="/booking" className="btn-primary1" onClick={handleNavLinkClick}>
-                    <FaBook /> Booking
-                  </Link>
-                </li>
-                <li className="mobile-only">
-                  <Link to="/my-bookings" onClick={handleNavLinkClick}>
-                    <FaClipboardList /> My Bookings
-                  </Link>
-                </li>
-              </>
+              <li className="desktop-only">
+                <Link to="/booking" className="btn-primary1" onClick={handleNavLinkClick}>
+                  <FaBook /> Booking
+                </Link>
+              </li>
             )}
 
             {/* Admin/Owner sees Dashboard styled as button */}
             {user?.isAdmin && (
-              <li className="mobile-only">
+              <li className="desktop-only">
                 <Link to="/dashboard" className="btn-primary1" onClick={handleNavLinkClick}>
                   <FaTachometerAlt /> Dashboard
                 </Link>
@@ -219,9 +212,14 @@ export default function Navbar() {
                 </Link>
 
                 {!user?.isAdmin && (
-                  <Link to="/my-bookings" className="mobile-user-link" onClick={handleNavLinkClick}>
-                    <FaClipboardList /> My Bookings
-                  </Link>
+                  <>
+                    <Link to="/booking" className="mobile-user-link" onClick={handleNavLinkClick}>
+                      <FaBook /> Booking
+                    </Link>
+                    <Link to="/my-bookings" className="mobile-user-link" onClick={handleNavLinkClick}>
+                      <FaClipboardList /> My Bookings
+                    </Link>
+                  </>
                 )}
 
                 {user?.isAdmin && (
