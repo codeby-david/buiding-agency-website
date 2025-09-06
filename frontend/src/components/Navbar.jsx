@@ -9,7 +9,8 @@ import {
   FaUser,
   FaSignOutAlt,
   FaUserCircle,
-  FaClipboardList
+  FaClipboardList,
+  FaTachometerAlt
 } from "react-icons/fa";
 import "./Navbar.css";
 
@@ -22,7 +23,6 @@ export default function Navbar() {
   const timeoutRef = useRef(null);
 
   useEffect(() => {
-    // Check if user is logged in
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
 
@@ -31,7 +31,6 @@ export default function Navbar() {
       setUser(JSON.parse(userData));
     }
 
-    // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -48,19 +47,12 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    // Clear local storage
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
-    // Update state
     setIsLoggedIn(false);
     setUser(null);
     setIsDropdownOpen(false);
-
-    // Redirect to home
     navigate("/");
-
-    // Reload to update navbar everywhere
     window.location.reload();
   };
 
@@ -72,10 +64,9 @@ export default function Navbar() {
   };
 
   const closeDropdown = () => {
-    // Add delay before closing
     timeoutRef.current = setTimeout(() => {
       setIsDropdownOpen(false);
-    }, 3000000000); // 300ms delay
+    }, 3000000000);
   };
 
   const keepDropdownOpen = () => {
@@ -87,10 +78,8 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      {/* Logo */}
       <div className="logo">🏗 BuildCo</div>
 
-      {/* Links */}
       <ul className="nav-links">
         <li>
           <Link to="/"><FaHome /> Home</Link>
@@ -104,20 +93,30 @@ export default function Navbar() {
         <li>
           <Link to="/about"><FaInfoCircle /> About Us</Link>
         </li>
-        <li>
-          <Link to="/booking" className="btn-primary1">
-            <FaBook /> Booking
-          </Link>
-        </li>
 
         {isLoggedIn ? (
-          // Show when user is logged in
           <>
-            {/* Show My Bookings only for non-admin users */}
+            {/* ✅ Non-admin users see Booking + My Bookings */}
             {!user?.isAdmin && (
+              <>
+                <li>
+                  <Link to="/booking" className="btn-primary1">
+                    <FaBook /> Booking
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/my-bookings">
+                    <FaClipboardList /> My Bookings
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {/* ✅ Admin/Owner sees Dashboard styled as button */}
+            {user?.isAdmin && (
               <li>
-                <Link to="/my-bookings">
-                  <FaClipboardList /> My Bookings
+                <Link to="/dashboard" className="btn-primary1">
+                  <FaTachometerAlt /> Dashboard
                 </Link>
               </li>
             )}
@@ -133,7 +132,7 @@ export default function Navbar() {
                 <FaUserCircle className="user-icon" />
                 <span className="user-name">{user?.name}</span>
                 <div
-                  className={`user-dropdown ${isDropdownOpen ? 'active' : ''}`}
+                  className={`user-dropdown ${isDropdownOpen ? "active" : ""}`}
                   onMouseEnter={keepDropdownOpen}
                   onMouseLeave={closeDropdown}
                 >
@@ -141,14 +140,22 @@ export default function Navbar() {
                     <FaUser /> Profile
                   </Link>
 
-                  {/* Show My Bookings only for non-admin users in dropdown too */}
                   {!user?.isAdmin && (
                     <Link to="/my-bookings" className="dropdown-link">
                       <FaClipboardList /> My Bookings
                     </Link>
                   )}
 
-                  <button onClick={handleLogout} className="dropdown-link logout-btn">
+                  {user?.isAdmin && (
+                    <Link to="/dashboard" className="dropdown-link">
+                      <FaTachometerAlt /> Dashboard
+                    </Link>
+                  )}
+
+                  <button
+                    onClick={handleLogout}
+                    className="dropdown-link logout-btn"
+                  >
                     <FaSignOutAlt /> Logout
                   </button>
                 </div>
@@ -156,7 +163,6 @@ export default function Navbar() {
             </li>
           </>
         ) : (
-          // Show when user is not logged in
           <li>
             <Link to="/login"><FaUser /> Login/Register</Link>
           </li>
