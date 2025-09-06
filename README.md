@@ -142,26 +142,28 @@ Option 1: Use Mongo Shell / Compass
 Insert a user document with role "admin" and hashed password.
 Example using Node.js REPL (inside backend):
 
-  // Run this inside backend folder
-const bcrypt = require("bcryptjs");
-const mongoose = require("mongoose");
-const User = require("./models/User"); // adjust path if needed
+// Run this inside backend folder
+
+    const bcrypt = require("bcryptjs");
+    const mongoose = require("mongoose");
+    const User = require("./models/User"); 
 
 // backend/seedAdmin.js
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const User = require("./models/User"); // adjust if your User model path differs
-require("dotenv").config();
+
+    const mongoose = require("mongoose");
+    const bcrypt = require("bcryptjs");
+    const User = require("./models/User"); 
+    require("dotenv").config();
 
 const createAdmin = async () => {
   try {
-    // Connect to MongoDB
+// Connect to MongoDB
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
 
-    // Check if admin already exists
+// Check if admin already exists
     const existingAdmin = await User.findOne({ email: "admin@example.com" });
     if (existingAdmin) {
       console.log("⚠️ Admin already exists!");
@@ -169,10 +171,10 @@ const createAdmin = async () => {
       return;
     }
 
-    // Hash password
+// Hash password
     const hashedPassword = await bcrypt.hash("AdminPassword123", 10);
 
-    // Create new admin
+// Create new admin
     const admin = new User({
       name: "Admin",
       email: "admin@example.com",
@@ -200,22 +202,3 @@ After running, you can login with:
   Email: admin@example.com
 Password: AdminPassword123
 
-📂 Project Structure
-  building-management-system/
-│── backend/          # Express + MongoDB backend
-│   ├── models/       # Database schemas
-│   ├── routes/       # API routes
-│   ├── controllers/  # Business logic
-│   ├── middleware/   # JWT auth, error handlers
-│   └── server.js     # Backend entry point
-│
-│── frontend/         # React frontend
-│   ├── components/   # Navbar, Footer, Cards, Modal
-│   ├── pages/        # Landing, Projects, Dashboard, Auth
-│   ├── context/      # Auth context with JWT
-│   ├── api/axios.js  # Axios setup with interceptors
-│   └── styles/       # CSS files
-│
-│── .env              # Environment variables
-│── package.json
-│── README.md
