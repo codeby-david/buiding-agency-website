@@ -12,17 +12,18 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--secondary);
-  padding: 20px 40px;
+  padding: 25px 50px;
   position: sticky;
   top: 0;
   z-index: 100;
-  margin: 1px 40px 2px 10px;
+  margin: 10px 40px 15px 10px;
   border-radius: 15px;
+  min-height: 80px;
 }
 
 /* Logo */
 .logo {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: var(--primary);
   z-index: 101;
@@ -34,7 +35,7 @@
   flex-direction: column;
   cursor: pointer;
   color: var(--text-light);
-  font-size: 1.5rem;
+  font-size: 2rem;
   z-index: 101;
 }
 
@@ -42,7 +43,7 @@
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 25px;
+  gap: 30px;
   margin: 0;
   padding: 0;
   align-items: center;
@@ -51,13 +52,14 @@
 .nav-links a {
   text-decoration: none;
   color: var(--text-light);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   transition: all 0.3s ease;
   cursor: pointer;
+  padding: 10px 15px;
 }
 
 .nav-links a:hover {
@@ -73,11 +75,12 @@
 /* Booking button */
 .btn-primary1 {
   background-color: var(--primary);
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
   font-weight: bold;
   color: var(--text-light) !important;
   transition: all 0.3s ease;
+  font-size: 1.2rem;
 }
 
 .btn-primary1:hover {
@@ -94,10 +97,10 @@
 .user-menu {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 5px;
+  padding: 0.8rem;
+  border-radius: 8px;
   transition: all 0.3s ease;
 }
 
@@ -107,13 +110,13 @@
 
 .user-icon {
   color: var(--text-light);
-  font-size: 1.2rem;
+  font-size: 1.8rem;
 }
 
 .user-name {
   font-weight: 500;
   color: var(--text-light);
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .user-dropdown {
@@ -121,13 +124,13 @@
   top: 100%;
   right: 0;
   background: var(--secondary);
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  padding: 0.5rem 0;
-  min-width: 180px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  padding: 0.8rem 0;
+  min-width: 220px;
   z-index: 1001;
-  border: 1px solid var(--primary);
-  margin-top: 10px;
+  border: 2px solid var(--primary);
+  margin-top: 15px;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -144,18 +147,18 @@
 .user-dropdown::before {
   content: '';
   position: absolute;
-  top: -10px;
-  right: 15px;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid var(--primary);
+  top: -12px;
+  right: 20px;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid var(--primary);
 }
 
 .dropdown-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
+  gap: 0.8rem;
+  padding: 1rem 1.2rem;
   color: var(--text-light);
   text-decoration: none;
   transition: all 0.3s ease;
@@ -164,7 +167,7 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -175,7 +178,7 @@
   color: var(--text-light);
   transform: scale(1.02);
   margin: 0;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.2rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -184,7 +187,7 @@
   color: var(--text-light);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
 }
 
 .logout-btn:hover {
@@ -196,45 +199,46 @@
 .mobile-user-menu {
   display: none;
   flex-direction: column;
-  padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 1rem;
+  padding: 1.5rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1.5rem;
 }
 
 .mobile-user-info {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
   color: var(--text-light);
 }
 
 .mobile-user-icon {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .mobile-user-name {
   font-weight: 500;
+  font-size: 1.2rem;
 }
 
 .mobile-user-links {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.8rem;
 }
 
 .mobile-user-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
+  gap: 0.8rem;
+  padding: 0.8rem;
   color: var(--text-light);
   text-decoration: none;
   border: none;
   background: none;
   text-align: left;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   transition: all 0.3s ease;
 }
 
@@ -251,27 +255,124 @@
   display: none;
 }
 
-/* Mobile responsive */
-@media (max-width: 968px) {
+/* Large desktop screens */
+@media (min-width: 1600px) {
   .navbar {
-    padding: 15px 20px;
-    margin: 1px 10px;
-    border-radius: 10px;
+    padding: 30px 60px;
+    min-height: 100px;
+    margin: 15px 60px 20px 15px;
+  }
+
+  .logo {
+    font-size: 2.5rem;
   }
 
   .nav-links {
-    gap: 15px;
+    gap: 40px;
   }
 
   .nav-links a {
-    font-size: 1rem;
+    font-size: 1.5rem;
+    padding: 12px 18px;
+  }
+
+  .btn-primary1 {
+    padding: 15px 25px;
+    font-size: 1.3rem;
+    border-radius: 12px;
+  }
+
+  .user-icon {
+    font-size: 2rem;
   }
 
   .user-name {
-    font-size: 0.9rem;
+    font-size: 1.3rem;
+  }
+
+  .user-dropdown {
+    min-width: 250px;
+  }
+
+  .dropdown-link {
+    padding: 1.2rem 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
+/* Standard laptop/desktop screens */
+@media (max-width: 1599px) and (min-width: 1200px) {
+  .navbar {
+    padding: 25px 50px;
+    min-height: 90px;
+  }
+
+  .logo {
+    font-size: 2.2rem;
+  }
+
+  .nav-links {
+    gap: 35px;
+  }
+
+  .nav-links a {
+    font-size: 1.4rem;
+  }
+}
+
+/* Medium screens */
+@media (max-width: 1199px) and (min-width: 969px) {
+  .navbar {
+    padding: 22px 40px;
+    min-height: 85px;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    gap: 30px;
+  }
+
+  .nav-links a {
+    font-size: 1.3rem;
+  }
+}
+
+/* Tablet and smaller laptop screens */
+@media (max-width: 968px) {
+  .navbar {
+    padding: 18px 30px;
+    min-height: 80px;
+    margin: 10px 20px 15px 10px;
+    border-radius: 12px;
+  }
+
+  .logo {
+    font-size: 1.8rem;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+
+  .nav-links a {
+    font-size: 1.1rem;
+    padding: 8px 12px;
+  }
+
+  .btn-primary1 {
+    padding: 10px 16px;
+    font-size: 1.1rem;
+  }
+
+  .user-name {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile responsive */
 @media (max-width: 768px) {
   .hamburger-menu {
     display: block;
@@ -282,13 +383,13 @@
     top: 0;
     right: -100%;
     height: 100vh;
-    width: 75%;
-    max-width: 300px;
+    width: 80%;
+    max-width: 350px;
     background: var(--secondary);
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 80px 20px 20px;
+    padding: 100px 25px 25px;
     gap: 0;
     transition: right 0.3s ease;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
@@ -300,13 +401,14 @@
 
   .nav-links li {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 
   .nav-links a {
-    padding: 12px 0;
+    padding: 15px 0;
     width: 100%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.2rem;
   }
 
   .desktop-only {
@@ -324,7 +426,9 @@
   .btn-primary1 {
     display: inline-block;
     text-align: center;
-    margin: 10px 0;
+    margin: 15px 0;
+    font-size: 1.2rem;
+    padding: 12px 20px;
   }
 
   .user-dropdown::before {
@@ -335,26 +439,32 @@
 
 @media (max-width: 480px) {
   .navbar {
-    padding: 12px 15px;
+    padding: 15px 20px;
+    min-height: 70px;
   }
 
   .logo {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
   }
 
   .nav-links {
     width: 85%;
+    padding: 90px 20px 20px;
   }
 
   .nav-links a {
-    font-size: 0.95rem;
+    font-size: 1.1rem;
   }
 
   .mobile-user-name {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
 
   .mobile-user-link {
-    font-size: 0.9rem;
+    font-size: 1rem;
+  }
+
+  .hamburger-menu {
+    font-size: 1.8rem;
   }
 }
