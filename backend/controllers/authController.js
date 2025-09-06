@@ -1,12 +1,14 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-// Generate JWT Token
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || "fallbackSecret", {
+// ✅ Generate JWT Token including isAdmin
+const generateToken = (id, isAdmin) => {
+  return jwt.sign({ id, isAdmin }, process.env.JWT_SECRET || "fallbackSecret", {
     expiresIn: "30d",
   });
 };
+
+// --- Register Controller ---
 export const Register = async (req, res) => {
   try {
     const { name, email, phone, password } = req.body;
@@ -24,45 +26,36 @@ export const Register = async (req, res) => {
       email: user.email,
       phone: user.phone,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id, user.isAdmin),
+      token: generateToken(user._id, user.isAdmin), // ✅ now includes isAdmin
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-// Login controller
+
+// --- Login Controller ---
 export const Login = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
 
-    // Check if email or phone is provided
     if (!email && !phone) {
       return res.status(400).json({ message: "Email or phone is required" });
     }
 
-    // Find user by email or phone
     let user;
     if (email) {
       user = await User.findOne({ email: email.toLowerCase().trim() });
     } else {
-      user = await User.findOne({ phone: phone.trim().replace(/\D/g, '') });
+      user = await User.findOne({ phone: phone.trim().replace(/\D/g, "") });
     }
 
-    // Check if user exists
-    if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
-    // Check password
     const isPasswordValid = await user.comparePassword(password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
+    if (!isPasswordValid) return res.status(401).json({ message: "Invalid credentials" });
 
-    // Generate token
-    const token = generateToken(user._id);
+    const token = generateToken(user._id, user.isAdmin); // ✅ now includes isAdmin
 
-    // Return user data and token
     res.json({
       token,
       user: {
@@ -71,10 +64,9 @@ export const Login = async (req, res) => {
         email: user.email,
         phone: user.phone,
         isAdmin: user.isAdmin,
-        createdAt: user.createdAt
-      }
+        createdAt: user.createdAt,
+      },
     });
-
   } catch (error) {
     console.error("Login controller error:", error);
     res.status(500).json({ message: "Server error during login" });

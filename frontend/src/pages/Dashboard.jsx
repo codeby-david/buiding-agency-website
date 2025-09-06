@@ -15,7 +15,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./Dashboard.css";
 
-// Manual JWT decode (fallback)
+// --- Manual JWT decode ---
 const manualJwtDecode = (token) => {
   try {
     const base64Url = token.split(".")[1];
@@ -48,15 +48,17 @@ export default function OwnerDashboard() {
           return;
         }
 
-        // Decode token
+        // ✅ Decode token
         const decoded = manualJwtDecode(token);
-        if (!decoded || !decoded.isAdmin) {
-          setError("Access denied. Admins only."); // ❌ Show message inside dashboard
+
+        // Only block if explicitly false
+        if (decoded && decoded.isAdmin === false) {
+          setError("Access denied. Admins only.");
           setLoading(false);
           return;
         }
 
-        // Fetch bookings from backend
+        // ✅ Fetch bookings (server also checks with protect+admin)
         const res = await api.get("/bookings", {
           headers: { Authorization: `Bearer ${token}` },
         });
