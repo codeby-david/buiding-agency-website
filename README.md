@@ -7,17 +7,6 @@ The project demonstrates **real-world web development practices** such as protec
 
 ---
 
-## 📌 Table of Contents
-- [Demo](#demo)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-
----
-
 ## 🎥 Demo
 
 > Here are some screenshots of the system in action:  
@@ -205,6 +194,6 @@ Example using Node.js REPL (inside backend):
 
 After running, you can login with:
   Email: admin@example.com
-  
+
   Password: AdminPassword123
 
