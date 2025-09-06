@@ -28,44 +28,25 @@ export default function Login() {
       setError("");
 
       const isEmail = form.emailOrPhone.includes("@");
-
       const requestData = { password: form.password };
-      if (isEmail) {
-        requestData.email = form.emailOrPhone.toLowerCase().trim();
-      } else {
-        requestData.phone = form.emailOrPhone.trim().replace(/\D/g, "");
-      }
+      if (isEmail) requestData.email = form.emailOrPhone.toLowerCase().trim();
+      else requestData.phone = form.emailOrPhone.trim().replace(/\D/g, "");
 
       const res = await axios.post("http://localhost:5000/api/auth/login", requestData);
 
       if (res.data.token && res.data.user) {
-        // ✅ Save token and ONLY user object
+        // Store token and user safely
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        if (res.data.user.isAdmin) {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
-        }
+        // Redirect based on role
+        if (res.data.user.isAdmin) navigate("/dashboard"); // Admin
+        else navigate("/"); // Regular customer
       }
     } catch (err) {
       console.error("Login error:", err);
-      if (err.response) {
-        if (err.response.status === 401) {
-          setError("Invalid email/phone or password.");
-        } else if (err.response.status === 404) {
-          setError("Login endpoint not found.");
-        } else if (err.response.status === 500) {
-          setError("Server error. Please try again later.");
-        } else {
-          setError(err.response.data?.message || "Login failed.");
-        }
-      } else if (err.request) {
-        setError("Cannot connect to server. Please check if backend is running.");
-      } else {
-        setError("Login failed. Please try again.");
-      }
+      if (err.response) setError(err.response.data?.message || "Login failed.");
+      else setError("Cannot connect to server.");
     } finally {
       setLoading(false);
     }
@@ -86,7 +67,6 @@ export default function Login() {
               placeholder="Email or Phone"
               value={form.emailOrPhone}
               onChange={handleChange}
-              autoComplete="email"
             />
           </div>
 
@@ -98,7 +78,6 @@ export default function Login() {
               placeholder="Password"
               value={form.password}
               onChange={handleChange}
-              autoComplete="current-password"
             />
           </div>
 
@@ -114,7 +93,7 @@ export default function Login() {
         <GoogleLogin
           onSuccess={(res) => {
             console.log("Google login success", res);
-            navigate("/");
+            navigate("/"); // Treat Google login users as customers
           }}
           onError={() => setError("Google login failed")}
         />

@@ -1,230 +1,537 @@
-import React, { useState, useEffect } from "react";
-import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash, FaSave, FaTimes } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
+import {
+  ZoomIn,
+  X,
+  MapPin,
+  Calendar,
+  DollarSign,
+  Clock,
+  Hammer,
+  ChevronDown,
+  ChevronUp
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import "./Projects.css";
 import Footer from "../components/Footer";
-import "./Profile.css";
 
-export default function Profile() {
-  const [user, setUser] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: ""
-  });
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
 
+const fallbackImg =
+  "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=60";
+const onImgError = (e) => {
+  if (!e.target.dataset.fallback) {
+    e.target.dataset.fallback = "1";
+    e.target.src = fallbackImg;
+  }
+};
+
+const completedProjects = [
+  {
+    id: "luxury-villa",
+    title: "Luxury Villa",
+    image:
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    location: "Beverly Hills, CA",
+    completed: "June 2023",
+    cost: "$1.5M",
+    description:
+      "A modern villa with eco-friendly design, infinity pool, and smart home integration.",
+  },
+  {
+    id: "urban-apartments",
+    title: "Urban Apartment Complex",
+    image:
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    location: "New York, NY",
+    completed: "March 2023",
+    cost: "$3.2M",
+    description:
+      "High-rise residential apartments with rooftop garden and luxury amenities.",
+  },
+  {
+    id: "coastal-home",
+    title: "Coastal Family Home",
+    image:
+      "https://images.unsplash.com/photo-1600566753052-dc5adc3dd44d?auto=format&fit=crop&w=1200&q=80",
+    location: "Miami, FL",
+    completed: "January 2023",
+    cost: "$800k",
+    description:
+      "Beachfront home designed for comfort, durability, and stunning ocean views.",
+  },
+  {
+    id: "office-tower",
+    title: "Modern Office Tower",
+    image:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+    location: "Chicago, IL",
+    completed: "October 2022",
+    cost: "$4.5M",
+    description:
+      "50-story office building with energy-efficient systems and smart elevators.",
+  },
+  {
+    id: "cottage",
+    title: "Countryside Cottage",
+    image:
+      "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1200&q=80",
+    location: "Nashville, TN",
+    completed: "August 2022",
+    cost: "$350k",
+    description:
+      "Rustic yet modern cottage surrounded by nature, built with sustainable wood.",
+  },
+  {
+    id: "downtown-hotel",
+    title: "Downtown Hotel",
+    image:
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
+    location: "Las Vegas, NV",
+    completed: "May 2022",
+    cost: "$6M",
+    description:
+      "Luxury hotel with 150 rooms, rooftop pool, and conference halls.",
+  },
+  {
+    id: "mountain-cabin",
+    title: "Mountain Cabin",
+    image:
+      "https://images.unsplash.com/photo-1599423300746-b62533397364?auto=format&fit=crop&w=1200&q=80",
+    location: "Denver, CO",
+    completed: "February 2022",
+    cost: "$500k",
+    description:
+      "Scenic cabin retreat designed for winter resilience and cozy interiors.",
+  },
+  {
+    id: "eco-school",
+    title: "Eco-Friendly School",
+    image:
+      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80",
+    location: "Austin, TX",
+    completed: "December 2021",
+    cost: "$2.1M",
+    description:
+      "A sustainable school campus powered by solar energy and rainwater harvesting.",
+  },
+  {
+    id: "city-mall",
+    title: "City Mall",
+    image:
+      "https://images.unsplash.com/photo-1542317854-f9596ae570f9?auto=format&fit=crop&w=1200&q=80",
+    location: "San Francisco, CA",
+    completed: "September 2021",
+    cost: "$10M",
+    description:
+      "Multi-level shopping mall with smart parking and luxury retail outlets.",
+  },
+  {
+    id: "healthcare-center",
+    title: "Healthcare Center",
+    image:
+      "https://images.unsplash.com/photo-1576675784219-3e29f8c2f0e4?auto=format&fit=crop&w=1200&q=80",
+    location: "Seattle, WA",
+    completed: "July 2021",
+    cost: "$3.7M",
+    description:
+      "State-of-the-art hospital facility with emergency and outpatient services.",
+  },
+];
+
+const ongoingProjects = [
+  {
+    id: "riverside-condos",
+    title: "Riverside Condos",
+    image:
+      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=80",
+    location: "Portland, OR",
+    started: "Feb 2025",
+    eta: "Nov 2025",
+    supervisor: "A. Kim",
+    progress: 65,
+    description:
+      "Mid-rise waterfront living with retail on ground floor and green roofs.",
+  },
+  {
+    id: "tech-campus",
+    title: "Tech Innovation Campus",
+    image:
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+    location: "San Jose, CA",
+    started: "Jan 2025",
+    eta: "Mar 2026",
+    supervisor: "R. Patel",
+    progress: 40,
+    description:
+      "R&D labs and collaboration hubs across three energy-efficient blocks.",
+  },
+  {
+    id: "stadium-upgrade",
+    title: "City Stadium Upgrade",
+    image:
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
+    location: "Dallas, TX",
+    started: "Oct 2024",
+    eta: "Oct 2025",
+    supervisor: "M. Lopez",
+    progress: 80,
+    description:
+      "New seating, lighting, and hospitality suites with improved accessibility.",
+  },
+  {
+    id: "harbor-bridge",
+    title: "Harbor Bridge Expansion",
+    image:
+      "https://images.unsplash.com/photo-1555952517-2e8e729e0b44?auto=format&fit=crop&w=1200&q=80",
+    location: "Baltimore, MD",
+    started: "Aug 2024",
+    eta: "Jan 2026",
+    supervisor: "G. Wang",
+    progress: 54,
+    description:
+      "Additional lanes and pedestrian pathways to reduce congestion.",
+  },
+  {
+    id: "smart-homes",
+    title: "Smart Homes Community",
+    image:
+      "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=1200&q=80",
+    location: "Raleigh, NC",
+    started: "May 2025",
+    eta: "Jun 2026",
+    supervisor: "J. Carter",
+    progress: 28,
+    description:
+      "100-unit community with solar, battery storage, and smart controls.",
+  },
+  {
+    id: "metro-line",
+    title: "Metro Line Extension",
+    image:
+      "https://images.unsplash.com/photo-1485550409059-9afb054cada4?auto=format&fit=crop&w=1200&q=80",
+    location: "Phoenix, AZ",
+    started: "Dec 2024",
+    eta: "Apr 2026",
+    supervisor: "D. Singh",
+    progress: 46,
+    description:
+      "New stations and 12 km of track to connect growing suburbs.",
+  },
+  {
+    id: "city-hospital",
+    title: "City Hospital Wing",
+    image:
+      "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80",
+    location: "Boston, MA",
+    started: "Sep 2024",
+    eta: "Dec 2025",
+    supervisor: "K. Novak",
+    progress: 72,
+    description:
+      "ICU expansion, neonatal care, and improved emergency intake routes.",
+  },
+  {
+    id: "industrial-park",
+    title: "Eco Industrial Park",
+    image:
+      "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1200&q=80",
+    location: "Toledo, OH",
+    started: "Mar 2025",
+    eta: "Feb 2026",
+    supervisor: "S. Ahmed",
+    progress: 33,
+    description:
+      "Light manufacturing with shared solar and heat recovery systems.",
+  },
+];
+
+export default function Projects() {
+  const [expandedId, setExpandedId] = useState(null);
+  const [expandedOngoingId, setExpandedOngoingId] = useState(null);
+  const [modalImage, setModalImage] = useState(null);
+  const cardsRef = useRef([]);
+  const [visibleCards, setVisibleCards] = useState(new Set());
+
+  // Animate-in on scroll (fixed version)
   useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const userObj = JSON.parse(userData);
-      console.log("Loaded user:", userObj); // Debugging
-      setUser(userObj);
-      setFormData(prev => ({
-        ...prev,
-        name: userObj.name || userObj.username || "",
-        email: userObj.email || userObj.emailAddress || "",
-        phone: userObj.phone || userObj.mobile || ""
-      }));
-    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.dataset.id;
+          if (entry.isIntersecting) {
+            setVisibleCards(prev => new Set(prev).add(id));
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+
+    cardsRef.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const toggleExpand = (id) => {
+    setExpandedId((prev) => (prev === id ? null : id));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setMessage("");
-
-    if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
-      setError("New passwords don't match");
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/users/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage("Profile updated successfully!");
-        const updatedUser = { ...user, ...data.user };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        setUser(updatedUser);
-        setEditMode(false);
-        setFormData(prev => ({ ...prev, currentPassword: "", newPassword: "", confirmPassword: "" }));
-      } else {
-        setError(data.message || "Failed to update profile");
-      }
-    } catch (error) {
-      setError("An error occurred. Please try again.");
-    }
+  const toggleOngoingExpand = (id) => {
+    setExpandedOngoingId((prev) => (prev === id ? null : id));
   };
-
-  if (!user) {
-    return (
-      <>
-        <Navbar />
-        <div className="profile-container">
-          <div className="loading">Loading...</div>
-        </div>
-        <Footer />
-      </>
-    );
-  }
 
   return (
     <>
-      <Navbar />
-      <div className="profile-container">
-        <div className="profile-card">
-          <div className="profile-header">
-            <h1><FaUser /> Profile</h1>
-            {!editMode ? (
-              <button className="edit-btn" onClick={() => setEditMode(true)}>Edit Profile</button>
-            ) : (
-              <button
-                className="cancel-btn"
-                onClick={() => {
-                  setEditMode(false);
-                  setError("");
-                  setMessage("");
-                  setFormData(prev => ({
-                    ...prev,
-                    currentPassword: "",
-                    newPassword: "",
-                    confirmPassword: ""
-                  }));
-                }}
-              >
-                <FaTimes /> Cancel
-              </button>
-            )}
-          </div>
+      <div className="projects-page">
 
-          {message && <div className="success-message">{message}</div>}
-          {error && <div className="error-message">{error}</div>}
+        <Navbar />
+        {/* Hero */}
+        <motion.header
 
-          <form onSubmit={handleSubmit} className="profile-form">
-            <div className="form-group2">
-              <label><FaUser /> Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                disabled={!editMode}
-                required
-              />
-            </div>
+          className="projects-hero"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
 
-            <div className="form-group2">
-              <label><FaEnvelope /> Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                disabled={!editMode}
-                required
-              />
-            </div>
+          <h1>Our Projects</h1>
+          <p>From vision to reality — explore our completed work and ongoing builds</p>
+        </motion.header>
 
-            <div className="form-group2">
-              <label><FaPhone /> Phone</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                disabled={!editMode}
-              />
-            </div>
+        {/* Completed Projects */}
+        <section className="projects-section">
+          <motion.h2
+            className="section-title"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Completed Projects
+          </motion.h2>
+          <div className="projects-grid">
+            {completedProjects.map((p, i) => {
+              const isOpen = expandedId === p.id;
+              const isVisible = visibleCards.has(p.id);
 
-            {editMode && (
-              <>
-                <div className="password-section">
-                  <h3>Change Password</h3>
-
-                  <div className="form-group2">
-                    <label><FaLock /> Current Password</label>
-                    <div className="password-input">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="currentPassword"
-                        value={formData.currentPassword}
-                        onChange={handleInputChange}
-                        placeholder="Enter current password"
-                      />
-                      <button
+              return (
+                <motion.article
+                  key={p.id}
+                  className={`project-card ${isOpen ? "expanded" : ""} ${isVisible ? "in-view" : ""}`}
+                  data-id={p.id}
+                  ref={(el) => (cardsRef.current[i] = el)}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="project-image-container">
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      className="project-image"
+                      loading="lazy"
+                      onError={onImgError}
+                      onClick={() => setModalImage(p.image)}
+                    />
+                    <div className="project-overlay">
+                      <motion.button
                         type="button"
-                        className="toggle-password"
-                        onClick={() => setShowPassword(!showPassword)}
+                        className="view-details-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setModalImage(p.image);
+                        }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        {showPassword ? <FaEyeSlash /> : <FaEye />}
-                      </button>
+                        <ZoomIn size={18} /> Enlarge
+                      </motion.button>
                     </div>
                   </div>
 
-                  <div className="form-group2">
-                    <label><FaLock /> New Password</label>
-                    <div className="password-input">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="newPassword"
-                        value={formData.newPassword}
-                        onChange={handleInputChange}
-                        placeholder="Enter new password"
-                      />
+                  <div className="project-info">
+                    <div className="info-head">
+                      <h3>{p.title}</h3>
+                      <motion.button
+                        type="button"
+                        className="toggle-btn"
+                        aria-expanded={isOpen}
+                        onClick={() => toggleExpand(p.id)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {isOpen ? "Show Less" : "Learn More"}
+                        {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      </motion.button>
                     </div>
+
+                    <p>{p.description}</p>
+
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          className="expanded-details"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <p>
+                            <MapPin size={16} /> <strong>Location:</strong> {p.location}
+                          </p>
+                          <p>
+                            <Calendar size={16} /> <strong>Completed:</strong> {p.completed}
+                          </p>
+                          <p>
+                            <DollarSign size={16} /> <strong>Cost:</strong> {p.cost}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
-
-                  <div className="form-group2">
-                    <label><FaLock /> Confirm New Password</label>
-                    <div className="password-input">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleInputChange}
-                        placeholder="Confirm new password"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <button type="submit" className="save-btn">
-                  <FaSave /> Save Changes
-                </button>
-              </>
-            )}
-          </form>
-
-          <div className="user-info">
-            <h3>Account Information</h3>
-            <p><strong>User ID:</strong> {user._id}</p>
-            <p><strong>Account Type:</strong> {user.isAdmin ? "Administrator" : "Regular User"}</p>
-            <p><strong>Member Since:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+                </motion.article>
+              );
+            })}
           </div>
-        </div>
+        </section>
+
+        {/* Ongoing Projects */}
+        <section className="projects-section">
+          <motion.h2
+            className="section-title"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Ongoing Projects
+          </motion.h2>
+          <div className="projects-grid ongoing-grid">
+            {ongoingProjects.map((p, idx) => {
+              const isOpen = expandedOngoingId === p.id;
+              const baseIndex = completedProjects.length + idx;
+              const isVisible = visibleCards.has(p.id);
+
+              return (
+                <motion.article
+                  key={p.id}
+                  className={`project-card ongoing ${isOpen ? "expanded" : ""} ${isVisible ? "in-view" : ""}`}
+                  data-id={p.id}
+                  ref={(el) => (cardsRef.current[baseIndex] = el)}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="project-image-container">
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      className="project-image"
+                      loading="lazy"
+                      onError={onImgError}
+                      onClick={() => setModalImage(p.image)}
+                    />
+                    <div className="project-badges">
+                      <span className="badge progress-badge">
+                        <Hammer size={14} /> {p.progress}% In Progress
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="project-info">
+                    <div className="info-head">
+                      <h3>{p.title}</h3>
+                      <motion.button
+                        type="button"
+                        className="toggle-btn"
+                        aria-expanded={isOpen}
+                        onClick={() => toggleOngoingExpand(p.id)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {isOpen ? "Show Less" : "Details"}
+                        {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      </motion.button>
+                    </div>
+
+                    <p>{p.description}</p>
+
+                    {/* Progress bar */}
+                    <div className="progress">
+                      <motion.span
+                        className="progress-fill"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${p.progress}%` }}
+                        transition={{ duration: 1, delay: 0.3 }}
+                      />
+                    </div>
+
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          className="expanded-details"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <p>
+                            <MapPin size={16} /> <strong>Location:</strong> {p.location}
+                          </p>
+                          <p>
+                            <Calendar size={16} /> <strong>Started:</strong> {p.started}
+                          </p>
+                          <p>
+                            <Clock size={16} /> <strong>ETA:</strong> {p.eta}
+                          </p>
+                          <p>
+                            <strong>Supervisor:</strong> {p.supervisor}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Modal */}
+        <AnimatePresence>
+          {modalImage && (
+            <motion.div
+              className="modal"
+              onClick={() => setModalImage(null)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <motion.button
+                type="button"
+                className="modal-close"
+                onClick={() => setModalImage(null)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <X size={32} />
+              </motion.button>
+              <motion.img
+                src={modalImage}
+                alt="Large view"
+                className="modal-content"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <Footer />
     </>
