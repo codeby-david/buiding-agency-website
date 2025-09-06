@@ -7,7 +7,6 @@
   overflow-x: hidden;
 }
 
-/* ===== Carousel Container ===== */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -25,7 +24,7 @@
   z-index: 2;
 }
 
-/* ===== Carousel ===== */
+
 .carousel {
   position: relative;
   width: 100%;
@@ -93,13 +92,13 @@
   padding: 0 20px;
 
   display: flex;
-  /* NEW */
+
   flex-direction: column;
-  /* Stack text + button */
+
   align-items: center;
-  /* Center horizontally */
+
   justify-content: center;
-  /* Center vertically */
+
 }
 
 .carousel-content h2 {
@@ -197,7 +196,7 @@
   background: rgba(255, 255, 255, 0.8);
 }
 
-/* ===== Page Content ===== */
+
 .page-content {
   max-width: 1400px;
   margin: 0 auto;
@@ -211,12 +210,12 @@
 .service-actions {
   display: flex;
   gap: 15px;
-  /* space between the two buttons */
+
   justify-content: center;
-  /* center them horizontally */
+
   margin-top: 20px;
   flex-wrap: wrap;
-  /* allow stacking on small screens */
+
 }
 
 .services-title {
@@ -248,11 +247,11 @@
   line-height: 1.6;
 }
 
-/* ===== Services Section ===== */
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  /* was 380px */
+
   gap: 40px;
   padding: 40px 0 80px;
 }
@@ -287,10 +286,10 @@
 
 .service-card.expanded {
   height: auto;
-  /* keep it auto */
+
   transform: translateY(-5px);
   padding-bottom: 25px;
-  /* ensure space for expanded content */
+
 }
 
 .service-image-container {
@@ -306,13 +305,13 @@
   object-fit: cover;
   transition: transform 0.5s ease;
   filter: blur(1px);
-  /* Added small blur effect */
+
 }
 
 .service-card:hover .service-image {
   transform: scale(1.1);
   filter: blur(0);
-  /* Remove blur on hover */
+
 }
 
 .service-overlay {
@@ -491,7 +490,7 @@
   margin: 0;
 }
 
-/* ===== Call to Action ===== */
+
 .cta-section {
   background: linear-gradient(135deg, #004aad 0%, #00264d 100%);
   color: white;
@@ -552,7 +551,6 @@
   transform: translateY(-3px);
 }
 
-/* ===== Scroll Animations ===== */
 .fade-in-up {
   opacity: 0;
   transform: translateY(50px);

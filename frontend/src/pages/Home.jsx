@@ -109,7 +109,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Rest of the page content */}
+
       <div className="page-content">
         {/* ---------------- ABOUT SECTION ---------------- */}
         <motion.section

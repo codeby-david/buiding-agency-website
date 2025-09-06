@@ -47,7 +47,7 @@ export const createBooking = async (req, res) => {
   }
 };
 
-// (optional) Get all bookings
+//  Get all bookings
 export const getAllBookings = async (req, res) => {
   try {
     const bookings = await Booking.find().sort({ createdAt: -1 });

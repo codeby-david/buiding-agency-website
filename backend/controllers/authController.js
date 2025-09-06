@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-// ✅ Generate JWT Token including isAdmin
+//  Generate JWT Token including isAdmin
 const generateToken = (id, isAdmin) => {
   return jwt.sign({ id, isAdmin }, process.env.JWT_SECRET || "fallbackSecret", {
     expiresIn: "30d",
@@ -26,14 +26,14 @@ export const Register = async (req, res) => {
       email: user.email,
       phone: user.phone,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id, user.isAdmin), // ✅ now includes isAdmin
+      token: generateToken(user._id, user.isAdmin),
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// --- Login Controller ---
+
 export const Login = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
@@ -54,7 +54,7 @@ export const Login = async (req, res) => {
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) return res.status(401).json({ message: "Invalid credentials" });
 
-    const token = generateToken(user._id, user.isAdmin); // ✅ now includes isAdmin
+    const token = generateToken(user._id, user.isAdmin);
 
     res.json({
       token,

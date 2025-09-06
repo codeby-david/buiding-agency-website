@@ -65,7 +65,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} BuildCo. All Rights Reserved.</p>
+        <p>© {new Date().getFullYear()} BuildCo. All Rights Reserved. Developed by David.</p>
       </div>
     </footer>
   );

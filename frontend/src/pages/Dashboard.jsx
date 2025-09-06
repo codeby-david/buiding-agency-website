@@ -48,7 +48,7 @@ export default function OwnerDashboard() {
           return;
         }
 
-        // ✅ Decode token
+        // Decode token
         const decoded = manualJwtDecode(token);
 
         // Only block if explicitly false
@@ -58,7 +58,7 @@ export default function OwnerDashboard() {
           return;
         }
 
-        // ✅ Fetch bookings (server also checks with protect+admin)
+        // Fetch bookings (server also checks with protect+admin)
         const res = await api.get("/bookings", {
           headers: { Authorization: `Bearer ${token}` },
         });

@@ -2,12 +2,12 @@ import express from "express";
 import crypto from "crypto";
 import User from "../models/User.js";
 import sendEmail from "../utils/sendEmails.js";
-import { protect } from "../middleware/authMiddleware.js"; // Changed import
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 // --- Profile Update Route ---
-router.put("/profile", protect, async (req, res) => { // Use protect directly
+router.put("/profile", protect, async (req, res) => {
   try {
     const { name, email, phone, currentPassword, newPassword } = req.body;
     const userId = req.user.id;

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import authRoutes from "./routes/authRoutes.js"; // Make sure this exists
+import authRoutes from "./routes/authRoutes.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -18,15 +18,14 @@ app.use(cors({
 
 app.use(express.json());
 
-// Make sure you have auth routes
+// auth routes
 app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/users", userRoutes);
 
-// ... rest of your server code
-// Remove this line: app.use("/api/auth", authRoutes);
 
-// ✅ DB connect
+
+//  DB connect
 mongoose
   .connect(
     "mongodb+srv://admin:42276888@myapp.g20pxzq.mongodb.net/myapp?retryWrites=true&w=majority&appName=myapp",
@@ -38,7 +37,7 @@ mongoose
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB error:", err));
 
-// ✅ Start server
+//  Start server
 const PORT = 5000;
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)

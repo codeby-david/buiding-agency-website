@@ -11,7 +11,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     if (!email) return;
     //  Call backend: send reset email
-    setMsg("✅ Reset code sent to your email.");
+    setMsg("Reset code sent to your email.");
   };
 
   return (

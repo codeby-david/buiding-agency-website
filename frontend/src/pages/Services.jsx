@@ -70,7 +70,7 @@ const services = [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
     features: ["Garden Design", "Outdoor Living", "Water Features", "Eco Irrigation"],
   },
-  // ✅ NEW service added
+
   {
     title: "Smart Home & MEP Engineering",
     description: "Modern building systems and smart-home automation that save energy and boost comfort.",
@@ -96,14 +96,14 @@ export default function Services() {
   const [expandedService, setExpandedService] = useState(null);
   const elementsRef = useRef([]);
 
-  // ==== Animated stats ====
+
   const statsRef = useRef(null);
   const [stats, setStats] = useState({ projects: 0, clients: 0, awards: 0, years: 0 });
   const hasAnimated = useRef(false);
   const statTargets = { projects: 200, clients: 50, awards: 12, years: 10 };
   const statDuration = 1800; // ms
 
-  // Carousel auto-slide
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
@@ -121,7 +121,7 @@ export default function Services() {
     return () => elementsRef.current.forEach((el) => el && observer.unobserve(el));
   }, []);
 
-  // Start stats animation when stats section enters view
+
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
@@ -278,7 +278,6 @@ export default function Services() {
           </div>
         </div>
 
-        {/* ===== Steps to Get Our Services ===== */}
         <div className="steps-section">
           <h2 className="steps-title">How to Get Our Services</h2>
           <div className="steps-grid">
@@ -292,7 +291,7 @@ export default function Services() {
           </div>
         </div>
 
-        {/* ===== Modal ===== */}
+
         {modalImage && (
           <div className="modal" onClick={() => setModalImage(null)}>
             <button className="modal-close" onClick={() => setModalImage(null)}>

@@ -1,1 +1,4 @@
-localStorage.clear();
+//
+
+
+//CODE TO GENERATE THE HASHED PASS FOR ADMIN- IKO GIHUB

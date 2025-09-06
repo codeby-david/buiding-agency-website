@@ -93,7 +93,7 @@ export default function Login() {
         <GoogleLogin
           onSuccess={(res) => {
             console.log("Google login success", res);
-            navigate("/"); // Treat Google login users as customers
+            navigate("/");
           }}
           onError={() => setError("Google login failed")}
         />

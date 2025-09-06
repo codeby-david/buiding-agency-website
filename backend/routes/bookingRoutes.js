@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// ✅ Get current user's bookings
+// Get current user's bookings
 router.get("/my-bookings", protect, async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.user._id });
@@ -28,7 +28,7 @@ router.get("/my-bookings", protect, async (req, res) => {
   }
 });
 
-// ✅ Create a new booking (with file upload support)
+// Create a new booking (with file upload support)
 router.post("/", protect, upload.single("plotDoc"), async (req, res) => {
   try {
     const {

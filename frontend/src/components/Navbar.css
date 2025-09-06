@@ -29,7 +29,7 @@
   z-index: 101;
 }
 
-/* Hamburger menu - hidden on desktop */
+/* Hamburger menu */
 .hamburger-menu {
   display: none;
   flex-direction: column;
@@ -195,7 +195,7 @@
   color: var(--text-light);
 }
 
-/* Mobile user menu - appears at bottom of mobile menu */
+/* Mobile user menu  */
 .mobile-user-menu {
   display: none;
   flex-direction: column;
