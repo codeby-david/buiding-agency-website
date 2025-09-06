@@ -117,7 +117,7 @@ Start backend server:
 
 Runs on http://localhost:5000/ (or your configured port).
 
-3️⃣ Frontend Setup
+3. Frontend Setup
     cd frontend
     npm install
     npm run dev
