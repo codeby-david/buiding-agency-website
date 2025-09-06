@@ -205,5 +205,5 @@ Example using Node.js REPL (inside backend):
 
 After running, you can login with:
   Email: admin@example.com
-Password: AdminPassword123
+  Password: AdminPassword123
 
