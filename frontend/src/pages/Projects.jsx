@@ -32,7 +32,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     location: "Beverly Hills, CA",
     completed: "June 2023",
-    cost: "$1.5M",
+    cost: "Ksh1.5M",
     description:
       "A modern villa with eco-friendly design, infinity pool, and smart home integration.",
   },
@@ -43,7 +43,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     location: "New York, NY",
     completed: "March 2023",
-    cost: "$3.2M",
+    cost: "Ksh3.2M",
     description:
       "High-rise residential apartments with rooftop garden and luxury amenities.",
   },
@@ -54,7 +54,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1600566753052-dc5adc3dd44d?auto=format&fit=crop&w=1200&q=80",
     location: "Miami, FL",
     completed: "January 2023",
-    cost: "$800k",
+    cost: "Ksh800k",
     description:
       "Beachfront home designed for comfort, durability, and stunning ocean views.",
   },
@@ -65,7 +65,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
     location: "Chicago, IL",
     completed: "October 2022",
-    cost: "$4.5M",
+    cost: "Ksh4.5M",
     description:
       "50-story office building with energy-efficient systems and smart elevators.",
   },
@@ -76,7 +76,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=1200&q=80",
     location: "Nashville, TN",
     completed: "August 2022",
-    cost: "$350k",
+    cost: "Ksh3.50M",
     description:
       "Rustic yet modern cottage surrounded by nature, built with sustainable wood.",
   },
@@ -87,7 +87,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
     location: "Las Vegas, NV",
     completed: "May 2022",
-    cost: "$6M",
+    cost: "Ksh6M",
     description:
       "Luxury hotel with 150 rooms, rooftop pool, and conference halls.",
   },
@@ -98,7 +98,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1599423300746-b62533397364?auto=format&fit=crop&w=1200&q=80",
     location: "Denver, CO",
     completed: "February 2022",
-    cost: "$500k",
+    cost: "Ksh5M",
     description:
       "Scenic cabin retreat designed for winter resilience and cozy interiors.",
   },
@@ -109,7 +109,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80",
     location: "Austin, TX",
     completed: "December 2021",
-    cost: "$2.1M",
+    cost: "Ksh2.1M",
     description:
       "A sustainable school campus powered by solar energy and rainwater harvesting.",
   },
@@ -120,7 +120,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1542317854-f9596ae570f9?auto=format&fit=crop&w=1200&q=80",
     location: "San Francisco, CA",
     completed: "September 2021",
-    cost: "$10M",
+    cost: "Ksh10M",
     description:
       "Multi-level shopping mall with smart parking and luxury retail outlets.",
   },
@@ -131,7 +131,7 @@ const completedProjects = [
       "https://images.unsplash.com/photo-1576675784219-3e29f8c2f0e4?auto=format&fit=crop&w=1200&q=80",
     location: "Seattle, WA",
     completed: "July 2021",
-    cost: "$3.7M",
+    cost: "Ksh3.7M",
     description:
       "State-of-the-art hospital facility with emergency and outpatient services.",
   },
