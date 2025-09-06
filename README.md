@@ -96,8 +96,11 @@ The project demonstrates **real-world web development practices** such as protec
 ## Installation
 
 1. Clone the repository:
+
    ```bash
+   
    git clone https://github.com/codeby-david/building-management-system.git
+
 Navigate to the project:
 
 2. Backend Setup:
@@ -106,16 +109,23 @@ Navigate to the project:
     npm install
 
 Create a .env file in backend/ with:
+
     MONGO_URI=your_mongo_connection_string
+
     JWT_SECRET=your_secret_key
+
     GOOGLE_CLIENT_ID=your_google_client_id
+
     GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 Start backend server:
-    ```bash
-    node server.js
 
-Runs on http://localhost:5000/ (or your configured port).
+  ```bash
+
+   node server.js
+
+   ```
+ Runs on http://localhost:5000/ (or your configured port).
 
 3. Frontend Setup
     cd frontend
