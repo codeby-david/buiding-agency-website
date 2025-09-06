@@ -499,6 +499,7 @@ export default function Projects() {
         </section>
 
         {/* Modal */}
+        {/* Modal */}
         <AnimatePresence>
           {modalImage && (
             <motion.div
@@ -529,8 +530,10 @@ export default function Projects() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Footer */}
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }
