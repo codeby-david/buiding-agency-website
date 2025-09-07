@@ -87,7 +87,7 @@ const HomePage = () => {
             <p className="typing-sub">{videos[current].text}</p>
             <p className="sub-text">Quality • Innovation • Trust</p>
             <Link to="/booking">
-              <button className="cta-btn">Book a Consultation</button>
+              <button className="cta-btn" >Book a Consultation</button>
             </Link>
           </div>
 

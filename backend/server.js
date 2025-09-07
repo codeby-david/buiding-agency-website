@@ -34,8 +34,8 @@ mongoose
       useUnifiedTopology: true,
     }
   )
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB error:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB error:", err));
 
 //  Start server
 const PORT = 5000;
